@@ -22,10 +22,23 @@
 
 .navbar-scrolled {
     height: 75px;
-    background-color: var(--bg-navbar);
-    border-bottom: 1px solid var(--border-color);
+    background-color: #ffffff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     backdrop-filter: blur(12px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.navbar-scrolled .navbar-nav-link {
+    color: #334155;
+}
+
+.navbar-scrolled .navbar-nav-link:hover,
+.navbar-scrolled .navbar-nav-link.active {
+    color: var(--primary-gold);
+}
+
+.navbar-scrolled .navbar-mobile-toggle {
+    color: #1e293b;
 }
 
 .navbar-container {
@@ -199,21 +212,56 @@
 }
 
 .navbar-call-link {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
     color: var(--text-light);
     font-family: var(--font-heading);
-    font-weight: 500;
-    font-size: 15px;
-    transition: color var(--transition-fast);
+    font-weight: 600;
+    font-size: 14px;
+    padding: 8px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 9999px;
+    background-color: rgba(255, 255, 255, 0.05);
+    transition:
+        color var(--transition-fast),
+        border-color var(--transition-fast),
+        background-color var(--transition-fast);
 }
 
 .navbar-call-link:hover {
     color: var(--primary-gold);
+    border-color: var(--primary-gold);
+    background-color: rgba(255, 184, 0, 0.05);
 }
 
 .navbar-call-icon {
+    color: var(--text-light);
+    transition: color var(--transition-fast);
+}
+
+.navbar-call-link:hover .navbar-call-icon {
+    color: var(--primary-gold);
+}
+
+/* Scrolled state for Call button */
+.navbar-scrolled .navbar-call-link {
+    color: #1e293b;
+    border-color: rgba(0, 0, 0, 0.15);
+    background-color: transparent;
+}
+
+.navbar-scrolled .navbar-call-link:hover {
+    color: var(--primary-gold);
+    border-color: var(--primary-gold);
+    background-color: rgba(255, 184, 0, 0.05);
+}
+
+.navbar-scrolled .navbar-call-icon {
+    color: #1e293b;
+}
+
+.navbar-scrolled .navbar-call-link:hover .navbar-call-icon {
     color: var(--primary-gold);
 }
 
