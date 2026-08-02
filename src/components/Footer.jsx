@@ -45,6 +45,8 @@ export default function Footer() {
                             src={logo}
                             alt="Quick Fix Services Logo"
                             className="footer-logo"
+                            width="80"
+                            height="52"
                         />
                         <p className="footer-brand-desc">
                             Your trusted local choice for home repair and
@@ -259,7 +261,7 @@ export default function Footer() {
                         <ul className="footer-contact-list">
                             <li>
                                 <FaPhoneAlt className="footer-contact-icon" />
-                                <a href="tel:+918095867649">+91 8095867649</a>
+                                <a href="tel:+918095867649" aria-label="Call Quick Fix Services at +91 8095867649">+91 8095867649</a>
                             </li>
                             <li>
                                 <FaWhatsapp className="footer-contact-icon text-green" />
@@ -267,19 +269,20 @@ export default function Footer() {
                                     href="https://wa.me/918095867649"
                                     target="_blank"
                                     rel="noopener noreferrer"
+                                    aria-label="Message Quick Fix Services on WhatsApp at +91 8095867649"
                                 >
                                     +91 8095867649
                                 </a>
                             </li>
                             <li>
                                 <FaEnvelope className="footer-contact-icon" />
-                                <a href="mailto:ka14quickfixservices@gmail.com">
+                                <a href="mailto:ka14quickfixservices@gmail.com" aria-label="Email Quick Fix Services at ka14quickfixservices@gmail.com">
                                     ka14quickfixservices@gmail.com
                                 </a>
                             </li>
                             <li>
                                 <FaMapMarkerAlt className="footer-contact-icon" />
-                                <span>Shivamogga, Karnataka - 577201</span>
+                                <span>Gandhi Nagar, 100 Feet Road, Shivamogga, Karnataka - 577201</span>
                             </li>
                         </ul>
                     </div>

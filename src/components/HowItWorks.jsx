@@ -58,7 +58,7 @@ export default function HowItWorks() {
             Simple Steps from <span className="text-blue">Booking to Done</span>
           </h2>
           <p className="how-it-works-description">
-            Getting your home fixed has never been easier. Follow these six simple steps to a perfectly repaired home.
+            Getting your home in Shivamogga fixed has never been easier. Follow these six simple steps to get your repairs completed.
           </p>
           <div className="how-it-works-header-line" aria-hidden="true" />
         </div>

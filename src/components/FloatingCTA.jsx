@@ -33,7 +33,7 @@ export default function FloatingCTA() {
             <a
                 href="tel:+918095867649"
                 className="floating-btn floating-call pulse-animation-blue"
-                aria-label="Call Quick Fix Services"
+                aria-label="Call Quick Fix Services at +91 8095867649 for same-day home repairs"
             >
                 <FaPhoneAlt size={20} />
                 <span className="floating-tooltip">Call Now</span>
@@ -45,7 +45,7 @@ export default function FloatingCTA() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="floating-btn floating-whatsapp pulse-animation"
-                aria-label="Chat with Quick Fix Services on WhatsApp"
+                aria-label="Book electrician, plumber, or carpenter in Shivamogga on WhatsApp"
             >
                 <FaWhatsapp size={22} />
                 <span className="floating-tooltip">WhatsApp Booking</span>

@@ -52,18 +52,14 @@ export default function Hero() {
                     <h1 className="hero-title">
                         Professional Home
                         <br />
-                        Repair
+                        Repair & Maintenance
                         <br />
-                        Services in{" "}
-                        <span className="text-gold">Shivamogga</span>
+                        Services in <span className="text-gold">Shivamogga</span>
                     </h1>
 
                     {/* Subheading */}
                     <p className="hero-subtitle">
-                        Electrical, Plumbing, Carpentry, Furniture Assembly, TV
-                        Installation and Complete Home Maintenance Services —
-                        delivered by skilled local professionals, right to your
-                        doorstep.
+                        Get same-day service from our skilled local electrician, plumber, and carpenter in Shivamogga. From furniture assembly and TV wall mounting to pipe leakage and switch board repairs, we handle all your home maintenance needs efficiently.
                     </p>
 
                     {/* Call to Actions */}
@@ -73,11 +69,16 @@ export default function Hero() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn-whatsapp-hero"
+                            aria-label="Book electrician, plumber, or carpenter in Shivamogga on WhatsApp"
                         >
                             <FaWhatsapp size={20} />
                             <span>Book on WhatsApp</span>
                         </a>
-                        <a href="tel:+918095867649" className="btn-call-hero">
+                        <a 
+                            href="tel:+918095867649" 
+                            className="btn-call-hero"
+                            aria-label="Call Quick Fix Services at +91 8095867649 for same-day home repairs"
+                        >
                             <FaPhoneAlt size={16} />
                             <span>Call Now</span>
                         </a>
@@ -85,6 +86,7 @@ export default function Hero() {
                             href="#services"
                             onClick={handleScrollToServices}
                             className="btn-explore-hero"
+                            aria-label="Explore our full list of electrical, plumbing, and carpentry services"
                         >
                             <span>Explore Services</span>
                             <FaChevronDown size={14} />

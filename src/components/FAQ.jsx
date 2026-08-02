@@ -2,32 +2,32 @@ import React, { useState } from 'react';
 
 const faqs = [
   {
-    question: 'Do you offer same-day home repair services in Shivamogga?',
-    answer: 'Yes, we offer same-day service for most common repairs including electrical, plumbing, and general maintenance, subject to technician availability.',
+    question: 'Do you offer same-day electrician, plumber, or carpenter services in Shivamogga?',
+    answer: 'Yes! We offer same-day visits for urgent electrical repairs, plumbing leaks, carpentry fixes, and home maintenance across Shivamogga, subject to technician availability.',
   },
   {
-    question: 'What areas do you serve in and around Shivamogga?',
-    answer: 'We serve the entire Shivamogga city limits and surrounding close areas including Vinoba Nagar, Gopala, Jayanagar, Tilak Nagar, Gandhi Nagar, Savalanga Road, and nearby residential zones.',
+    question: 'Which local neighborhoods in Shivamogga do you serve?',
+    answer: 'We serve all of Shivamogga city limits and surrounding areas, including residential zones such as Vinoba Nagar, Gopala, Jayanagar, Tilak Nagar, Gandhi Nagar, Savalanga Road, Durgigudi, Rajendra Nagar, and 100 Feet Road.',
   },
   {
-    question: 'Do you provide a workmanship guarantee?',
-    answer: 'Yes! All our services are backed by a comprehensive 3-month workmanship guarantee. If the issue reoccurs within this period, we will re-inspect and fix it for free.',
+    question: 'Do you provide a workmanship guarantee on home repairs?',
+    answer: 'Absolutely! All our home maintenance services—including house wiring, switch board repair, tap repair, and furniture assembly—are backed by a comprehensive 3-month workmanship guarantee.',
   },
   {
-    question: 'How can I book a service?',
-    answer: 'You can easily book a service by calling us directly or sending us a message on WhatsApp. Simply share your location, the service needed, and your preferred timing.',
+    question: 'How do I book an emergency technician?',
+    answer: 'You can easily book by calling us directly or messaging us on WhatsApp. Share your location in Shivamogga, describe the issue (with photos if possible), and we will coordinate a fast visit.',
   },
   {
     question: 'Are your prices transparent and fixed?',
-    answer: 'Yes, we believe in upfront pricing. We provide clear, transparent estimates before starting any work so you know exactly what to expect with no hidden charges.',
+    answer: 'Yes, we practice complete transparency. We provide a clear estimate upfront before starting any work. There are no hidden fees or surprise charges.',
   },
   {
     question: 'What payment methods do you accept?',
-    answer: 'We accept cash, UPI payments (GPay, PhonePe, Paytm), and bank transfers after the service is successfully completed to your satisfaction.',
+    answer: 'We accept all convenient payment modes including cash, UPI transfers (such as Google Pay, PhonePe, and Paytm), and bank transfers upon successful completion of the job.',
   },
   {
-    question: 'Do you bring materials and parts, or do I need to arrange them?',
-    answer: 'Our technicians can source genuine, high-quality spare parts and materials on your behalf and present the purchase bill transparently, or you can purchase them yourself.',
+    question: 'Do you provide spare parts, or should I purchase them?',
+    answer: 'Our technicians can source genuine, branded spare parts and materials on your behalf and present the bill transparently, or you can choose to purchase them yourself.',
   }
 ];
 

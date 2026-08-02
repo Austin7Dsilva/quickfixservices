@@ -62,11 +62,14 @@ export default function Navbar({ activeSection }) {
                     href="#home"
                     className="navbar-logo-link"
                     onClick={(e) => handleNavClick(e, "home")}
+                    aria-label="Quick Fix Services - Home Page"
                 >
                     <img
                         src={logo}
                         alt="Quick Fix Services Logo"
                         className="navbar-logo"
+                        width="300"
+                        height="300"
                     />
                 </a>
 
@@ -98,7 +101,11 @@ export default function Navbar({ activeSection }) {
 
                 {/* Desktop Right Side CTAs */}
                 <div className="navbar-ctas-desktop">
-                    <a href="tel:+918095867649" className="navbar-call-link">
+                    <a 
+                        href="tel:+918095867649" 
+                        className="navbar-call-link"
+                        aria-label="Call Quick Fix Services at +91 8095867649"
+                    >
                         <FaPhoneAlt size={14} className="navbar-call-icon" />
                         <span>Call</span>
                     </a>
@@ -107,6 +114,7 @@ export default function Navbar({ activeSection }) {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn-whatsapp-nav"
+                        aria-label="Book Repair Services in Shivamogga via WhatsApp"
                     >
                         <FaWhatsapp size={14} />
                         <span>WhatsApp</span>
@@ -140,6 +148,8 @@ export default function Navbar({ activeSection }) {
                         src={logo}
                         alt="Quick Fix Services Logo"
                         className="navbar-logo"
+                        width="300"
+                        height="300"
                     />
                     <button
                         className="navbar-mobile-close"
@@ -173,6 +183,7 @@ export default function Navbar({ activeSection }) {
                         <a
                             href="tel:+918095867649"
                             className="navbar-mobile-call-btn"
+                            aria-label="Call Quick Fix Services at +91 8095867649"
                         >
                             <FaPhoneAlt size={14} />
                             <span>Call Now</span>
@@ -182,6 +193,7 @@ export default function Navbar({ activeSection }) {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="navbar-mobile-whatsapp-btn"
+                            aria-label="Book Home Maintenance on WhatsApp"
                         >
                             <FaWhatsapp size={16} />
                             <span>WhatsApp Booking</span>

@@ -34,88 +34,93 @@ export default function Contact() {
                             Contact Details
                         </h3>
 
-                        <ul className="contact-info-list">
-                            <li>
-                                <div className="contact-icon-box">
-                                    <FaPhoneAlt />
-                                </div>
-                                <div>
-                                    <span className="contact-label">
-                                        Call Now
-                                    </span>
-                                    <a
-                                        href="tel:+918095867649"
-                                        className="contact-value link-gold"
-                                    >
-                                        +91 8095867649
-                                    </a>
-                                </div>
-                            </li>
+                        <address className="contact-info-list" style={{ fontStyle: "normal" }}>
+                            <ul>
+                                <li>
+                                    <div className="contact-icon-box">
+                                        <FaPhoneAlt />
+                                    </div>
+                                    <div>
+                                        <span className="contact-label">
+                                            Call Now
+                                        </span>
+                                        <a
+                                            href="tel:+918095867649"
+                                            className="contact-value link-gold"
+                                            aria-label="Call Quick Fix Services at +91 8095867649"
+                                        >
+                                            +91 8095867649
+                                        </a>
+                                    </div>
+                                </li>
 
-                            <li>
-                                <div className="contact-icon-box whatsapp-box">
-                                    <FaWhatsapp />
-                                </div>
-                                <div>
-                                    <span className="contact-label">
-                                        WhatsApp Us
-                                    </span>
-                                    <a
-                                        href={whatsappUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="contact-value link-green"
-                                    >
-                                        +91 8095867649
-                                    </a>
-                                </div>
-                            </li>
+                                <li>
+                                    <div className="contact-icon-box whatsapp-box">
+                                        <FaWhatsapp />
+                                    </div>
+                                    <div>
+                                        <span className="contact-label">
+                                            WhatsApp Us
+                                        </span>
+                                        <a
+                                            href={whatsappUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="contact-value link-green"
+                                            aria-label="Message Quick Fix Services on WhatsApp at +91 8095867649"
+                                        >
+                                            +91 8095867649
+                                        </a>
+                                    </div>
+                                </li>
 
-                            <li>
-                                <div className="contact-icon-box">
-                                    <FaEnvelope />
-                                </div>
-                                <div>
-                                    <span className="contact-label">
-                                        Email Support
-                                    </span>
-                                    <a
-                                        href="mailto:ka14quickfixservices@gmail.com"
-                                        className="contact-value link-white"
-                                    >
-                                        ka14quickfixservices@gmail.com
-                                    </a>
-                                </div>
-                            </li>
+                                <li>
+                                    <div className="contact-icon-box">
+                                        <FaEnvelope />
+                                    </div>
+                                    <div>
+                                        <span className="contact-label">
+                                            Email Support
+                                        </span>
+                                        <a
+                                            href="mailto:ka14quickfixservices@gmail.com"
+                                            className="contact-value link-white"
+                                            aria-label="Email Quick Fix Services at ka14quickfixservices@gmail.com"
+                                        >
+                                            ka14quickfixservices@gmail.com
+                                        </a>
+                                    </div>
+                                </li>
 
-                            <li>
-                                <div className="contact-icon-box">
-                                    <FaClock />
-                                </div>
-                                <div>
-                                    <span className="contact-label">
-                                        Business Hours
-                                    </span>
-                                    <span className="contact-value">
-                                        8:00 AM – 8:00 PM, Daily
-                                    </span>
-                                </div>
-                            </li>
+                                <li>
+                                    <div className="contact-icon-box">
+                                        <FaClock />
+                                    </div>
+                                    <div>
+                                        <span className="contact-label">
+                                            Business Hours
+                                        </span>
+                                        <span className="contact-value">
+                                            8:00 AM – 8:00 PM, Daily
+                                        </span>
+                                    </div>
+                                </li>
 
-                            <li>
-                                <div className="contact-icon-box">
-                                    <FaMapMarkerAlt />
-                                </div>
-                                <div>
-                                    <span className="contact-label">
-                                        Service Area
-                                    </span>
-                                    <span className="contact-value">
-                                        Shivamogga (Shimoga) City & Surrounds
-                                    </span>
-                                </div>
-                            </li>
-                        </ul>
+                                <li>
+                                    <div className="contact-icon-box">
+                                        <FaMapMarkerAlt />
+                                    </div>
+                                    <div>
+                                        <span className="contact-label">
+                                            Business Address
+                                        </span>
+                                        <span className="contact-value">
+                                            Gandhi Nagar, 100 Feet Road, Shivamogga, Karnataka 577201
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </address>
 
                         <div className="contact-card-actions">
                             <a
@@ -123,6 +128,7 @@ export default function Contact() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="btn btn-secondary contact-action-btn"
+                                aria-label="Book electrician, plumber, or carpenter in Shivamogga on WhatsApp"
                             >
                                 <FaWhatsapp size={18} />
                                 Book on WhatsApp
@@ -130,6 +136,7 @@ export default function Contact() {
                             <a
                                 href="tel:+918095867649"
                                 className="btn btn-primary contact-action-btn"
+                                aria-label="Call Quick Fix Services at +91 8095867649"
                             >
                                 <FaPhoneAlt size={14} />
                                 Call Now
@@ -180,14 +187,15 @@ export default function Contact() {
                                     <FaCompass className="map-compass-icon" />
                                     <span>
                                         Serving Vinoba Nagar, Gopala, Jayanagar
-                                        & surrounding areas.
+                                        & surrounding areas in Shivamogga.
                                     </span>
                                 </div>
                                 <a
-                                    href="https://maps.google.com/?q=Shivamogga,+Karnataka"
+                                    href="https://maps.google.com/?q=Gandhi+Nagar,+100+Feet+Road,+Shivamogga,+Karnataka+577201"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="map-external-link"
+                                    aria-label="View Quick Fix Services location on Google Maps"
                                 >
                                     View Large Map
                                     <FaExternalLinkAlt

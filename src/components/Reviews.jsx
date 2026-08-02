@@ -55,18 +55,18 @@ export default function Reviews() {
         {/* Testimonials Grid */}
         <div className="reviews-grid">
           {reviews.map((review, index) => (
-            <div 
+            <figure 
               key={review.name} 
               className="review-card glass-panel reveal"
               style={{ animationDelay: `${index * 80}ms` }}
             >
               {/* Quote Icon */}
-              <div className="review-quote-icon">
+              <div className="review-quote-icon" aria-hidden="true">
                 <FaQuoteLeft />
               </div>
 
               {/* Rating stars */}
-              <div className="review-rating" aria-label="5 out of 5 stars rating">
+              <div className="review-rating" aria-label={`Rated ${review.rating} out of 5 stars`}>
                 {[...Array(review.rating)].map((_, i) => (
                   <FaStar key={i} className="star-icon" />
                 ))}
@@ -78,16 +78,16 @@ export default function Reviews() {
               </blockquote>
 
               {/* User details */}
-              <div className="review-author">
-                <div className="review-avatar">
+              <figcaption className="review-author">
+                <div className="review-avatar" aria-hidden="true">
                   {review.initials}
                 </div>
                 <div className="review-meta">
                   <h3 className="review-name">{review.name}</h3>
-                  <span className="review-location">{review.location}</span>
+                  <cite className="review-location">{review.location}</cite>
                 </div>
-              </div>
-            </div>
+              </figcaption>
+            </figure>
           ))}
         </div>
       </div>

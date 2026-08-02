@@ -1,0 +1,23 @@
+{
+  "name": "Quick Fix Services Shivamogga",
+  "short_name": "Quick Fix Services",
+  "description": "Professional home repairs and maintenance services in Shivamogga, Karnataka.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060a16",
+  "theme_color": "#060a16",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

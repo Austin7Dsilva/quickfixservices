@@ -32,9 +32,9 @@ const services = [
         category: "electrical",
         icon: FaBolt,
         description:
-            "Complete electrical repairs, wiring, and safety checks by licensed professionals.",
+            "Same-day electrical repairs, home wiring, safety checks, and emergency electrician services in Shivamogga by certified professionals.",
         message:
-            "Hi, I want to book General Electrical Services in Shivamogga.",
+            "Hi, I want to book General Electrical Services / Electrician in Shivamogga.",
     },
     {
         id: "plumb-gen",
@@ -42,8 +42,8 @@ const services = [
         category: "plumbing",
         icon: FaTint,
         description:
-            "Leak fixes, pipe fitting, tap repair, and full bathroom plumbing solutions.",
-        message: "Hi, I want to book General Plumbing Services in Shivamogga.",
+            "Water leakage repair, pipe repair, tap fix, and complete bathroom plumbing solutions by experienced plumbers in Shivamogga.",
+        message: "Hi, I want to book General Plumbing Services / Plumber in Shivamogga.",
     },
     {
         id: "carp-gen",
@@ -51,8 +51,8 @@ const services = [
         category: "carpentry",
         icon: FaHammer,
         description:
-            "Door repairs, woodwork, cabinet fixes, and custom carpentry for your home.",
-        message: "Hi, I want to book Carpentry Services in Shivamogga.",
+            "Affordable carpentry in Shivamogga including door repair, cabinet fix, lock repair, and custom woodwork solutions.",
+        message: "Hi, I want to book Carpentry Services / Carpenter in Shivamogga.",
     },
     {
         id: "furn-assembly",
@@ -60,9 +60,9 @@ const services = [
         category: "carpentry",
         icon: FaCouch,
         description:
-            "Quick and sturdy assembly of beds, wardrobes, tables, and all furniture.",
+            "Wardrobe assembly, bed assembly, dining table setup, and custom furniture installation services in Shivamogga.",
         message:
-            "Hi, I want to inquire about Furniture Assembly in Shivamogga.",
+            "Hi, I want to book Furniture Assembly / Furniture Installation in Shivamogga.",
     },
     {
         id: "tv-mount",
@@ -70,8 +70,8 @@ const services = [
         category: "mounting",
         icon: FaTv,
         description:
-            "Secure wall mounting for all TV sizes with concealed wiring and perfect leveling.",
-        message: "Hi, I want to book TV Wall Mount Installation in Shivamogga.",
+            "Secure TV wall mount installation for all sizes and brands with clean wire concealment and precise level alignment.",
+        message: "Hi, I want to book TV Wall Mount / TV Installation in Shivamogga.",
     },
     {
         id: "fan-install",
@@ -79,7 +79,7 @@ const services = [
         category: "electrical",
         icon: FaFan,
         description:
-            "Ceiling fan installation, regulator fitting, and balancing for smooth operation.",
+            "Ceiling fan installation, wall fan fitting, regulator replacement, and balancing by local Shivamogga electricians.",
         message: "Hi, I want to book Fan Installation in Shivamogga.",
     },
     {
@@ -88,7 +88,7 @@ const services = [
         category: "electrical",
         icon: FaLightbulb,
         description:
-            "Tube light fitting, holder replacement, and fixture repairs done right.",
+            "Tube light installation, bracket fitting, bulb replacement, and holder repair by professional technicians.",
         message: "Hi, I want to book Tube Light Installation in Shivamogga.",
     },
     {
@@ -97,37 +97,37 @@ const services = [
         category: "electrical",
         icon: FaLightbulb,
         description:
-            "LED bulb, strip, and panel installation for bright and energy-efficient lighting.",
+            "Energy-efficient LED light installation, spotlight fitting, strip lights, and decorative lighting setups.",
         message: "Hi, I want to book LED Light Installation in Shivamogga.",
     },
     {
         id: "switch-repair",
-        title: "Switch & Socket Repairs",
+        title: "Switch Board Repair",
         category: "electrical",
         icon: FaToggleOn,
         description:
-            "Burnt switch replacement, loose wire tightening, and new socket fittings.",
-        message: "Hi, I want to book Switch & Socket Repairs in Shivamogga.",
+            "Burnt switch board repair, loose wire tightening, new socket installation, and electrical safety diagnostics.",
+        message: "Hi, I want to book Switch Board Repair / Socket Replacement in Shivamogga.",
     },
     {
         id: "geyser-install",
-        title: "Geyser Installation & Service",
+        title: "Geyser Service & Install",
         category: "plumbing",
         icon: FaHotTub,
         description:
-            "Safe geyser installation, piping, and element servicing for hot water.",
+            "Water heater/geyser installation, element replacement, scaling clean, and leak repair by expert technicians.",
         message:
             "Hi, I want to book Geyser Installation & Service in Shivamogga.",
     },
     {
         id: "bath-accessories",
-        title: "Bathroom Accessories Fitting",
+        title: "Bathroom Fitting",
         category: "plumbing",
         icon: FaBath,
         description:
-            "Hassle-free mounting of mirrors, towel rods, soap stands, and cabinet shelves.",
+            "Mounting of bathroom mirrors, towel rods, cabinet shelves, soap stands, and health faucet replacements.",
         message:
-            "Hi, I want to book Bathroom Accessories Installation in Shivamogga.",
+            "Hi, I want to book Bathroom Accessories / Bathroom Fitting in Shivamogga.",
     },
     {
         id: "curtain-rod",
@@ -135,26 +135,26 @@ const services = [
         category: "mounting",
         icon: FaSlidersH,
         description:
-            "Precise drilling and mounting of curtain rods, blinds, and window brackets.",
+            "Curtain rod installation, window blinds mounting, curtain bracket fitting, and window screen setup.",
         message: "Hi, I want to book Curtain Rod Installation in Shivamogga.",
     },
     {
         id: "wall-drilling",
-        title: "Wall Drilling Services",
+        title: "Wall Drilling Service",
         category: "mounting",
         icon: FaTools,
         description:
-            "Quick drilling for photo frames, clocks, shelves, and heavy wall decorations.",
-        message: "Hi, I want to book Wall Drilling Services in Shivamogga.",
+            "Quick wall drilling service for photo frames, wall clocks, keyholders, and heavy mirror decorations.",
+        message: "Hi, I want to book Wall Drilling / Hanging Service in Shivamogga.",
     },
     {
         id: "home-maintenance",
-        title: "General Home Maintenance",
+        title: "Home Maintenance Services",
         category: "mounting",
         icon: FaWrench,
         description:
-            "Minor repairs, lock changes, window mesh fittings, and handyman jobs.",
-        message: "Hi, I want to book General Home Maintenance in Shivamogga.",
+            "Affordable handyman services in Shivamogga, latch changes, door mesh fitting, and general quick repairs.",
+        message: "Hi, I want to book Home Maintenance / Handyman Services in Shivamogga.",
     },
 ];
 
@@ -176,15 +176,13 @@ export default function Services() {
             <div className="container">
                 {/* Section Header */}
                 <div className="services-section-header reveal">
-                    <span className="services-header-badge">OUR SERVICES</span>
+                    <span className="services-header-badge">OUR SERVICES IN SHIVAMOGGA</span>
                     <h2 className="services-header-title">
-                        Everything Your Home Needs,<br />
-                        <span className="services-header-title-accent">Under One Roof</span>
+                        Home Maintenance & Repair Services,<br />
+                        <span className="services-header-title-accent">Done Right in Shivamogga</span>
                     </h2>
                     <p className="services-header-text">
-                        From a flickering light to a full home maintenance check
-                        — our skilled technicians handle it all with care and
-                        precision.
+                        From emergency electrical repairs to expert plumbing and professional carpentry — our skilled local technicians in Shivamogga handle every job with absolute care and precision.
                     </p>
                     <div className="services-header-line" aria-hidden="true" />
                 </div>
@@ -232,6 +230,7 @@ export default function Services() {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="service-card-action-link"
+                                        aria-label={`Enquire about ${service.title} in Shivamogga on WhatsApp`}
                                     >
                                         <FaRegComment className="action-chat-icon" />
                                         <span>Enquire on WhatsApp</span>
