@@ -1,102 +1,98 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const galleryItems = [
-  {
-    id: 1,
-    title: 'Precision Electrical Wiring',
-    tag: 'Electrical',
-    imageUrl: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80',
-    aspect: 'video', // aspect-ratio selector
-  },
-  {
-    id: 2,
-    title: 'Professional Leak Repair',
-    tag: 'Plumbing',
-    imageUrl: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80',
-    aspect: 'square',
-  },
-  {
-    id: 3,
-    title: 'Custom Furniture Assembly',
-    tag: 'Assembly',
-    imageUrl: 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=600&q=80',
-    aspect: 'tall',
-  },
-  {
-    id: 4,
-    title: 'TV Wall Mount Alignment',
-    tag: 'Mounting',
-    imageUrl: 'https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=600&q=80',
-    aspect: 'tall',
-  },
-  {
-    id: 5,
-    title: 'Clean Wall Drilling',
-    tag: 'Drilling',
-    imageUrl: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ecc?auto=format&fit=crop&w=600&q=80',
-    aspect: 'video',
-  },
-  {
-    id: 6,
-    title: 'Lock Replacement & Repair',
-    tag: 'Maintenance',
-    imageUrl: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=600&q=80',
-    aspect: 'square',
-  },
+const galleryColumns = [
+  [
+    { 
+      id: 1, 
+      imageUrl: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80', 
+      aspect: 'tall', 
+      alt: 'Technician working with tool belt' 
+    },
+    { 
+      id: 2, 
+      imageUrl: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ecc?auto=format&fit=crop&w=600&q=80', 
+      aspect: 'short', 
+      alt: 'Electrical plans blueprint' 
+    }
+  ],
+  [
+    { 
+      id: 3, 
+      imageUrl: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80', 
+      aspect: 'short', 
+      alt: 'Precision wiring breaker panel' 
+    },
+    { 
+      id: 4, 
+      imageUrl: 'https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=600&q=80', 
+      aspect: 'short', 
+      alt: 'Modern living room home install' 
+    },
+    { 
+      id: 5, 
+      imageUrl: 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=600&q=80', 
+      aspect: 'short', 
+      alt: 'Furniture assembly craftsmanship' 
+    }
+  ],
+  [
+    { 
+      id: 6, 
+      imageUrl: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=600&q=80', 
+      aspect: 'short', 
+      alt: 'Professional plumbing setup' 
+    },
+    { 
+      id: 7, 
+      imageUrl: 'https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=600&q=80', 
+      aspect: 'short', 
+      alt: 'Carpentry hand saw ruler' 
+    }
+  ],
+  [
+    { 
+      id: 8, 
+      imageUrl: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80', 
+      aspect: 'super-tall', 
+      alt: 'Woodwork details and blueprints' 
+    }
+  ]
 ];
 
 export default function Gallery() {
-  const [filter, setFilter] = useState('all');
-
-  const tags = ['all', 'Electrical', 'Plumbing', 'Assembly', 'Mounting', 'Drilling', 'Maintenance'];
-
-  const filteredItems = filter === 'all'
-    ? galleryItems
-    : galleryItems.filter(item => item.tag === filter);
-
   return (
     <section id="gallery" className="gallery-section section-padding">
       <div className="container">
         {/* Section Header */}
         <div className="section-header reveal">
-          <span className="section-subtitle">Visual Portfolio</span>
-          <h2 className="section-title">Work Showcase</h2>
-          <p className="section-description">
-            A glimpse of our recent home repair and installation projects completed across Shivamogga.
+          <span className="gallery-badge">OUR WORK</span>
+          <h2 className="gallery-title">
+            A Glimpse of <span className="text-blue">Our Craftsmanship</span>
+          </h2>
+          <p className="gallery-description">
+            Real work, real results. Browse a selection of repairs and installations completed by our team across Shivamogga.
           </p>
+          <div className="gallery-header-line" aria-hidden="true" />
         </div>
 
-        {/* Filter Badges */}
-        <div className="gallery-filter reveal">
-          {tags.map(tag => (
-            <button
-              key={tag}
-              className={`gallery-filter-btn ${filter === tag ? 'active' : ''}`}
-              onClick={() => setFilter(tag)}
-            >
-              {tag.charAt(0).toUpperCase() + tag.slice(1)}
-            </button>
-          ))}
-        </div>
-
-        {/* Masonry Grid */}
-        <div className="gallery-masonry">
-          {filteredItems.map((item, index) => (
-            <div 
-              key={item.id} 
-              className={`gallery-item ${item.aspect} reveal`}
-              style={{ animationDelay: `${index * 50}ms` }}
-            >
-              <img 
-                src={item.imageUrl} 
-                alt={item.title} 
-                className="gallery-image"
-                loading="lazy"
-              />
-              <div className="gallery-overlay">
-                <span className="gallery-item-tag">{item.tag}</span>
-                <h3 className="gallery-item-title">{item.title}</h3>
-              </div>
+        {/* Masonry Columns Grid */}
+        <div className="gallery-grid-cols">
+          {galleryColumns.map((col, colIdx) => (
+            <div className="gallery-grid-col" key={colIdx}>
+              {col.map((item, itemIdx) => (
+                <div 
+                  key={item.id} 
+                  className={`gallery-grid-item ${item.aspect} reveal`}
+                  style={{ animationDelay: `${(colIdx * 2 + itemIdx) * 50}ms` }}
+                >
+                  <img 
+                    src={item.imageUrl} 
+                    alt={item.alt} 
+                    className="gallery-grid-img"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
             </div>
           ))}
         </div>

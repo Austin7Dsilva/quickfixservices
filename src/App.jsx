@@ -15,7 +15,6 @@ import Services from './components/Services';
 import WhyChooseUs from './components/WhyChooseUs';
 import HowItWorks from './components/HowItWorks';
 import Gallery from './components/Gallery';
-import Reviews from './components/Reviews';
 import FAQ from './components/FAQ';
 import Contact from './components/Contact';
 import FloatingCTA from './components/FloatingCTA';
@@ -27,7 +26,6 @@ const sectionIds = [
   'why-choose-us',
   'how-it-works',
   'gallery',
-  'reviews',
   'faq',
   'contact',
 ];
@@ -99,7 +97,6 @@ export default function App() {
         <WhyChooseUs />
         <HowItWorks />
         <Gallery />
-        <Reviews />
         <FAQ />
         <Contact />
       </main>
