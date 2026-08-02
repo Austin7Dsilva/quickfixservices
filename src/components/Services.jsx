@@ -15,6 +15,7 @@ import {
     FaTools,
     FaRegComment,
     FaArrowRight,
+    FaWhatsapp,
 } from "react-icons/fa";
 
 const categories = [
@@ -165,14 +166,39 @@ const services = [
 
 export default function Services() {
     const [activeCategory, setActiveCategory] = useState("all");
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedService, setSelectedService] = useState("");
+    const [customerName, setCustomerName] = useState("");
+    const [customerMobile, setCustomerMobile] = useState("");
+    const [serviceDetails, setServiceDetails] = useState("");
+    const [customerLocation, setCustomerLocation] = useState("");
 
     const filteredServices =
         activeCategory === "all"
             ? services
             : services.filter((service) => service.category === activeCategory);
 
-    const getWhatsAppLink = (message) => {
-        return `https://wa.me/918095867649?text=${encodeURIComponent(message)}`;
+    const handleEnquiryClick = (e, serviceTitle) => {
+        e.preventDefault();
+        setSelectedService(serviceTitle);
+        setServiceDetails(serviceTitle);
+        setIsModalOpen(true);
+    };
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        const messageText = `*New Service Enquiry*
+• *Customer Name:* ${customerName || "Not specified"}
+• *Mobile Number:* ${customerMobile || "Not specified"}
+• *Service Needed:* ${serviceDetails || selectedService}
+• *Location:* ${customerLocation || "Not specified"}`;
+
+        const waUrl = `https://wa.me/918095867649?text=${encodeURIComponent(messageText)}`;
+        window.open(waUrl, "_blank", "noopener,noreferrer");
+        setIsModalOpen(false);
+        setCustomerName("");
+        setCustomerMobile("");
+        setCustomerLocation("");
     };
 
     return (
@@ -238,23 +264,98 @@ export default function Services() {
 
                                 {/* Footer Action Link */}
                                 <div className="service-card-footer">
-                                    <a
-                                        href={getWhatsAppLink(service.message)}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
+                                    <button
+                                        onClick={(e) => handleEnquiryClick(e, service.title)}
                                         className="service-card-action-link"
-                                        aria-label={`Enquire about ${service.title} in Shivamogga on WhatsApp`}
+                                        style={{ background: "transparent", border: "none", width: "100%", cursor: "pointer", padding: 0 }}
+                                        aria-label={`Enquire about ${service.title} in Shivamogga`}
                                     >
                                         <FaRegComment className="action-chat-icon" />
                                         <span>Enquire on WhatsApp</span>
                                         <FaArrowRight className="action-arrow-icon" />
-                                    </a>
+                                    </button>
                                 </div>
                             </article>
                         );
                     })}
                 </div>
             </div>
+
+            {/* Enquiry Form Modal */}
+            {isModalOpen && (
+                <div className="enquiry-modal-overlay" onClick={() => setIsModalOpen(false)}>
+                    <div className="enquiry-modal-content glass-panel" onClick={(e) => e.stopPropagation()}>
+                        <button 
+                            className="enquiry-modal-close"
+                            onClick={() => setIsModalOpen(false)}
+                            aria-label="Close modal"
+                        >
+                            &times;
+                        </button>
+                        <div className="enquiry-modal-header">
+                            <h3 className="enquiry-modal-title">Service Enquiry</h3>
+                            <p className="enquiry-modal-subtitle">Quick Fix Services Customer Care</p>
+                        </div>
+                        
+                        <form onSubmit={handleFormSubmit} className="enquiry-modal-form">
+                            <div className="form-group">
+                                <label htmlFor="customer-name">Your Name</label>
+                                <input
+                                    type="text"
+                                    id="customer-name"
+                                    value={customerName}
+                                    onChange={(e) => setCustomerName(e.target.value)}
+                                    placeholder="Enter your name"
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="customer-mobile">Mobile Number</label>
+                                <input
+                                    type="tel"
+                                    id="customer-mobile"
+                                    value={customerMobile}
+                                    onChange={(e) => setCustomerMobile(e.target.value)}
+                                    placeholder="Enter 10-digit mobile number"
+                                    pattern="[0-9]{10}"
+                                    title="Please enter a valid 10-digit mobile number"
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="service-needed">Service Needed</label>
+                                <input
+                                    type="text"
+                                    id="service-needed"
+                                    value={serviceDetails}
+                                    onChange={(e) => setServiceDetails(e.target.value)}
+                                    placeholder="What service are you looking for?"
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="customer-location">Your Location / Address</label>
+                                <input
+                                    type="text"
+                                    id="customer-location"
+                                    value={customerLocation}
+                                    onChange={(e) => setCustomerLocation(e.target.value)}
+                                    placeholder="Enter your area in Shivamogga"
+                                    required
+                                />
+                            </div>
+
+                            <button type="submit" className="enquiry-submit-btn">
+                                <FaWhatsapp size={18} />
+                                <span>Send Enquiry via WhatsApp</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
         </section>
     );
 }
