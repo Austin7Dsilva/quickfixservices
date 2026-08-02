@@ -47,7 +47,7 @@ export default function Contact() {
                                         href="tel:+918095867649"
                                         className="contact-value link-gold"
                                     >
-                                        +91 98765 43210
+                                        +91 8095867649
                                     </a>
                                 </div>
                             </li>
@@ -66,7 +66,7 @@ export default function Contact() {
                                         rel="noopener noreferrer"
                                         className="contact-value link-green"
                                     >
-                                        +91 98765 43210
+                                        +91 8095867649
                                     </a>
                                 </div>
                             </li>
@@ -80,10 +80,10 @@ export default function Contact() {
                                         Email Support
                                     </span>
                                     <a
-                                        href="mailto:contact@quickfixservices.in"
+                                        href="mailto:ka14quickfixservices@gmail.com"
                                         className="contact-value link-white"
                                     >
-                                        contact@quickfixservices.in
+                                        ka14quickfixservices@gmail.com
                                     </a>
                                 </div>
                             </li>

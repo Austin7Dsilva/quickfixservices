@@ -1,51 +1,38 @@
 import React, { useState } from 'react';
-import { FaChevronDown } from 'react-icons/fa';
 
 const faqs = [
   {
-    question: 'What areas in Shivamogga do you cover?',
-    answer: 'We serve the entire Shivamogga (Shimoga) city area, including Vinoba Nagar, Gopala, Durgigudi, Rajendra Nagar, Jayanagar, Tilak Nagar, Savalanga Road, Gandhi Nagar, and nearby suburbs.',
+    question: 'Do you offer same-day home repair services in Shivamogga?',
+    answer: 'Yes, we offer same-day service for most common repairs including electrical, plumbing, and general maintenance, subject to technician availability.',
   },
   {
-    question: 'How do I book a repair or installation service?',
-    answer: 'You can book a service by calling us directly at +91 98765 43210 or by clicking the "Book on WhatsApp" button. Describe your requirement, send photos if needed, and choose your preferred slot.',
+    question: 'What areas do you serve in and around Shivamogga?',
+    answer: 'We serve the entire Shivamogga city limits and surrounding close areas including Vinoba Nagar, Gopala, Jayanagar, Tilak Nagar, Gandhi Nagar, Savalanga Road, and nearby residential zones.',
   },
   {
-    question: 'Do you offer same-day services?',
-    answer: 'Yes! For bookings made before 12:00 PM, we offer same-day repair services across Shivamogga, depending on the availability of our technicians.',
+    question: 'Do you provide a workmanship guarantee?',
+    answer: 'Yes! All our services are backed by a comprehensive 3-month workmanship guarantee. If the issue reoccurs within this period, we will re-inspect and fix it for free.',
   },
   {
-    question: 'Is there a warranty or guarantee on the work done?',
-    answer: 'Absolutely. We stand behind our quality. We offer a 3-month workmanship guarantee on all our home repair and installation services. If the issue reoccurs, we will fix it for free.',
+    question: 'How can I book a service?',
+    answer: 'You can easily book a service by calling us directly or sending us a message on WhatsApp. Simply share your location, the service needed, and your preferred timing.',
   },
   {
-    question: 'Are your technicians background-verified and safe?',
-    answer: 'Safety is our highest priority. All our local electricians, plumbers, carpenters, and handymen are background-checked, personally vetted, and highly trained professionals.',
-  },
-  {
-    question: 'How do you calculate the repair costs?',
-    answer: 'We believe in transparent pricing. We provide a quick free estimate over the phone or WhatsApp based on your details. For complex tasks, the technician will inspect the issue on-site and provide a final estimate before starting work.',
-  },
-  {
-    question: 'What are your operational hours?',
-    answer: 'We are open from 8:00 AM to 8:00 PM, Monday through Sunday. We work on weekends as well to fit your busy schedule.',
-  },
-  {
-    question: 'Do I need to buy the materials/spare parts myself?',
-    answer: 'You can choose to purchase the materials yourself. Alternatively, our technician can source genuine, branded materials on your behalf and present the bill transparently without any markup.',
+    question: 'Are your prices transparent and fixed?',
+    answer: 'Yes, we believe in upfront pricing. We provide clear, transparent estimates before starting any work so you know exactly what to expect with no hidden charges.',
   },
   {
     question: 'What payment methods do you accept?',
-    answer: 'We accept easy digital payment options including UPI (Google Pay, PhonePe, Paytm, BHIM), Cash, and Net Banking payments after work completion.',
+    answer: 'We accept cash, UPI payments (GPay, PhonePe, Paytm), and bank transfers after the service is successfully completed to your satisfaction.',
   },
   {
-    question: 'Do you take up commercial property maintenance?',
-    answer: 'Yes, we handle electrical, plumbing, mounting, and carpentry maintenance contracts for retail shops, offices, clinics, and residential apartments in Shivamogga.',
-  },
+    question: 'Do you bring materials and parts, or do I need to arrange them?',
+    answer: 'Our technicians can source genuine, high-quality spare parts and materials on your behalf and present the purchase bill transparently, or you can purchase them yourself.',
+  }
 ];
 
 export default function FAQ() {
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0); // Start with first index open as in screenshot
 
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -56,11 +43,14 @@ export default function FAQ() {
       <div className="container">
         {/* Section Header */}
         <div className="section-header reveal">
-          <span className="section-subtitle">Got Questions?</span>
-          <h2 className="section-title">Frequently Asked Questions</h2>
-          <p className="section-description">
-            Everything you need to know about our home maintenance booking process, guarantees, and pricing.
+          <span className="faq-badge">FAQ</span>
+          <h2 className="faq-title">
+            Questions? <span className="text-blue">We've Got Answers</span>
+          </h2>
+          <p className="faq-description">
+            Everything you need to know about our home repair services in Shivamogga. <br />Still curious? Just message us.
           </p>
+          <div className="faq-header-line" aria-hidden="true" />
         </div>
 
         {/* FAQ Accordion List */}
@@ -70,7 +60,7 @@ export default function FAQ() {
             return (
               <div 
                 key={index} 
-                className={`faq-item glass-panel ${isOpen ? 'active' : ''} reveal`}
+                className={`faq-item ${isOpen ? 'active' : ''}`}
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 <button
@@ -80,8 +70,8 @@ export default function FAQ() {
                   aria-controls={`faq-answer-${index}`}
                 >
                   <span className="faq-question">{faq.question}</span>
-                  <span className="faq-icon-box">
-                    <FaChevronDown className="faq-arrow-icon" />
+                  <span className={`faq-toggle-icon ${isOpen ? 'open' : 'closed'}`}>
+                    {isOpen ? '−' : '+'}
                   </span>
                 </button>
                 <div

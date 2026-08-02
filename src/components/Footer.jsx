@@ -259,7 +259,7 @@ export default function Footer() {
                         <ul className="footer-contact-list">
                             <li>
                                 <FaPhoneAlt className="footer-contact-icon" />
-                                <a href="tel:+918095867649">+91 98765 43210</a>
+                                <a href="tel:+918095867649">+91 8095867649</a>
                             </li>
                             <li>
                                 <FaWhatsapp className="footer-contact-icon text-green" />
@@ -268,20 +268,18 @@ export default function Footer() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    +91 98765 43210
+                                    +91 8095867649
                                 </a>
                             </li>
                             <li>
                                 <FaEnvelope className="footer-contact-icon" />
-                                <a href="mailto:contact@quickfixservices.in">
-                                    contact@quickfixservices.in
+                                <a href="mailto:ka14quickfixservices@gmail.com">
+                                    ka14quickfixservices@gmail.com
                                 </a>
                             </li>
                             <li>
                                 <FaMapMarkerAlt className="footer-contact-icon" />
-                                <span>
-                                    Gandhi Nagar, Shivamogga, Karnataka - 577201
-                                </span>
+                                <span>Shivamogga, Karnataka - 577201</span>
                             </li>
                         </ul>
                     </div>
@@ -373,7 +371,7 @@ export default function Footer() {
                                     <p>
                                         For any privacy-related queries, please
                                         write to us at:{" "}
-                                        <em>contact@quickfixservices.in</em>.
+                                        <em>ka14quickfixservices@gmail.com</em>.
                                     </p>
                                 </>
                             ) : (
