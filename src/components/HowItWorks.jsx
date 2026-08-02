@@ -3,8 +3,8 @@ import {
   FaPhoneVolume, 
   FaClipboardList, 
   FaCalculator, 
-  FaUserShield, 
-  FaCheckDouble, 
+  FaTruck, 
+  FaCheckCircle, 
   FaRegCreditCard 
 } from 'react-icons/fa';
 
@@ -12,37 +12,37 @@ const steps = [
   {
     stepNum: '01',
     title: 'Contact Us',
-    description: 'Call us directly or tap the WhatsApp button to initiate contact.',
+    description: 'Reach out via WhatsApp or phone call and tell us what you need.',
     icon: FaPhoneVolume,
   },
   {
     stepNum: '02',
-    title: 'Share Requirement',
-    description: 'Describe the issue (e.g., dripping tap, broken switch) and share pictures if needed.',
+    title: 'Share Your Requirement',
+    description: 'Describe the issue or service you need, with photos if possible.',
     icon: FaClipboardList,
   },
   {
     stepNum: '03',
-    title: 'Quick Estimate',
-    description: 'Receive a transparent, no-obligation cost estimate in a few minutes.',
+    title: 'Receive Quick Estimate',
+    description: 'Get a transparent, no-obligation cost estimate for the work.',
     icon: FaCalculator,
   },
   {
     stepNum: '04',
     title: 'Technician Visits',
-    description: 'A verified technician visits your home at your preferred slot.',
-    icon: FaUserShield,
+    description: 'Our professional technician arrives at your doorstep on time.',
+    icon: FaTruck,
   },
   {
     stepNum: '05',
     title: 'Work Completed',
-    description: 'The job is executed quickly and professionally with standard checks.',
-    icon: FaCheckDouble,
+    description: 'The job is done neatly, efficiently, and to your satisfaction.',
+    icon: FaCheckCircle,
   },
   {
     stepNum: '06',
     title: 'Easy Payment',
-    description: 'Pay via cash, UPI, or card once you are fully satisfied with the job.',
+    description: 'Pay easily via cash, UPI, or bank transfer after the work is done.',
     icon: FaRegCreditCard,
   },
 ];
@@ -53,45 +53,38 @@ export default function HowItWorks() {
       <div className="container">
         {/* Section Header */}
         <div className="section-header reveal">
-          <span className="section-subtitle">Process Flow</span>
-          <h2 className="section-title">How It Works</h2>
-          <p className="section-description">
-            Getting home maintenance done has never been this easy. Follow our simple six-step process.
+          <span className="how-it-works-badge">HOW IT WORKS</span>
+          <h2 className="how-it-works-title">
+            Simple Steps from <span className="text-blue">Booking to Done</span>
+          </h2>
+          <p className="how-it-works-description">
+            Getting your home fixed has never been easier. Follow these six simple steps to a perfectly repaired home.
           </p>
+          <div className="how-it-works-header-line" aria-hidden="true" />
         </div>
 
         {/* Timeline Container */}
         <div className="timeline-container">
-          {/* Vertical connecting line for mobile, horizontal styling for desktop */}
+          {/* Horizontal connecting line for desktop */}
           <div className="timeline-line" aria-hidden="true" />
           
-          <div className="timeline-grid">
+          <div className="timeline-grid" key="how-it-works-grid">
             {steps.map((step, index) => {
               const Icon = step.icon;
               return (
                 <div 
                   key={step.stepNum} 
                   className="timeline-item reveal"
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  style={{ animationDelay: `${index * 50}ms` }}
                 >
-                  {/* Step Card */}
-                  <div className="timeline-card glass-panel">
-                    <div className="timeline-badge-container">
-                      <span className="timeline-step-number">{step.stepNum}</span>
-                      <div className="timeline-icon-box">
-                        <Icon className="timeline-icon" />
-                      </div>
+                  <div className="timeline-icon-wrapper">
+                    <div className="timeline-icon-box">
+                      <Icon className="timeline-icon" />
                     </div>
-                    <h3 className="timeline-step-title">{step.title}</h3>
-                    <p className="timeline-step-description">{step.description}</p>
+                    <span className="timeline-step-badge">{step.stepNum}</span>
                   </div>
-                  
-                  {/* Connector Arrow for Desktop */}
-                  {index < steps.length - 1 && (
-                    <div className="timeline-connector-arrow" aria-hidden="true">
-                      →
-                    </div>
-                  )}
+                  <h3 className="timeline-step-title">{step.title}</h3>
+                  <p className="timeline-step-description">{step.description}</p>
                 </div>
               );
             })}
