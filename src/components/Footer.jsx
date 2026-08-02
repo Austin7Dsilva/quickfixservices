@@ -64,7 +64,7 @@ export default function Footer() {
                                 <FaFacebookF />
                             </a>
                             <a
-                                href="https://instagram.com/quickfixshivamogga"
+                                href="https://www.instagram.com/ka14quickfixservices/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="social-icon"

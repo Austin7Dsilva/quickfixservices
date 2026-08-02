@@ -8,6 +8,7 @@ const navItems = [
     { label: "Why Choose Us", id: "why-choose-us" },
     { label: "How It Works", id: "how-it-works" },
     { label: "Gallery", id: "gallery" },
+    { label: "Reviews", id: "reviews" },
     { label: "FAQ", id: "faq" },
     { label: "Contact", id: "contact" },
 ];
