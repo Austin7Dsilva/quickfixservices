@@ -3,65 +3,65 @@ import {
   FaClock, 
   FaRupeeSign, 
   FaShieldAlt, 
-  FaUserCheck, 
+  FaAward, 
   FaHeadphones, 
   FaReceipt, 
-  FaAward, 
+  FaCube, 
   FaBolt, 
   FaBroom, 
-  FaThumbsUp 
+  FaSmile 
 } from 'react-icons/fa';
 
 const values = [
   {
     title: 'Same-Day Service',
-    description: 'Book in the morning, get the job completed before sunset. Fast and efficient schedules to suit your day.',
+    description: 'Quick response and same-day visits for most repair requests across Shivamogga.',
     icon: FaClock,
   },
   {
     title: 'Affordable Pricing',
-    description: 'High-quality repairs that fit your budget. Competitive local rates in Shivamogga with no hidden charges.',
+    description: 'Honest, competitive rates that fit your budget without compromising on quality.',
     icon: FaRupeeSign,
   },
   {
-    title: '3-Month Guarantee',
-    description: 'Complete peace of mind. We provide a 3-month workmanship guarantee on all repair jobs.',
+    title: '3-Month Workmanship Guarantee',
+    description: 'Every job is backed by a 3-month guarantee on workmanship for complete peace of mind.',
     icon: FaShieldAlt,
   },
   {
-    title: 'Experienced Pros',
-    description: 'Background-verified, trained, and polite local technicians who know exactly how to handle complex repairs.',
-    icon: FaUserCheck,
+    title: 'Experienced Professionals',
+    description: 'Skilled, vetted technicians with years of hands-on experience in home repairs.',
+    icon: FaAward,
   },
   {
     title: 'Reliable Support',
-    description: 'Have queries or need follow-ups? Our support is always a phone call or WhatsApp message away.',
+    description: 'Friendly support before, during, and after your service — we are always reachable.',
     icon: FaHeadphones,
   },
   {
     title: 'Transparent Pricing',
-    description: 'Detailed upfront pricing shared before work begins. No surprises, no unexplained charges.',
+    description: 'Clear estimates upfront with no hidden charges. You approve before we start.',
     icon: FaReceipt,
   },
   {
     title: 'Quality Materials',
-    description: 'We source and install only top-rated, certified spare parts and fixtures from reliable brands.',
-    icon: FaAward,
+    description: 'We use only durable, branded materials and parts that stand the test of time.',
+    icon: FaCube,
   },
   {
     title: 'Fast Response',
-    description: 'Get a callback or WhatsApp estimate within 15 minutes of sharing your requirement.',
+    description: 'We answer your WhatsApp and calls quickly and schedule visits without delay.',
     icon: FaBolt,
   },
   {
-    title: 'Clean Post-Work',
-    description: 'No mess left behind. Our technicians clean up the service area fully before leaving your home.',
+    title: 'Clean Work',
+    description: 'We respect your home — clean, tidy work with proper cleanup before we leave.',
     icon: FaBroom,
   },
   {
-    title: '100% Satisfaction',
-    description: 'We measure our success by your happiness. Over 1,000+ local homes serviced in Shivamogga.',
-    icon: FaThumbsUp,
+    title: 'Customer Satisfaction',
+    description: 'Your happiness is our priority. We do not leave until you are fully satisfied.',
+    icon: FaSmile,
   },
 ];
 
@@ -71,10 +71,12 @@ export default function WhyChooseUs() {
       <div className="container">
         {/* Section Header */}
         <div className="section-header reveal">
-          <span className="section-subtitle">Why Choose Us</span>
-          <h2 className="section-title">The Quick Fix Guarantee</h2>
-          <p className="section-description">
-            We are committed to delivering standard-setting home repair services. Here is why homeowners in Shivamogga trust us.
+          <span className="why-choose-badge">WHY CHOOSE US</span>
+          <h2 className="why-choose-title">
+            The <span className="text-gold">Quick Fix</span> Difference
+          </h2>
+          <p className="why-choose-description">
+            We do not just fix things — we deliver a reliable, clean, and guaranteed service experience that keeps Shivamogga homes running smoothly.
           </p>
         </div>
 
@@ -85,8 +87,8 @@ export default function WhyChooseUs() {
             return (
               <div 
                 key={val.title} 
-                className="value-card glass-panel reveal"
-                style={{ animationDelay: `${index * 50}ms` }}
+                className="value-card reveal"
+                style={{ animationDelay: `${index * 30}ms` }}
               >
                 <div className="value-card-icon-container">
                   <Icon className="value-card-icon" />

@@ -130,7 +130,7 @@ export default function Hero() {
                     {/* Bottom Metrics Grid */}
                     <div className="hero-metrics-grid">
                         <div className="metric-card">
-                            <div className="metric-value">5,000+</div>
+                            <div className="metric-value">3,827+</div>
                             <div className="metric-label">
                                 REPAIRS COMPLETED
                             </div>
