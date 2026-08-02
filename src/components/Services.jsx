@@ -176,6 +176,11 @@ export default function Services() {
             <div className="container">
                 {/* Section Header */}
                 <div className="services-section-header reveal">
+                    <span className="services-header-badge">OUR SERVICES</span>
+                    <h2 className="services-header-title">
+                        Everything Your Home Needs,<br />
+                        <span className="services-header-title-accent">Under One Roof</span>
+                    </h2>
                     <p className="services-header-text">
                         From a flickering light to a full home maintenance check
                         — our skilled technicians handle it all with care and
@@ -198,13 +203,13 @@ export default function Services() {
                 </div>
 
                 {/* Services Grid */}
-                <div className="services-grid">
+                <div className="services-grid" key={activeCategory}>
                     {filteredServices.map((service, index) => {
                         const Icon = service.icon;
                         return (
                             <article
                                 key={service.id}
-                                className="service-card reveal"
+                                className="service-card"
                                 style={{ animationDelay: `${index * 30}ms` }}
                             >
                                 {/* Icon Badge */}
