@@ -4,73 +4,113 @@ const galleryColumns = [
   [
     { 
       id: 1, 
-      imageUrl: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80', 
+      imageUrl: '/gallery/work_1.png', 
       aspect: 'tall', 
       width: 600,
       height: 350,
-      alt: 'Vetted local handyman technician in Shivamogga with tool belt working on home repairs' 
+      alt: 'Matte black ceiling fan installation with gold lining in Shivamogga home' 
     },
     { 
       id: 2, 
-      imageUrl: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ecc?auto=format&fit=crop&w=600&q=80', 
+      imageUrl: '/gallery/work_2.png', 
       aspect: 'short', 
       width: 600,
       height: 180,
-      alt: 'House electrical wiring blueprint plan for residential installation in Shivamogga' 
+      alt: 'TV installation on custom wooden cabinet with concealed wiring' 
+    },
+    { 
+      id: 3, 
+      imageUrl: '/gallery/work_3.png', 
+      aspect: 'short', 
+      width: 600,
+      height: 180,
+      alt: 'Precision wall drilling and wall mount brackets installation' 
     }
   ],
   [
     { 
-      id: 3, 
-      imageUrl: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80', 
-      aspect: 'short', 
-      width: 600,
-      height: 180,
-      alt: 'Professional electrician installing precision wiring and MCB breaker panel in Shivamogga' 
-    },
-    { 
       id: 4, 
-      imageUrl: 'https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=600&q=80', 
-      aspect: 'short', 
+      imageUrl: '/gallery/work_4.png', 
+      aspect: 'tall', 
       width: 600,
-      height: 180,
-      alt: 'Secure TV wall mount installation in a modern living room in Shivamogga' 
+      height: 350,
+      alt: 'Secure study table and desk assembly completed by our carpenter' 
     },
     { 
       id: 5, 
-      imageUrl: 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=600&q=80', 
+      imageUrl: '/gallery/work_5.png', 
       aspect: 'short', 
       width: 600,
       height: 180,
-      alt: 'Professional carpenter performing wardrobe furniture assembly and installation in Shivamogga' 
-    }
-  ],
-  [
-    { 
-      id: 6, 
-      imageUrl: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=600&q=80', 
-      aspect: 'short', 
-      width: 600,
-      height: 180,
-      alt: 'Experienced plumber setting up pipes and fixing leaks in bathroom in Shivamogga' 
+      alt: 'Curtain rod installation with precise drill holes' 
     },
     { 
-      id: 7, 
-      imageUrl: 'https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=600&q=80', 
+      id: 6, 
+      imageUrl: '/gallery/work_6.png', 
       aspect: 'short', 
       width: 600,
       height: 180,
-      alt: 'Skilled carpenter sizing wood for custom cabinet repairs in Shivamogga' 
+      alt: 'Electrical panel terminal connections setup by our electrician' 
     }
   ],
   [
     { 
-      id: 8, 
-      imageUrl: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80', 
-      aspect: 'super-tall', 
+      id: 7, 
+      imageUrl: '/gallery/work_7.png', 
+      aspect: 'tall', 
       width: 600,
-      height: 550,
-      alt: 'Detailed carpentry blueprints for custom wood fitting and furniture design in Shivamogga' 
+      height: 350,
+      alt: 'Home repair tools circular saw, drill, angle grinder and jigsaw setup' 
+    },
+    { 
+      id: 8, 
+      imageUrl: '/gallery/work_8.png', 
+      aspect: 'short', 
+      width: 600,
+      height: 180,
+      alt: 'Bathroom tap replacement and pipe leakage repairs' 
+    },
+    { 
+      id: 9, 
+      imageUrl: '/gallery/work_9.png', 
+      aspect: 'short', 
+      width: 600,
+      height: 180,
+      alt: 'High quality switch board repair and socket installation' 
+    }
+  ],
+  [
+    { 
+      id: 10, 
+      imageUrl: '/gallery/work_10.png', 
+      aspect: 'short', 
+      width: 600,
+      height: 180,
+      alt: 'Professional wardrobe assembly and hinge fittings in bedroom' 
+    },
+    { 
+      id: 11, 
+      imageUrl: '/gallery/work_11.jpeg', 
+      aspect: 'short', 
+      width: 600,
+      height: 180,
+      alt: 'Conduit wiring and distribution board box setup above door frame' 
+    },
+    { 
+      id: 12, 
+      imageUrl: '/gallery/work_12.jpeg', 
+      aspect: 'short', 
+      width: 600,
+      height: 180,
+      alt: 'Clean plumbing pipe repair and valve installation' 
+    },
+    { 
+      id: 13, 
+      imageUrl: '/gallery/work_13.jpeg', 
+      aspect: 'short', 
+      width: 600,
+      height: 180,
+      alt: 'Geyser service and plumbing line check completed in bathroom' 
     }
   ]
 ];
