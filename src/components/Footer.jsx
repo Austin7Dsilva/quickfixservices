@@ -261,7 +261,12 @@ export default function Footer() {
                         <ul className="footer-contact-list">
                             <li>
                                 <FaPhoneAlt className="footer-contact-icon" />
-                                <a href="tel:+918095867649" aria-label="Call Quick Fix Services at +91 8095867649">+91 8095867649</a>
+                                <a
+                                    href="tel:+918095867649"
+                                    aria-label="Call Quick Fix Services at +91 8095867649"
+                                >
+                                    +91 8095867649
+                                </a>
                             </li>
                             <li>
                                 <FaWhatsapp className="footer-contact-icon text-green" />
@@ -276,13 +281,19 @@ export default function Footer() {
                             </li>
                             <li>
                                 <FaEnvelope className="footer-contact-icon" />
-                                <a href="mailto:ka14quickfixservices@gmail.com" aria-label="Email Quick Fix Services at ka14quickfixservices@gmail.com">
+                                <a
+                                    href="mailto:ka14quickfixservices@gmail.com"
+                                    aria-label="Email Quick Fix Services at ka14quickfixservices@gmail.com"
+                                >
                                     ka14quickfixservices@gmail.com
                                 </a>
                             </li>
                             <li>
                                 <FaMapMarkerAlt className="footer-contact-icon" />
-                                <span>Gandhi Nagar, 100 Feet Road, Shivamogga, Karnataka - 577201</span>
+                                <span>
+                                    Chalukya nagar, Shivamogga, Karnataka -
+                                    577201
+                                </span>
                             </li>
                         </ul>
                     </div>

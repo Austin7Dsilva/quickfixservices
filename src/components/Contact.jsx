@@ -34,7 +34,10 @@ export default function Contact() {
                             Contact Details
                         </h3>
 
-                        <address className="contact-info-list" style={{ fontStyle: "normal" }}>
+                        <address
+                            className="contact-info-list"
+                            style={{ fontStyle: "normal" }}
+                        >
                             <ul>
                                 <li>
                                     <div className="contact-icon-box">
@@ -101,7 +104,7 @@ export default function Contact() {
                                             Business Hours
                                         </span>
                                         <span className="contact-value">
-                                            8:00 AM – 8:00 PM, Daily
+                                            9:00 AM – 11:00 PM, Daily
                                         </span>
                                     </div>
                                 </li>
@@ -115,7 +118,8 @@ export default function Contact() {
                                             Business Address
                                         </span>
                                         <span className="contact-value">
-                                            Gandhi Nagar, 100 Feet Road, Shivamogga, Karnataka 577201
+                                            Chalukya Nagar, Shivamogga,
+                                            Karnataka 577201
                                         </span>
                                     </div>
                                 </li>
@@ -185,10 +189,7 @@ export default function Contact() {
                             <div className="map-footer-banner">
                                 <div className="map-footer-text">
                                     <FaCompass className="map-compass-icon" />
-                                    <span>
-                                        Serving Vinoba Nagar, Gopala, Jayanagar
-                                        & surrounding areas in Shivamogga.
-                                    </span>
+                                    <span>Serving all over Shivamogga.</span>
                                 </div>
                                 <a
                                     href="https://maps.google.com/?q=Gandhi+Nagar,+100+Feet+Road,+Shivamogga,+Karnataka+577201"

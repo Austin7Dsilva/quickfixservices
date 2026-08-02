@@ -43,7 +43,8 @@ const services = [
         icon: FaTint,
         description:
             "Water leakage repair, pipe repair, tap fix, and complete bathroom plumbing solutions by experienced plumbers in Shivamogga.",
-        message: "Hi, I want to book General Plumbing Services / Plumber in Shivamogga.",
+        message:
+            "Hi, I want to book General Plumbing Services / Plumber in Shivamogga.",
     },
     {
         id: "carp-gen",
@@ -52,7 +53,8 @@ const services = [
         icon: FaHammer,
         description:
             "Affordable carpentry in Shivamogga including door repair, cabinet fix, lock repair, and custom woodwork solutions.",
-        message: "Hi, I want to book Carpentry Services / Carpenter in Shivamogga.",
+        message:
+            "Hi, I want to book Carpentry Services / Carpenter in Shivamogga.",
     },
     {
         id: "furn-assembly",
@@ -71,7 +73,8 @@ const services = [
         icon: FaTv,
         description:
             "Secure TV wall mount installation for all sizes and brands with clean wire concealment and precise level alignment.",
-        message: "Hi, I want to book TV Wall Mount / TV Installation in Shivamogga.",
+        message:
+            "Hi, I want to book TV Wall Mount / TV Installation in Shivamogga.",
     },
     {
         id: "fan-install",
@@ -107,17 +110,17 @@ const services = [
         icon: FaToggleOn,
         description:
             "Burnt switch board repair, loose wire tightening, new socket installation, and electrical safety diagnostics.",
-        message: "Hi, I want to book Switch Board Repair / Socket Replacement in Shivamogga.",
+        message:
+            "Hi, I want to book Switch Board Repair / Socket Replacement in Shivamogga.",
     },
     {
         id: "geyser-install",
-        title: "Geyser Service & Install",
+        title: "Geyser Installation",
         category: "plumbing",
         icon: FaHotTub,
         description:
-            "Water heater/geyser installation, element replacement, scaling clean, and leak repair by expert technicians.",
-        message:
-            "Hi, I want to book Geyser Installation & Service in Shivamogga.",
+            "Water heater/geyser installation or replacement in Shivamogga by expert technicians.",
+        message: "Hi, I want to book Geyser Installation in Shivamogga.",
     },
     {
         id: "bath-accessories",
@@ -145,7 +148,8 @@ const services = [
         icon: FaTools,
         description:
             "Quick wall drilling service for photo frames, wall clocks, keyholders, and heavy mirror decorations.",
-        message: "Hi, I want to book Wall Drilling / Hanging Service in Shivamogga.",
+        message:
+            "Hi, I want to book Wall Drilling / Hanging Service in Shivamogga.",
     },
     {
         id: "home-maintenance",
@@ -154,7 +158,8 @@ const services = [
         icon: FaWrench,
         description:
             "Affordable handyman services in Shivamogga, latch changes, door mesh fitting, and general quick repairs.",
-        message: "Hi, I want to book Home Maintenance / Handyman Services in Shivamogga.",
+        message:
+            "Hi, I want to book Home Maintenance / Handyman Services in Shivamogga.",
     },
 ];
 
@@ -176,13 +181,21 @@ export default function Services() {
             <div className="container">
                 {/* Section Header */}
                 <div className="services-section-header reveal">
-                    <span className="services-header-badge">OUR SERVICES IN SHIVAMOGGA</span>
+                    <span className="services-header-badge">
+                        OUR SERVICES IN SHIVAMOGGA
+                    </span>
                     <h2 className="services-header-title">
-                        Home Maintenance & Repair Services,<br />
-                        <span className="services-header-title-accent">Done Right in Shivamogga</span>
+                        Home Maintenance & Repair Services,
+                        <br />
+                        <span className="services-header-title-accent">
+                            Done Right in Shivamogga
+                        </span>
                     </h2>
                     <p className="services-header-text">
-                        From emergency electrical repairs to expert plumbing and professional carpentry — our skilled local technicians in Shivamogga handle every job with absolute care and precision.
+                        From emergency electrical repairs to expert plumbing and
+                        professional carpentry — our skilled local technicians
+                        in Shivamogga handle every job with absolute care and
+                        precision.
                     </p>
                     <div className="services-header-line" aria-hidden="true" />
                 </div>
