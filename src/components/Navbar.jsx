@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes, FaWhatsapp, FaPhoneAlt } from 'react-icons/fa';
 import logo from '../assets/logo.png';
 
 const navItems = [
@@ -48,6 +48,10 @@ export default function Navbar({ activeSection }) {
     }
   };
 
+  const whatsappLink = `https://wa.me/919876543210?text=${encodeURIComponent(
+    "Hi Quick Fix Services, I would like to book a home maintenance service in Shivamogga. Please let me know the availability."
+  )}`;
+
   return (
     <header 
       className={`navbar ${isScrolled ? 'navbar-scrolled' : ''}`}
@@ -76,6 +80,18 @@ export default function Navbar({ activeSection }) {
             ))}
           </ul>
         </nav>
+
+        {/* Desktop Right Side CTAs */}
+        <div className="navbar-ctas-desktop">
+          <a href="tel:+919876543210" className="navbar-call-link">
+            <FaPhoneAlt size={14} className="navbar-call-icon" />
+            <span>Call</span>
+          </a>
+          <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="btn-whatsapp-nav">
+            <FaWhatsapp size={14} />
+            <span>WhatsApp</span>
+          </a>
+        </div>
 
         {/* Mobile Menu Button */}
         <button
@@ -119,6 +135,18 @@ export default function Navbar({ activeSection }) {
               </li>
             ))}
           </ul>
+
+          {/* Mobile Drawer CTAs */}
+          <div className="navbar-mobile-ctas">
+            <a href="tel:+919876543210" className="navbar-mobile-call-btn">
+              <FaPhoneAlt size={14} />
+              <span>Call Now</span>
+            </a>
+            <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="navbar-mobile-whatsapp-btn">
+              <FaWhatsapp size={16} />
+              <span>WhatsApp Booking</span>
+            </a>
+          </div>
         </nav>
       </div>
       

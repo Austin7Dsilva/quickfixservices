@@ -1,5 +1,14 @@
 import React from 'react';
-import { FaWhatsapp, FaPhoneAlt, FaTools, FaCheck } from 'react-icons/fa';
+import { 
+  FaWhatsapp, 
+  FaPhoneAlt, 
+  FaChevronDown, 
+  FaBolt, 
+  FaRupeeSign, 
+  FaShieldAlt, 
+  FaUsers, 
+  FaStar 
+} from 'react-icons/fa';
 
 export default function Hero() {
   const handleScrollToServices = (e) => {
@@ -33,18 +42,20 @@ export default function Hero() {
         <div className="hero-content fade-in">
           {/* Tagline */}
           <div className="hero-badge">
-            <span className="hero-badge-dot" />
-            <span className="hero-badge-text">#1 Home Maintenance Service in Shivamogga</span>
+            <FaStar className="badge-star-icon" size={12} />
+            <span className="hero-badge-text">SHIVAMOGGA'S TRUSTED HOME REPAIR EXPERTS</span>
           </div>
 
           {/* Main Title */}
-          <h1 className="hero-title text-gradient">
-            Professional Home Repair Services in Shivamogga
+          <h1 className="hero-title">
+            Professional Home<br />
+            Repair<br />
+            Services in <span className="text-gold">Shivamogga</span>
           </h1>
 
           {/* Subheading */}
           <p className="hero-subtitle">
-            Reliable Electrical, Plumbing, Carpentry, Furniture Assembly, TV Wall Mount, Geyser installation, and general repairs. Done by trusted local professionals.
+            Electrical, Plumbing, Carpentry, Furniture Assembly, TV Installation and Complete Home Maintenance Services — delivered by skilled local professionals, right to your doorstep.
           </p>
 
           {/* Call to Actions */}
@@ -53,53 +64,75 @@ export default function Hero() {
               href={whatsappLink} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="btn btn-secondary hero-btn"
+              className="btn-whatsapp-hero"
             >
               <FaWhatsapp size={20} />
-              Book on WhatsApp
+              <span>Book on WhatsApp</span>
             </a>
             <a 
               href="tel:+919876543210" 
-              className="btn btn-primary hero-btn"
+              className="btn-call-hero"
             >
               <FaPhoneAlt size={16} />
-              Call Now
+              <span>Call Now</span>
             </a>
             <a 
               href="#services" 
               onClick={handleScrollToServices}
-              className="btn btn-outline hero-btn"
+              className="btn-explore-hero"
             >
-              <FaTools size={16} />
-              Explore Services
+              <span>Explore Services</span>
+              <FaChevronDown size={14} />
             </a>
           </div>
 
-          {/* Trust Badges */}
-          <div className="hero-trust-badges">
-            <div className="trust-badge">
-              <div className="trust-badge-icon">
-                <FaCheck size={12} />
+          {/* 2x2 Trust Badges Grid */}
+          <div className="hero-trust-grid">
+            <div className="trust-card">
+              <div className="trust-card-icon-container">
+                <FaBolt size={14} />
               </div>
-              <span>Same-Day Service</span>
+              <span className="trust-card-text">Same-Day Service</span>
             </div>
-            <div className="trust-badge">
-              <div className="trust-badge-icon">
-                <FaCheck size={12} />
+            <div className="trust-card">
+              <div className="trust-card-icon-container">
+                <FaRupeeSign size={14} />
               </div>
-              <span>Affordable Pricing</span>
+              <span className="trust-card-text">Affordable Pricing</span>
             </div>
-            <div className="trust-badge">
-              <div className="trust-badge-icon">
-                <FaCheck size={12} />
+            <div className="trust-card">
+              <div className="trust-card-icon-container">
+                <FaShieldAlt size={14} />
               </div>
-              <span>3-Month Workmanship Guarantee</span>
+              <span className="trust-card-text">3-Month Workmanship Guarantee</span>
             </div>
-            <div className="trust-badge">
-              <div className="trust-badge-icon">
-                <FaCheck size={12} />
+            <div className="trust-card">
+              <div className="trust-card-icon-container">
+                <FaUsers size={14} />
               </div>
-              <span>Trusted Local Professionals</span>
+              <span className="trust-card-text">Trusted Local Professionals</span>
+            </div>
+          </div>
+
+          {/* Bottom Metrics Grid */}
+          <div className="hero-metrics-grid">
+            <div className="metric-card">
+              <div className="metric-value">5,000+</div>
+              <div className="metric-label">REPAIRS COMPLETED</div>
+            </div>
+            <div className="metric-card">
+              <div className="metric-value">
+                4.9<FaStar size={18} className="metric-star-icon" />
+              </div>
+              <div className="metric-label">CUSTOMER RATING</div>
+            </div>
+            <div className="metric-card">
+              <div className="metric-value">3 Months</div>
+              <div className="metric-label">WORKMANSHIP GUARANTEE</div>
+            </div>
+            <div className="metric-card">
+              <div className="metric-value">Same Day</div>
+              <div className="metric-label">SERVICE AVAILABLE</div>
             </div>
           </div>
         </div>
