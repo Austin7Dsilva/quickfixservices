@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import {
     FaFacebookF,
     FaInstagram,
-    FaTwitter,
-    FaYoutube,
     FaPhoneAlt,
     FaWhatsapp,
     FaEnvelope,
@@ -55,7 +53,7 @@ export default function Footer() {
                         </p>
                         <div className="footer-socials">
                             <a
-                                href="https://facebook.com/quickfixshivamogga"
+                                href="https://www.facebook.com/people/Quick-fix-services/61590561497330/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="social-icon"
@@ -71,24 +69,6 @@ export default function Footer() {
                                 aria-label="Instagram"
                             >
                                 <FaInstagram />
-                            </a>
-                            <a
-                                href="https://twitter.com/quickfixshivamogga"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="social-icon"
-                                aria-label="Twitter"
-                            >
-                                <FaTwitter />
-                            </a>
-                            <a
-                                href="https://youtube.com/quickfixshivamogga"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="social-icon"
-                                aria-label="YouTube"
-                            >
-                                <FaYoutube />
                             </a>
                         </div>
                     </div>
