@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaBars, FaTimes, FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
+import { FaBars, FaTimes, FaWhatsapp, FaPhoneAlt, FaArrowLeft } from "react-icons/fa";
 import logo from "../assets/logo.png";
 
 const navItems = [
@@ -13,7 +13,7 @@ const navItems = [
     { label: "Contact", id: "contact" },
 ];
 
-export default function Navbar({ activeSection }) {
+export default function Navbar({ activeSection, isBillingView }) {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -48,6 +48,15 @@ export default function Navbar({ activeSection }) {
         }
     };
 
+    const handleLogoClick = (e) => {
+        if (isBillingView) {
+            e.preventDefault();
+            window.location.hash = "";
+        } else {
+            handleNavClick(e, "home");
+        }
+    };
+
     const whatsappLink = `https://wa.me/918095867649?text=${encodeURIComponent(
         "Hi Quick Fix Services, I would like to book a home maintenance service in Shivamogga. Please let me know the availability.",
     )}`;
@@ -62,7 +71,7 @@ export default function Navbar({ activeSection }) {
                 <a
                     href="#home"
                     className="navbar-logo-link"
-                    onClick={(e) => handleNavClick(e, "home")}
+                    onClick={handleLogoClick}
                     aria-label="Quick Fix Services - Home Page"
                 >
                     <img
@@ -75,136 +84,180 @@ export default function Navbar({ activeSection }) {
                 </a>
 
                 {/* Desktop Navigation */}
-                <nav
-                    className="navbar-desktop-nav"
-                    role="navigation"
-                    aria-label="Desktop Navigation"
-                >
-                    <ul className="navbar-nav-list">
-                        {navItems.map((item) => (
-                            <li key={item.id} className="navbar-nav-item">
+                {!isBillingView ? (
+                    <nav
+                        className="navbar-desktop-nav"
+                        role="navigation"
+                        aria-label="Desktop Navigation"
+                    >
+                        <ul className="navbar-nav-list">
+                            {navItems.map((item) => (
+                                <li key={item.id} className="navbar-nav-item">
+                                    <a
+                                        href={`#${item.id}`}
+                                        className={`navbar-nav-link ${activeSection === item.id ? "active" : ""}`}
+                                        onClick={(e) => handleNavClick(e, item.id)}
+                                        aria-current={
+                                            activeSection === item.id
+                                                ? "page"
+                                                : undefined
+                                        }
+                                    >
+                                        {item.label}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
+                ) : (
+                    <nav
+                        className="navbar-desktop-nav"
+                        role="navigation"
+                        aria-label="Billing Desktop Navigation"
+                    >
+                        <ul className="navbar-nav-list">
+                            <li className="navbar-nav-item">
                                 <a
-                                    href={`#${item.id}`}
-                                    className={`navbar-nav-link ${activeSection === item.id ? "active" : ""}`}
-                                    onClick={(e) => handleNavClick(e, item.id)}
-                                    aria-current={
-                                        activeSection === item.id
-                                            ? "page"
-                                            : undefined
-                                    }
+                                    href="/#"
+                                    className="navbar-nav-link active"
+                                    style={{ display: "flex", alignItems: "center", gap: "8px" }}
                                 >
-                                    {item.label}
+                                    <FaArrowLeft size={12} />
+                                    <span>Back to Website</span>
                                 </a>
                             </li>
-                        ))}
-                    </ul>
-                </nav>
+                        </ul>
+                    </nav>
+                )}
 
                 {/* Desktop Right Side CTAs */}
-                <div className="navbar-ctas-desktop">
-                    <a 
-                        href="tel:+918095867649" 
-                        className="navbar-call-link"
-                        aria-label="Call Quick Fix Services at +91 8095867649"
-                    >
-                        <FaPhoneAlt size={14} className="navbar-call-icon" />
-                        <span>Call</span>
-                    </a>
-                    <a
-                        href={whatsappLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-whatsapp-nav"
-                        aria-label="Book Repair Services in Shivamogga via WhatsApp"
-                    >
-                        <FaWhatsapp size={14} />
-                        <span>WhatsApp</span>
-                    </a>
-                </div>
-
-                {/* Mobile Menu Button */}
-                <button
-                    className="navbar-mobile-toggle"
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    aria-expanded={isMobileMenuOpen}
-                    aria-label="Toggle Navigation Menu"
-                    aria-controls="mobile-nav"
-                >
-                    {isMobileMenuOpen ? (
-                        <FaTimes size={24} />
-                    ) : (
-                        <FaBars size={24} />
-                    )}
-                </button>
-            </div>
-
-            {/* Mobile Drawer Menu */}
-            <div
-                id="mobile-nav"
-                className={`navbar-mobile-drawer ${isMobileMenuOpen ? "open" : ""}`}
-                aria-hidden={!isMobileMenuOpen}
-            >
-                <div className="navbar-mobile-drawer-header">
-                    <img
-                        src={logo}
-                        alt="Quick Fix Services Logo"
-                        className="navbar-logo"
-                        width="300"
-                        height="300"
-                    />
-                    <button
-                        className="navbar-mobile-close"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        aria-label="Close Navigation Menu"
-                    >
-                        <FaTimes size={24} />
-                    </button>
-                </div>
-                <nav
-                    className="navbar-mobile-nav"
-                    role="navigation"
-                    aria-label="Mobile Navigation"
-                >
-                    <ul className="navbar-mobile-list">
-                        {navItems.map((item) => (
-                            <li key={item.id} className="navbar-mobile-item">
-                                <a
-                                    href={`#${item.id}`}
-                                    className={`navbar-mobile-link ${activeSection === item.id ? "active" : ""}`}
-                                    onClick={(e) => handleNavClick(e, item.id)}
-                                >
-                                    {item.label}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
-
-                    {/* Mobile Drawer CTAs */}
-                    <div className="navbar-mobile-ctas">
-                        <a
-                            href="tel:+918095867649"
-                            className="navbar-mobile-call-btn"
+                {!isBillingView ? (
+                    <div className="navbar-ctas-desktop">
+                        <a 
+                            href="tel:+918095867649" 
+                            className="navbar-call-link"
                             aria-label="Call Quick Fix Services at +91 8095867649"
                         >
-                            <FaPhoneAlt size={14} />
-                            <span>Call Now</span>
+                            <FaPhoneAlt size={14} className="navbar-call-icon" />
+                            <span>Call</span>
                         </a>
                         <a
                             href={whatsappLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="navbar-mobile-whatsapp-btn"
-                            aria-label="Book Home Maintenance on WhatsApp"
+                            className="btn-whatsapp-nav"
+                            aria-label="Book Repair Services in Shivamogga via WhatsApp"
                         >
-                            <FaWhatsapp size={16} />
-                            <span>WhatsApp Booking</span>
+                            <FaWhatsapp size={14} />
+                            <span>WhatsApp</span>
                         </a>
                     </div>
-                </nav>
+                ) : null}
+
+                {/* Mobile Menu Button / Exit Portal Button */}
+                {isBillingView ? (
+                    <a
+                        href="/#"
+                        className="navbar-mobile-toggle"
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "6px",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                            color: isScrolled ? "#1e293b" : "var(--text-light)"
+                        }}
+                        aria-label="Back to Website"
+                    >
+                        <FaArrowLeft size={14} />
+                        <span>Exit Portal</span>
+                    </a>
+                ) : (
+                    <button
+                        className="navbar-mobile-toggle"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        aria-expanded={isMobileMenuOpen}
+                        aria-label="Toggle Navigation Menu"
+                        aria-controls="mobile-nav"
+                    >
+                        {isMobileMenuOpen ? (
+                            <FaTimes size={24} />
+                        ) : (
+                            <FaBars size={24} />
+                        )}
+                    </button>
+                )}
             </div>
 
+            {/* Mobile Drawer Menu */}
+            {!isBillingView && (
+                <div
+                    id="mobile-nav"
+                    className={`navbar-mobile-drawer ${isMobileMenuOpen ? "open" : ""}`}
+                    aria-hidden={!isMobileMenuOpen}
+                >
+                    <div className="navbar-mobile-drawer-header">
+                        <img
+                            src={logo}
+                            alt="Quick Fix Services Logo"
+                            className="navbar-logo"
+                            width="300"
+                            height="300"
+                        />
+                        <button
+                            className="navbar-mobile-close"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            aria-label="Close Navigation Menu"
+                        >
+                            <FaTimes size={24} />
+                        </button>
+                    </div>
+                    <nav
+                        className="navbar-mobile-nav"
+                        role="navigation"
+                        aria-label="Mobile Navigation"
+                    >
+                        <ul className="navbar-mobile-list">
+                            {navItems.map((item) => (
+                                <li key={item.id} className="navbar-mobile-item">
+                                    <a
+                                        href={`#${item.id}`}
+                                        className={`navbar-mobile-link ${activeSection === item.id ? "active" : ""}`}
+                                        onClick={(e) => handleNavClick(e, item.id)}
+                                    >
+                                        {item.label}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+
+                        {/* Mobile Drawer CTAs */}
+                        <div className="navbar-mobile-ctas">
+                            <a
+                                href="tel:+918095867649"
+                                className="navbar-mobile-call-btn"
+                                aria-label="Call Quick Fix Services at +91 8095867649"
+                            >
+                                <FaPhoneAlt size={14} />
+                                <span>Call Now</span>
+                            </a>
+                            <a
+                                href={whatsappLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="navbar-mobile-whatsapp-btn"
+                                aria-label="Book Home Maintenance on WhatsApp"
+                            >
+                                <FaWhatsapp size={16} />
+                                <span>WhatsApp Booking</span>
+                            </a>
+                        </div>
+                    </nav>
+                </div>
+            )}
+
             {/* Mobile Drawer Overlay */}
-            {isMobileMenuOpen && (
+            {!isBillingView && isMobileMenuOpen && (
                 <div
                     className="navbar-mobile-overlay"
                     onClick={() => setIsMobileMenuOpen(false)}

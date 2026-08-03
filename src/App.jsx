@@ -20,6 +20,7 @@ import FAQ from './components/FAQ';
 import Contact from './components/Contact';
 import FloatingCTA from './components/FloatingCTA';
 import Footer from './components/Footer';
+import Billing from './components/Billing';
 
 const sectionIds = [
   'home',
@@ -36,12 +37,31 @@ export default function App() {
   const activeSection = useScrollSpy(sectionIds, 120);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [view, setView] = useState('landing'); // 'landing' or 'billing'
 
   // Trigger scroll-reveal animations
   useScrollReveal();
 
   useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === '#billing') {
+        setView('billing');
+      } else {
+        setView('landing');
+      }
+    };
+
+    // Initial check
+    handleHashChange();
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
+      if (view !== 'landing') return;
+
       // Calculate Scroll Progress
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (totalHeight > 0) {
@@ -59,7 +79,7 @@ export default function App() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [view]);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -68,77 +88,89 @@ export default function App() {
     });
   };
 
+  const isBillingView = view === 'billing';
+
   return (
     <>
       {/* Scroll Progress Bar */}
-      <div 
-        className="scroll-progress-indicator"
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          height: '4px',
-          width: `${scrollProgress}%`,
-          background: 'var(--primary-gradient)',
-          zIndex: 9999,
-          transition: 'width 0.1s ease-out',
-        }}
-        role="progressbar"
-        aria-valuenow={Math.round(scrollProgress)}
-        aria-valuemin="0"
-        aria-valuemax="100"
-      />
+      {!isBillingView && (
+        <div 
+          className="scroll-progress-indicator"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            height: '4px',
+            width: `${scrollProgress}%`,
+            background: 'var(--primary-gradient)',
+            zIndex: 9999,
+            transition: 'width 0.1s ease-out',
+          }}
+          role="progressbar"
+          aria-valuenow={Math.round(scrollProgress)}
+          aria-valuemin="0"
+          aria-valuemax="100"
+        />
+      )}
 
       {/* Sticky Navigation */}
-      <Navbar activeSection={activeSection} />
+      <Navbar activeSection={activeSection} isBillingView={isBillingView} />
 
       {/* Main Content Layout */}
       <main id="main-content" role="main">
-        <Hero />
-        <Services />
-        <WhyChooseUs />
-        <HowItWorks />
-        <Gallery />
-        <Reviews />
-        <FAQ />
-        <Contact />
+        {isBillingView ? (
+          <Billing />
+        ) : (
+          <>
+            <Hero />
+            <Services />
+            <WhyChooseUs />
+            <HowItWorks />
+            <Gallery />
+            <Reviews />
+            <FAQ />
+            <Contact />
+          </>
+        )}
       </main>
 
       {/* Persistent Floating Quick CTAs */}
-      <FloatingCTA />
+      {!isBillingView && <FloatingCTA />}
 
       {/* Sticky Footer */}
-      <Footer />
+      <Footer isBillingView={isBillingView} />
 
       {/* Scroll To Top Action Button */}
-      <button
-        className={`scroll-to-top ${showScrollTop ? 'visible' : ''}`}
-        onClick={scrollToTop}
-        aria-label="Scroll back to top of the page"
-        style={{
-          position: 'fixed',
-          bottom: '95px',
-          right: '35px',
-          width: '44px',
-          height: '44px',
-          borderRadius: '50%',
-          backgroundColor: 'var(--bg-card)',
-          border: '1px solid var(--border-color)',
-          color: 'var(--primary-gold)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          zIndex: 998,
-          opacity: showScrollTop ? 1 : 0,
-          transform: showScrollTop ? 'translateY(0)' : 'translateY(20px)',
-          transition: 'opacity 0.3s ease, transform 0.3s ease, border-color 0.3s ease, color 0.3s ease',
-          pointerEvents: showScrollTop ? 'auto' : 'none',
-          boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)'
-        }}
-      >
-        <FaChevronUp size={16} />
-      </button>
+      {!isBillingView && (
+        <button
+          className={`scroll-to-top ${showScrollTop ? 'visible' : ''}`}
+          onClick={scrollToTop}
+          aria-label="Scroll back to top of the page"
+          style={{
+            position: 'fixed',
+            bottom: '95px',
+            right: '35px',
+            width: '44px',
+            height: '44px',
+            borderRadius: '50%',
+            backgroundColor: 'var(--bg-card)',
+            border: '1px solid var(--border-color)',
+            color: 'var(--primary-gold)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            zIndex: 998,
+            opacity: showScrollTop ? 1 : 0,
+            transform: showScrollTop ? 'translateY(0)' : 'translateY(20px)',
+            transition: 'opacity 0.3s ease, transform 0.3s ease, border-color 0.3s ease, color 0.3s ease',
+            pointerEvents: showScrollTop ? 'auto' : 'none',
+            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)'
+          }}
+        >
+          <FaChevronUp size={16} />
+        </button>
+      )}
     </>
   );
 }

@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa";
 import logo from "../assets/logo.png";
 
-export default function Footer() {
+export default function Footer({ isBillingView }) {
     const [modalType, setModalType] = useState(null); // 'privacy' or 'terms' or null
 
     const handleScrollClick = (e, id) => {
@@ -302,6 +302,22 @@ export default function Footer() {
                         >
                             Terms & Conditions
                         </button>
+                        <span className="policy-divider">|</span>
+                        {isBillingView ? (
+                            <a
+                                className="policy-btn"
+                                href="/#"
+                            >
+                                Back to Main Site
+                            </a>
+                        ) : (
+                            <a
+                                className="policy-btn"
+                                href="#billing"
+                            >
+                                Staff Billing Portal
+                            </a>
+                        )}
                     </div>
                 </div>
             </div>
