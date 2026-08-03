@@ -52,10 +52,23 @@ export default function Billing() {
   const [isGenerating, setIsGenerating] = useState(false);
   const descriptionRef = useRef(null);
 
+  // Authentication states
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [enteredPin, setEnteredPin] = useState('');
+  const [pinError, setPinError] = useState('');
+  const pinInputRef = useRef(null);
+
   // Auto-scroll to top when component loads
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Auto-focus PIN input field on mount or error reset
+  useEffect(() => {
+    if (!isAuthenticated && pinInputRef.current) {
+      pinInputRef.current.focus();
+    }
+  }, [isAuthenticated]);
 
   // Format Date to "Month Day, Year" (e.g. August 1, 2026)
   const formatDate = (dateStr) => {
@@ -76,6 +89,65 @@ export default function Billing() {
       maximumFractionDigits: 2
     }).format(num);
   };
+
+  const handleVerifyPin = (e) => {
+    if (e) e.preventDefault();
+    if (enteredPin === 'Jesus@123') {
+      setIsAuthenticated(true);
+      setPinError('');
+    } else {
+      setPinError('Incorrect PIN. Access Denied.');
+      setEnteredPin('');
+      if (pinInputRef.current) {
+        pinInputRef.current.focus();
+      }
+    }
+  };
+
+  const handleCancelPin = () => {
+    window.location.hash = '';
+  };
+
+  // If not authenticated, render the PIN verification modal
+  if (!isAuthenticated) {
+    return (
+      <div className="billing-auth-overlay">
+        <div className="billing-auth-card glass-panel">
+          <div className="billing-auth-icon-wrapper">
+            <FaShieldAlt className="billing-auth-icon" />
+          </div>
+          <h3 className="billing-auth-title">Administrative Access</h3>
+          <p className="billing-auth-desc">Please enter the security PIN to access the billing generator.</p>
+          
+          <form onSubmit={handleVerifyPin} className="billing-auth-form">
+            <div className="billing-form-group">
+              <input
+                ref={pinInputRef}
+                type="password"
+                className="billing-input auth-pin-input"
+                placeholder="Enter PIN"
+                value={enteredPin}
+                onChange={(e) => {
+                  setEnteredPin(e.target.value);
+                  if (pinError) setPinError('');
+                }}
+              />
+              {pinError && <span className="auth-error-msg">{pinError}</span>}
+            </div>
+            
+            <div className="billing-auth-actions">
+              <button type="submit" className="billing-btn-submit auth-submit-btn">
+                Verify Access
+              </button>
+              <button type="button" className="policy-btn auth-cancel-btn" onClick={handleCancelPin}>
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   // Add Item to the list
   const handleAddItem = () => {

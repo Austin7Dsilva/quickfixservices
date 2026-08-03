@@ -754,3 +754,111 @@
 .invoice-footer-phone-icon {
   font-size: 10px;
 }
+
+/* --- Authentication Overlay --- */
+.billing-auth-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(6, 10, 22, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 10000; /* Over navbar */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.billing-auth-card {
+  width: 400px;
+  max-width: 90%;
+  padding: 40px 32px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 184, 0, 0.15);
+}
+
+.billing-auth-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: rgba(255, 184, 0, 0.08);
+  border: 1px solid rgba(255, 184, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px auto;
+  color: var(--primary-gold);
+}
+
+.billing-auth-icon {
+  font-size: 26px;
+}
+
+.billing-auth-title {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-light);
+}
+
+.billing-auth-desc {
+  font-size: 14px;
+  color: var(--text-body);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.billing-auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-pin-input {
+  text-align: center;
+  font-size: 18px;
+  letter-spacing: 3px;
+  font-weight: 700;
+  border-color: rgba(255, 184, 0, 0.2);
+}
+
+.auth-pin-input:focus {
+  border-color: var(--primary-gold);
+}
+
+.auth-error-msg {
+  color: #ef4444;
+  font-size: 13px;
+  margin-top: 8px;
+  display: block;
+  font-weight: 500;
+}
+
+.billing-auth-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.auth-submit-btn {
+  width: 100%;
+}
+
+.auth-cancel-btn {
+  font-size: 13px;
+  align-self: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
