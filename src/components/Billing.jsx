@@ -31,23 +31,30 @@ export default function Billing() {
     {
       id: 1,
       description: 'LED Tube Light (New)',
+      qty: 1,
+      rate: 320.00,
       amount: 320.00
     },
     {
       id: 2,
       description: 'Bulb Holder for Street Light',
+      qty: 1,
+      rate: 40.00,
       amount: 40.00
     },
     {
       id: 3,
       description: 'Labour Work & Travel\nTime: 12:00 PM IST to 7:00 PM IST (7 Hours)\nWork Done:\n• Two Tube Light Fittings\n• One Street Light Fitting\n• Street Light Fault Diagnosis (Near Kitchen)\n• Fan Fault Diagnosis\n• Door Edge Cutting (Near Door)\n• Switchboard Fitting\n• Loose Switchboard Tightening\n• Travelling Charges Included',
+      qty: 1,
+      rate: 1500.00,
       amount: 1500.00
     }
   ]);
 
   // Form states for adding a new item
   const [newDescription, setNewDescription] = useState('');
-  const [newAmount, setNewAmount] = useState('');
+  const [newQty, setNewQty] = useState('1');
+  const [newRate, setNewRate] = useState('');
   
   const [isGenerating, setIsGenerating] = useState(false);
   const descriptionRef = useRef(null);
@@ -149,31 +156,64 @@ export default function Billing() {
     );
   }
 
+  // Extract number from quantity string (e.g. "1.5 m" -> 1.5, "10 boxes" -> 10, "one" -> 1)
+  const parseQuantityValue = (qtyStr) => {
+    if (!qtyStr) return 1;
+    const cleanStr = qtyStr.toString().replace(/,/g, '').trim();
+    const match = cleanStr.match(/(\d+(?:\.\d+)?)/);
+    if (match) {
+      const val = parseFloat(match[1]);
+      return isNaN(val) ? 1 : val;
+    }
+    const wordMap = {
+      one: 1, two: 2, three: 3, four: 4, five: 5,
+      six: 6, seven: 7, eight: 8, nine: 9, ten: 10
+    };
+    const firstWord = cleanStr.toLowerCase().split(/\s+/)[0];
+    if (wordMap[firstWord] !== undefined) {
+      return wordMap[firstWord];
+    }
+    return 1;
+  };
+
   // Add Item to the list
   const handleAddItem = () => {
     const trimmedDesc = newDescription.trim();
-    const parsedAmount = parseFloat(newAmount);
+    const trimmedQty = newQty.trim();
+    const parsedQty = parseQuantityValue(trimmedQty);
+    const parsedRate = parseFloat(newRate);
 
     if (!trimmedDesc) {
       alert('Please enter a description.');
       return;
     }
-    if (isNaN(parsedAmount) || parsedAmount < 0) {
-      alert('Please enter a valid amount.');
+    if (!trimmedQty) {
+      alert('Please enter a quantity.');
+      return;
+    }
+    if (isNaN(parsedQty) || parsedQty <= 0) {
+      alert('Please enter a valid quantity (greater than 0).');
+      return;
+    }
+    if (isNaN(parsedRate) || parsedRate < 0) {
+      alert('Please enter a valid rate.');
       return;
     }
 
     const newItem = {
       id: Date.now(),
       description: trimmedDesc,
-      amount: parsedAmount
+      qty: trimmedQty, // Save raw input string (e.g. "1 m")
+      rate: parsedRate,
+      amount: parsedQty * parsedRate
     };
 
     setItems([...items, newItem]);
     
     // Clear inputs and refocus description field
     setNewDescription('');
-    setNewAmount('');
+    setNewQty('1');
+    setNewRate('');
     if (descriptionRef.current) {
       descriptionRef.current.focus();
     }
@@ -184,7 +224,7 @@ export default function Billing() {
     setItems(items.filter(item => item.id !== id));
   };
 
-  // Amount field key listener (Enter adds the item)
+  // Rate field key listener (Enter adds the item)
   const handleAmountKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -334,13 +374,22 @@ export default function Billing() {
               />
               <span className="keyboard-tip">Tip: Press Shift + Enter for bullet details.</span>
             </div>
-            <div className="billing-item-amount-col">
+            <div className="billing-item-qty-col">
+              <input
+                type="text"
+                className="billing-input"
+                placeholder="Qty"
+                value={newQty}
+                onChange={(e) => setNewQty(e.target.value)}
+              />
+            </div>
+            <div className="billing-item-rate-col">
               <input
                 type="number"
                 className="billing-input"
-                placeholder="Amount (₹)"
-                value={newAmount}
-                onChange={(e) => setNewAmount(e.target.value)}
+                placeholder="Rate (₹)"
+                value={newRate}
+                onChange={(e) => setNewRate(e.target.value)}
                 onKeyDown={handleAmountKeyDown}
               />
             </div>
@@ -348,7 +397,7 @@ export default function Billing() {
               type="button" 
               className="billing-btn-add" 
               onClick={handleAddItem}
-              title="Add Item (Or press Enter in Amount field)"
+              title="Add Item (Or press Enter in Rate field)"
             >
               <FaPlus />
             </button>
@@ -369,7 +418,9 @@ export default function Billing() {
               <thead>
                 <tr>
                   <th>Description</th>
-                  <th>Amount</th>
+                  <th style={{ width: '50px', textAlign: 'center' }}>Qty</th>
+                  <th>Rate</th>
+                  <th>Total</th>
                   <th style={{ width: '40px' }}></th>
                 </tr>
               </thead>
@@ -378,6 +429,12 @@ export default function Billing() {
                   <tr key={item.id}>
                     <td>
                       <div className="editor-item-desc">{item.description}</div>
+                    </td>
+                    <td style={{ textAlign: 'center' }}>
+                      <span className="editor-item-qty">{item.qty || 1}</span>
+                    </td>
+                    <td>
+                      <span className="editor-item-rate">₹ {formatAmount(item.rate || item.amount)}</span>
                     </td>
                     <td>
                       <span className="editor-item-amount">₹ {formatAmount(item.amount)}</span>
@@ -461,7 +518,9 @@ export default function Billing() {
                 <thead>
                   <tr>
                     <th className="invoice-th-desc">Description</th>
-                    <th className="invoice-th-amount">Amount (₹)</th>
+                    <th className="invoice-th-qty" style={{ width: '60px', textAlign: 'center' }}>Qty</th>
+                    <th className="invoice-th-rate" style={{ width: '120px', textAlign: 'right' }}>Rate (₹)</th>
+                    <th className="invoice-th-amount" style={{ width: '140px', textAlign: 'right' }}>Amount (₹)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -470,14 +529,20 @@ export default function Billing() {
                       <td className="invoice-cell-desc">
                         {renderDescriptionCell(item.description)}
                       </td>
-                      <td className="invoice-cell-amount">
+                      <td className="invoice-cell-qty" style={{ textAlign: 'center' }}>
+                        {item.qty || 1}
+                      </td>
+                      <td className="invoice-cell-rate" style={{ textAlign: 'right' }}>
+                        {formatAmount(item.rate || item.amount)}
+                      </td>
+                      <td className="invoice-cell-amount" style={{ textAlign: 'right' }}>
                         {formatAmount(item.amount)}
                       </td>
                     </tr>
                   ))}
                   {items.length === 0 && (
                     <tr>
-                      <td colSpan="2" style={{ textAlign: 'center', color: '#64748b', fontStyle: 'italic', padding: '30px' }}>
+                      <td colSpan="4" style={{ textAlign: 'center', color: '#64748b', fontStyle: 'italic', padding: '30px' }}>
                         No items added to invoice preview
                       </td>
                     </tr>

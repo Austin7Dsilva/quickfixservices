@@ -105,7 +105,11 @@
   flex: 3;
 }
 
-.billing-item-amount-col {
+.billing-item-qty-col {
+  flex: 0.8;
+}
+
+.billing-item-rate-col {
   flex: 1.2;
 }
 
@@ -543,7 +547,9 @@
   border-bottom: none;
 }
 
-.invoice-cell-desc {
+.invoice-cell-desc,
+.invoice-cell-qty,
+.invoice-cell-rate {
   border-right: 1px solid #e2e8f0;
 }
 
