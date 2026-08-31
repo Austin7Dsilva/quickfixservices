@@ -62,7 +62,7 @@ export default function Footer({ isBillingView }) {
                                 <FaFacebookF />
                             </a>
                             <a
-                                href="https://www.instagram.com/ka14quickfixservices/"
+                                href="https://www.instagram.com/quickfixservices.shivamogga/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="social-icon"
@@ -314,17 +314,11 @@ export default function Footer({ isBillingView }) {
                         </button>
                         <span className="policy-divider">|</span>
                         {isBillingView ? (
-                            <a
-                                className="policy-btn"
-                                href="/#"
-                            >
+                            <a className="policy-btn" href="/#">
                                 Back to Main Site
                             </a>
                         ) : (
-                            <a
-                                className="policy-btn"
-                                href="#billing"
-                            >
+                            <a className="policy-btn" href="#billing">
                                 Staff Billing Portal
                             </a>
                         )}
