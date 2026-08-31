@@ -16,13 +16,21 @@ import {
     FaRegComment,
     FaArrowRight,
     FaWhatsapp,
+    FaPaintRoller,
+    FaWater,
+    FaCogs,
+    FaIndustry,
+    FaBorderAll,
 } from "react-icons/fa";
 
 const categories = [
     { id: "all", label: "All Services" },
     { id: "electrical", label: "Electrical" },
     { id: "plumbing", label: "Plumbing" },
+    { id: "appliances", label: "Appliances & RO" },
     { id: "carpentry", label: "Carpentry & Assembly" },
+    { id: "painting", label: "Painting" },
+    { id: "fabrication", label: "Fabrication & Aluminium" },
     { id: "mounting", label: "Mounting & Drilling" },
 ];
 
@@ -46,6 +54,66 @@ const services = [
             "Water leakage repair, pipe repair, tap fix, and complete bathroom plumbing solutions by experienced plumbers in Shivamogga.",
         message:
             "Hi, I want to book General Plumbing Services / Plumber in Shivamogga.",
+    },
+    {
+        id: "appliances-gen",
+        title: "Home Appliances Service & Repair",
+        category: "appliances",
+        icon: FaCogs,
+        description:
+            "Professional diagnosis, repair, and servicing for washing machines, refrigerators, microwaves, mixers, and other household appliances in Shivamogga.",
+        message:
+            "Hi, I want to book Home Appliances Service & Repair in Shivamogga.",
+    },
+    {
+        id: "aqua-service",
+        title: "Aqua / RO Water Purifier Service",
+        category: "appliances",
+        icon: FaWater,
+        description:
+            "Complete RO water purifier servicing, filter cartridge replacement, membrane cleaning, TDS balancing, and leak fixes in Shivamogga.",
+        message:
+            "Hi, I want to book Aqua / RO Water Purifier Service in Shivamogga.",
+    },
+    {
+        id: "geyser-service",
+        title: "Geyser Service & Repair",
+        category: "appliances",
+        icon: FaHotTub,
+        description:
+            "Water heater & geyser repair, heating element replacement, thermostat diagnostics, tank descaling, and new unit installations in Shivamogga.",
+        message:
+            "Hi, I want to book Geyser Service & Repair in Shivamogga.",
+    },
+    {
+        id: "painting-services",
+        title: "Painting Services",
+        category: "painting",
+        icon: FaPaintRoller,
+        description:
+            "Interior and exterior wall painting, wall putty finish, waterproof primer coatings, texture painting, and touch-up works in Shivamogga.",
+        message:
+            "Hi, I want to book Painting Services / Painter in Shivamogga.",
+    },
+    {
+        id: "aluminium-work",
+        title: "Aluminium Work",
+        category: "fabrication",
+        icon: FaBorderAll,
+        description:
+            "Custom aluminium partition fabrication, sliding windows, aluminium doors, section framing, and mosquito mesh installations in Shivamogga.",
+        message:
+            "Hi, I want to book Aluminium Work / Partition Services in Shivamogga.",
+    },
+    {
+        id: "fabrication-work",
+        title: "Fabrication & Welding Work",
+        category: "fabrication",
+        icon: FaIndustry,
+        description:
+            "Structural steel fabrication, safety grills, iron main gates, balcony railings, shed fabrication, and on-site welding repairs in Shivamogga.",
+        message:
+            "Hi, I want to book Fabrication & Welding Work in Shivamogga.",
     },
     {
         id: "carp-gen",
@@ -113,15 +181,6 @@ const services = [
             "Burnt switch board repair, loose wire tightening, new socket installation, and electrical safety diagnostics.",
         message:
             "Hi, I want to book Switch Board Repair / Socket Replacement in Shivamogga.",
-    },
-    {
-        id: "geyser-install",
-        title: "Geyser Installation",
-        category: "plumbing",
-        icon: FaHotTub,
-        description:
-            "Water heater/geyser installation or replacement in Shivamogga by expert technicians.",
-        message: "Hi, I want to book Geyser Installation in Shivamogga.",
     },
     {
         id: "bath-accessories",

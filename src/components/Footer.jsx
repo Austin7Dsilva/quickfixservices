@@ -169,7 +169,7 @@ export default function Footer({ isBillingView }) {
                                         handleScrollClick(e, "services")
                                     }
                                 >
-                                    Electrical Services
+                                    Electrical & Lighting
                                 </a>
                             </li>
                             <li>
@@ -179,7 +179,7 @@ export default function Footer({ isBillingView }) {
                                         handleScrollClick(e, "services")
                                     }
                                 >
-                                    Plumbing Services
+                                    Plumbing Solutions
                                 </a>
                             </li>
                             <li>
@@ -189,7 +189,7 @@ export default function Footer({ isBillingView }) {
                                         handleScrollClick(e, "services")
                                     }
                                 >
-                                    Carpentry Woodwork
+                                    Home Appliances & Geyser
                                 </a>
                             </li>
                             <li>
@@ -199,7 +199,7 @@ export default function Footer({ isBillingView }) {
                                         handleScrollClick(e, "services")
                                     }
                                 >
-                                    Furniture Assembly
+                                    Aqua / RO Service
                                 </a>
                             </li>
                             <li>
@@ -209,7 +209,7 @@ export default function Footer({ isBillingView }) {
                                         handleScrollClick(e, "services")
                                     }
                                 >
-                                    TV Wall Mounting
+                                    Painting & Waterproofing
                                 </a>
                             </li>
                             <li>
@@ -219,7 +219,7 @@ export default function Footer({ isBillingView }) {
                                         handleScrollClick(e, "services")
                                     }
                                 >
-                                    Appliances Installation
+                                    Aluminium Work & Fabrication
                                 </a>
                             </li>
                             <li>
@@ -229,7 +229,17 @@ export default function Footer({ isBillingView }) {
                                         handleScrollClick(e, "services")
                                     }
                                 >
-                                    General Handyman Fixes
+                                    Carpentry & Furniture
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="#services"
+                                    onClick={(e) =>
+                                        handleScrollClick(e, "services")
+                                    }
+                                >
+                                    Mounting & Handyman
                                 </a>
                             </li>
                         </ul>
