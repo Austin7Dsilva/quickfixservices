@@ -64,6 +64,51 @@
   letter-spacing: 0.5px;
 }
 
+/* Document Type Toggle */
+.billing-doc-type-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  background-color: var(--bg-card);
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.billing-type-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 11px 16px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--text-body);
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.billing-type-btn:hover {
+  color: var(--text-light);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.billing-type-btn.active {
+  background: var(--primary-gradient);
+  color: var(--bg-dark);
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(255, 184, 0, 0.25);
+  border-color: rgba(255, 184, 0, 0.4);
+}
+
+.billing-type-icon {
+  font-size: 15px;
+}
+
 .billing-input,
 .billing-textarea {
   width: 100%;

@@ -6,7 +6,9 @@ import {
   FaTrashAlt, 
   FaArrowLeft, 
   FaShieldAlt,
-  FaFileDownload 
+  FaFileDownload,
+  FaFileInvoice,
+  FaClipboardList
 } from 'react-icons/fa';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
@@ -16,6 +18,9 @@ import logo from '../assets/logo.png';
 import './Billing.css';
 
 export default function Billing() {
+  // Document Type: 'Invoice' or 'Quotation'
+  const [docType, setDocType] = useState('Invoice');
+
   // Pre-fill fields with sample data matching the template image
   const [customerName, setCustomerName] = useState('Heaven Leaf');
   const [date, setDate] = useState(() => {
@@ -302,9 +307,10 @@ export default function Billing() {
         heightLeft -= pdfHeight;
       }
 
-      // Generate invoice filename
+      // Generate document filename based on document type
       const cleanCustomerName = customerName.trim().replace(/[^a-zA-Z0-9]/g, '_') || 'Customer';
-      pdf.save(`invoice_${cleanCustomerName}_${date}.pdf`);
+      const filePrefix = docType.toLowerCase();
+      pdf.save(`${filePrefix}_${cleanCustomerName}_${date}.pdf`);
     } catch (err) {
       console.error('Error generating PDF:', err);
       alert('An error occurred while generating the PDF. Please try again.');
@@ -346,12 +352,37 @@ export default function Billing() {
           Billing Workspace
         </h2>
         <p className="billing-editor-subtitle">
-          Generate professional service invoices for Quick Fix customers
+          Generate professional {docType === 'Invoice' ? 'service invoices' : 'quotations'} for Quick Fix customers
         </p>
 
-        {/* Billed To */}
+        {/* Document Type Selector (Invoice / Quotation) */}
         <div className="billing-form-group">
-          <label htmlFor="customerName">Customer Name (Billed To)</label>
+          <label>Document Type</label>
+          <div className="billing-doc-type-toggle">
+            <button
+              type="button"
+              className={`billing-type-btn ${docType === 'Invoice' ? 'active' : ''}`}
+              onClick={() => setDocType('Invoice')}
+            >
+              <FaFileInvoice className="billing-type-icon" />
+              <span>Invoice</span>
+            </button>
+            <button
+              type="button"
+              className={`billing-type-btn ${docType === 'Quotation' ? 'active' : ''}`}
+              onClick={() => setDocType('Quotation')}
+            >
+              <FaClipboardList className="billing-type-icon" />
+              <span>Quotation</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Billed To / Quotation For */}
+        <div className="billing-form-group">
+          <label htmlFor="customerName">
+            Customer Name ({docType === 'Invoice' ? 'Billed To' : 'Quotation For'})
+          </label>
           <input
             id="customerName"
             type="text"
@@ -364,9 +395,9 @@ export default function Billing() {
 
         {/* Date Selector */}
         <div className="billing-form-group">
-          <label htmlFor="invoiceDate">Invoice Date</label>
+          <label htmlFor="docDate">{docType} Date</label>
           <input
-            id="invoiceDate"
+            id="docDate"
             type="date"
             className="billing-input"
             value={date}
@@ -426,7 +457,9 @@ export default function Billing() {
           </div>
 
           {items.length === 0 ? (
-            <div className="editor-items-empty">No items added to invoice yet. Add an item above to get started.</div>
+            <div className="editor-items-empty">
+              No items added to {docType.toLowerCase()} yet. Add an item above to get started.
+            </div>
           ) : (
             <table className="editor-items-table">
               <thead>
@@ -470,7 +503,7 @@ export default function Billing() {
           )}
         </div>
 
-        {/* Generate Invoice Action */}
+        {/* Generate Action Button */}
         <div className="billing-editor-actions">
           <button 
             type="button" 
@@ -479,7 +512,7 @@ export default function Billing() {
             disabled={isGenerating || items.length === 0}
           >
             <FaFileDownload />
-            {isGenerating ? 'Rendering PDF...' : 'Download Invoice PDF'}
+            {isGenerating ? 'Rendering PDF...' : `Download ${docType} PDF`}
           </button>
           <a href="/#" className="policy-btn" style={{ alignSelf: 'center', marginTop: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <FaArrowLeft size={12} /> Return to Main Site
@@ -487,17 +520,17 @@ export default function Billing() {
         </div>
       </div>
 
-      {/* RIGHT SIDE: Real-time Live Invoice Preview Canvas */}
+      {/* RIGHT SIDE: Real-time Live Document Preview Canvas */}
       <div className="billing-preview-pane">
         <div className="billing-preview-title">
-          <span>Live Invoice Preview</span>
+          <span>Live {docType} Preview</span>
           <span>A4 Aspect Ratio</span>
         </div>
 
         <div className="preview-scale-wrapper">
           {/* Main print container */}
           <div className="invoice-paper" id="invoice-paper-element">
-            {/* Header: Logo, Company Name, Invoice Title & Date */}
+            {/* Header: Logo, Company Name, Document Title & Date */}
             <div className="invoice-header-row">
               <div className="invoice-header-left">
                 <img src={logo} alt="Quick Fix Services Logo" className="invoice-logo-img" />
@@ -512,7 +545,7 @@ export default function Billing() {
                 </div>
               </div>
               <div className="invoice-header-right">
-                <div className="invoice-title-text">INVOICE</div>
+                <div className="invoice-title-text">{docType.toUpperCase()}</div>
                 <div className="invoice-date-container">
                   <FaCalendarAlt className="invoice-date-icon" />
                   <span>Date: {formatDate(date)}</span>
@@ -520,9 +553,11 @@ export default function Billing() {
               </div>
             </div>
 
-            {/* Billed To Box */}
+            {/* Billed To / Quotation For Box */}
             <div className="invoice-billed-card">
-              <div className="invoice-billed-label">Billed To</div>
+              <div className="invoice-billed-label">
+                {docType === 'Invoice' ? 'Billed To' : 'Quotation For'}
+              </div>
               <div className="invoice-billed-name">{customerName || '—'}</div>
             </div>
 
@@ -557,7 +592,7 @@ export default function Billing() {
                   {items.length === 0 && (
                     <tr>
                       <td colSpan="4" style={{ textAlign: 'center', color: '#64748b', fontStyle: 'italic', padding: '30px' }}>
-                        No items added to invoice preview
+                        No items added to {docType.toLowerCase()} preview
                       </td>
                     </tr>
                   )}
@@ -582,7 +617,7 @@ export default function Billing() {
                 <div className="invoice-guarantee-title">3-Month Workmanship Guarantee</div>
                 <div className="invoice-guarantee-text">
                   We provide a 3-Month Workmanship Guarantee on the services performed.
-                  If any issue arises due to our workmanship within <strong>3 months</strong> from the invoice date,
+                  If any issue arises due to our workmanship within <strong>3 months</strong> from the {docType === 'Invoice' ? 'invoice date' : 'service completion date'},
                   Quick Fix Services will rectify the workmanship <strong>free of charge</strong>.
                 </div>
               </div>
