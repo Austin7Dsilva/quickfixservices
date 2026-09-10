@@ -134,6 +134,11 @@
   min-height: 100px;
 }
 
+.billing-textarea.customer-details-textarea {
+  min-height: 75px;
+  height: 85px;
+}
+
 .billing-input::placeholder,
 .billing-textarea::placeholder {
   color: var(--text-muted);
@@ -540,9 +545,12 @@
 
 .invoice-billed-name {
   font-family: var(--font-body);
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 600;
   color: #0b2545;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.45;
 }
 
 /* 3. Items Table styling */

@@ -308,7 +308,8 @@ export default function Billing() {
       }
 
       // Generate document filename based on document type
-      const cleanCustomerName = customerName.trim().replace(/[^a-zA-Z0-9]/g, '_') || 'Customer';
+      const firstLineName = customerName.split('\n')[0].trim();
+      const cleanCustomerName = firstLineName.replace(/[^a-zA-Z0-9]/g, '_') || 'Customer';
       const filePrefix = docType.toLowerCase();
       pdf.save(`${filePrefix}_${cleanCustomerName}_${date}.pdf`);
     } catch (err) {
@@ -381,13 +382,13 @@ export default function Billing() {
         {/* Billed To / Quotation For */}
         <div className="billing-form-group">
           <label htmlFor="customerName">
-            Customer Name ({docType === 'Invoice' ? 'Billed To' : 'Quotation For'})
+            Customer Details ({docType === 'Invoice' ? 'Billed To' : 'Quotation For'})
           </label>
-          <input
+          <textarea
             id="customerName"
-            type="text"
-            className="billing-input"
-            placeholder="Enter customer name"
+            className="billing-textarea customer-details-textarea"
+            placeholder="Enter customer name, address, and phone number"
+            rows="3"
             value={customerName}
             onChange={(e) => setCustomerName(e.target.value)}
           />
