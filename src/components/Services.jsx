@@ -18,7 +18,6 @@ import {
     FaWhatsapp,
     FaPaintRoller,
     FaWater,
-    FaCogs,
     FaIndustry,
     FaBorderAll,
 } from "react-icons/fa";
@@ -27,7 +26,7 @@ const categories = [
     { id: "all", label: "All Services" },
     { id: "electrical", label: "Electrical" },
     { id: "plumbing", label: "Plumbing" },
-    { id: "appliances", label: "Appliances & RO" },
+    { id: "appliances", label: "Geyser & RO" },
     { id: "carpentry", label: "Carpentry & Assembly" },
     { id: "painting", label: "Painting" },
     { id: "fabrication", label: "Fabrication & Aluminium" },
@@ -54,16 +53,6 @@ const services = [
             "Water leakage repair, pipe repair, tap fix, and complete bathroom plumbing solutions by experienced plumbers in Shivamogga.",
         message:
             "Hi, I want to book General Plumbing Services / Plumber in Shivamogga.",
-    },
-    {
-        id: "appliances-gen",
-        title: "Home Appliances Service & Repair",
-        category: "appliances",
-        icon: FaCogs,
-        description:
-            "Professional diagnosis, repair, and servicing for washing machines, refrigerators, microwaves, mixers, and other household appliances in Shivamogga.",
-        message:
-            "Hi, I want to book Home Appliances Service & Repair in Shivamogga.",
     },
     {
         id: "aqua-service",

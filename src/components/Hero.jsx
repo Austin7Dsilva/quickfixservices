@@ -59,7 +59,7 @@ export default function Hero() {
 
                     {/* Subheading */}
                     <p className="hero-subtitle">
-                        Get same-day service from our skilled local technicians in Shivamogga. From electrical, plumbing, and appliances repair to painting, aluminium work, fabrication, and carpentry, we handle all your home maintenance needs efficiently.
+                        Get same-day service from our skilled local technicians in Shivamogga. From electrical, plumbing, and geyser/RO service to painting, aluminium work, fabrication, and carpentry, we handle all your home maintenance needs efficiently.
                     </p>
 
                     {/* Call to Actions */}
@@ -69,7 +69,7 @@ export default function Hero() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn-whatsapp-hero"
-                            aria-label="Book electrician, plumber, appliances repair, or handyman in Shivamogga on WhatsApp"
+                            aria-label="Book electrician, plumber, carpenter, or handyman in Shivamogga on WhatsApp"
                         >
                             <FaWhatsapp size={20} />
                             <span>Book on WhatsApp</span>

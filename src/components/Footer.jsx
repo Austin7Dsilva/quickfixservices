@@ -189,7 +189,7 @@ export default function Footer({ isBillingView }) {
                                         handleScrollClick(e, "services")
                                     }
                                 >
-                                    Home Appliances & Geyser
+                                    Geyser Service & Repair
                                 </a>
                             </li>
                             <li>
