@@ -1,653 +1,786 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { 
-  FaCalendarAlt, 
-  FaPhoneAlt, 
-  FaPlus, 
-  FaTrashAlt, 
-  FaArrowLeft, 
-  FaShieldAlt,
-  FaFileDownload,
-  FaFileInvoice,
-  FaClipboardList
-} from 'react-icons/fa';
-import html2canvas from 'html2canvas';
-import { jsPDF } from 'jspdf';
+import React, { useState, useRef, useEffect } from "react";
+import {
+    FaCalendarAlt,
+    FaPhoneAlt,
+    FaPlus,
+    FaTrashAlt,
+    FaArrowLeft,
+    FaShieldAlt,
+    FaFileDownload,
+    FaFileInvoice,
+    FaClipboardList,
+} from "react-icons/fa";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 
 // Assets & Styles
-import logo from '../assets/logo.png';
-import './Billing.css';
+import logo from "../assets/logo.png";
+import "./Billing.css";
 
 export default function Billing() {
-  // Document Type: 'Invoice' or 'Quotation'
-  const [docType, setDocType] = useState('Invoice');
+    // Document Type: 'Invoice' or 'Quotation'
+    const [docType, setDocType] = useState("Invoice");
 
-  // Pre-fill fields with sample data matching the template image
-  const [customerName, setCustomerName] = useState('Heaven Leaf');
-  const [date, setDate] = useState(() => {
-    const today = new Date();
-    // Default to YYYY-MM-DD
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const dd = String(today.getDate()).padStart(2, '0');
-    return `${yyyy}-${mm}-${dd}`;
-  });
-
-  const [items, setItems] = useState([
-    {
-      id: 1,
-      description: 'LED Tube Light (New)',
-      qty: 1,
-      rate: 320.00,
-      amount: 320.00
-    },
-    {
-      id: 2,
-      description: 'Bulb Holder for Street Light',
-      qty: 1,
-      rate: 40.00,
-      amount: 40.00
-    },
-    {
-      id: 3,
-      description: 'Labour Work & Travel\nTime: 12:00 PM IST to 7:00 PM IST (7 Hours)\nWork Done:\n• Two Tube Light Fittings\n• One Street Light Fitting\n• Street Light Fault Diagnosis (Near Kitchen)\n• Fan Fault Diagnosis\n• Door Edge Cutting (Near Door)\n• Switchboard Fitting\n• Loose Switchboard Tightening\n• Travelling Charges Included',
-      qty: 1,
-      rate: 1500.00,
-      amount: 1500.00
-    }
-  ]);
-
-  // Form states for adding a new item
-  const [newDescription, setNewDescription] = useState('');
-  const [newQty, setNewQty] = useState('1');
-  const [newRate, setNewRate] = useState('');
-  
-  const [isGenerating, setIsGenerating] = useState(false);
-  const descriptionRef = useRef(null);
-
-  // Authentication states
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [enteredPin, setEnteredPin] = useState('');
-  const [pinError, setPinError] = useState('');
-  const pinInputRef = useRef(null);
-
-  // Auto-scroll to top when component loads
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  // Auto-focus PIN input field on mount or error reset
-  useEffect(() => {
-    if (!isAuthenticated && pinInputRef.current) {
-      pinInputRef.current.focus();
-    }
-  }, [isAuthenticated]);
-
-  // Format Date to "Month Day, Year" (e.g. August 1, 2026)
-  const formatDate = (dateStr) => {
-    if (!dateStr) return '';
-    const dateObj = new Date(dateStr);
-    if (isNaN(dateObj.getTime())) return dateStr;
-    return dateObj.toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric'
+    // Pre-fill fields with sample data matching the template image
+    const [customerName, setCustomerName] = useState("Heaven Leaf");
+    const [date, setDate] = useState(() => {
+        const today = new Date();
+        // Default to YYYY-MM-DD
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, "0");
+        const dd = String(today.getDate()).padStart(2, "0");
+        return `${yyyy}-${mm}-${dd}`;
     });
-  };
 
-  // Format Amount to Indian Currency format (e.g., 1,500.00)
-  const formatAmount = (num) => {
-    return new Intl.NumberFormat('en-IN', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(num);
-  };
+    const [items, setItems] = useState([]);
 
-  const handleVerifyPin = (e) => {
-    if (e) e.preventDefault();
-    if (enteredPin === 'Jesus@123') {
-      setIsAuthenticated(true);
-      setPinError('');
-    } else {
-      setPinError('Incorrect PIN. Access Denied.');
-      setEnteredPin('');
-      if (pinInputRef.current) {
-        pinInputRef.current.focus();
-      }
-    }
-  };
+    // Form states for adding a new item
+    const [newDescription, setNewDescription] = useState("");
+    const [newQty, setNewQty] = useState("1");
+    const [newRate, setNewRate] = useState("");
 
-  const handleCancelPin = () => {
-    window.location.hash = '';
-  };
+    const [isGenerating, setIsGenerating] = useState(false);
+    const descriptionRef = useRef(null);
 
-  // If not authenticated, render the PIN verification modal
-  if (!isAuthenticated) {
-    return (
-      <div className="billing-auth-overlay">
-        <div className="billing-auth-card glass-panel">
-          <div className="billing-auth-icon-wrapper">
-            <FaShieldAlt className="billing-auth-icon" />
-          </div>
-          <h3 className="billing-auth-title">Administrative Access</h3>
-          <p className="billing-auth-desc">Please enter the security PIN to access the billing generator.</p>
-          
-          <form onSubmit={handleVerifyPin} className="billing-auth-form">
-            <div className="billing-form-group">
-              <input
-                ref={pinInputRef}
-                type="password"
-                className="billing-input auth-pin-input"
-                placeholder="Enter PIN"
-                value={enteredPin}
-                onChange={(e) => {
-                  setEnteredPin(e.target.value);
-                  if (pinError) setPinError('');
-                }}
-              />
-              {pinError && <span className="auth-error-msg">{pinError}</span>}
-            </div>
-            
-            <div className="billing-auth-actions">
-              <button type="submit" className="billing-btn-submit auth-submit-btn">
-                Verify Access
-              </button>
-              <button type="button" className="policy-btn auth-cancel-btn" onClick={handleCancelPin}>
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    );
-  }
+    // Authentication states
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [enteredPin, setEnteredPin] = useState("");
+    const [pinError, setPinError] = useState("");
+    const pinInputRef = useRef(null);
 
-  // Extract number from quantity string (e.g. "1.5 m" -> 1.5, "10 boxes" -> 10, "one" -> 1)
-  const parseQuantityValue = (qtyStr) => {
-    if (!qtyStr) return 1;
-    const cleanStr = qtyStr.toString().replace(/,/g, '').trim();
-    const match = cleanStr.match(/(\d+(?:\.\d+)?)/);
-    if (match) {
-      const val = parseFloat(match[1]);
-      return isNaN(val) ? 1 : val;
-    }
-    const wordMap = {
-      one: 1, two: 2, three: 3, four: 4, five: 5,
-      six: 6, seven: 7, eight: 8, nine: 9, ten: 10
-    };
-    const firstWord = cleanStr.toLowerCase().split(/\s+/)[0];
-    if (wordMap[firstWord] !== undefined) {
-      return wordMap[firstWord];
-    }
-    return 1;
-  };
+    // Auto-scroll to top when component loads
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
-  // Add Item to the list
-  const handleAddItem = () => {
-    const trimmedDesc = newDescription.trim();
-    const trimmedQty = newQty.trim();
-    const parsedQty = parseQuantityValue(trimmedQty);
-    const parsedRate = parseFloat(newRate);
+    // Auto-focus PIN input field on mount or error reset
+    useEffect(() => {
+        if (!isAuthenticated && pinInputRef.current) {
+            pinInputRef.current.focus();
+        }
+    }, [isAuthenticated]);
 
-    if (!trimmedDesc) {
-      alert('Please enter a description.');
-      return;
-    }
-    if (!trimmedQty) {
-      alert('Please enter a quantity.');
-      return;
-    }
-    if (isNaN(parsedQty) || parsedQty <= 0) {
-      alert('Please enter a valid quantity (greater than 0).');
-      return;
-    }
-    if (isNaN(parsedRate) || parsedRate < 0) {
-      alert('Please enter a valid rate.');
-      return;
-    }
-
-    const newItem = {
-      id: Date.now(),
-      description: trimmedDesc,
-      qty: trimmedQty, // Save raw input string (e.g. "1 m")
-      rate: parsedRate,
-      amount: parsedQty * parsedRate
+    // Format Date to "Month Day, Year" (e.g. August 1, 2026)
+    const formatDate = (dateStr) => {
+        if (!dateStr) return "";
+        const dateObj = new Date(dateStr);
+        if (isNaN(dateObj.getTime())) return dateStr;
+        return dateObj.toLocaleDateString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+        });
     };
 
-    setItems([...items, newItem]);
-    
-    // Clear inputs and refocus description field
-    setNewDescription('');
-    setNewQty('1');
-    setNewRate('');
-    if (descriptionRef.current) {
-      descriptionRef.current.focus();
+    // Format Amount to Indian Currency format (e.g., 1,500.00)
+    const formatAmount = (num) => {
+        return new Intl.NumberFormat("en-IN", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        }).format(num);
+    };
+
+    const handleVerifyPin = (e) => {
+        if (e) e.preventDefault();
+        if (enteredPin === "Jesus@123") {
+            setIsAuthenticated(true);
+            setPinError("");
+        } else {
+            setPinError("Incorrect PIN. Access Denied.");
+            setEnteredPin("");
+            if (pinInputRef.current) {
+                pinInputRef.current.focus();
+            }
+        }
+    };
+
+    const handleCancelPin = () => {
+        window.location.hash = "";
+    };
+
+    // If not authenticated, render the PIN verification modal
+    if (!isAuthenticated) {
+        return (
+            <div className="billing-auth-overlay">
+                <div className="billing-auth-card glass-panel">
+                    <div className="billing-auth-icon-wrapper">
+                        <FaShieldAlt className="billing-auth-icon" />
+                    </div>
+                    <h3 className="billing-auth-title">
+                        Administrative Access
+                    </h3>
+                    <p className="billing-auth-desc">
+                        Please enter the security PIN to access the billing
+                        generator.
+                    </p>
+
+                    <form
+                        onSubmit={handleVerifyPin}
+                        className="billing-auth-form"
+                    >
+                        <div className="billing-form-group">
+                            <input
+                                ref={pinInputRef}
+                                type="password"
+                                className="billing-input auth-pin-input"
+                                placeholder="Enter PIN"
+                                value={enteredPin}
+                                onChange={(e) => {
+                                    setEnteredPin(e.target.value);
+                                    if (pinError) setPinError("");
+                                }}
+                            />
+                            {pinError && (
+                                <span className="auth-error-msg">
+                                    {pinError}
+                                </span>
+                            )}
+                        </div>
+
+                        <div className="billing-auth-actions">
+                            <button
+                                type="submit"
+                                className="billing-btn-submit auth-submit-btn"
+                            >
+                                Verify Access
+                            </button>
+                            <button
+                                type="button"
+                                className="policy-btn auth-cancel-btn"
+                                onClick={handleCancelPin}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        );
     }
-  };
 
-  // Remove Item from list
-  const handleRemoveItem = (id) => {
-    setItems(items.filter(item => item.id !== id));
-  };
+    // Extract number from quantity string (e.g. "1.5 m" -> 1.5, "10 boxes" -> 10, "one" -> 1)
+    const parseQuantityValue = (qtyStr) => {
+        if (!qtyStr) return 1;
+        const cleanStr = qtyStr.toString().replace(/,/g, "").trim();
+        const match = cleanStr.match(/(\d+(?:\.\d+)?)/);
+        if (match) {
+            const val = parseFloat(match[1]);
+            return isNaN(val) ? 1 : val;
+        }
+        const wordMap = {
+            one: 1,
+            two: 2,
+            three: 3,
+            four: 4,
+            five: 5,
+            six: 6,
+            seven: 7,
+            eight: 8,
+            nine: 9,
+            ten: 10,
+        };
+        const firstWord = cleanStr.toLowerCase().split(/\s+/)[0];
+        if (wordMap[firstWord] !== undefined) {
+            return wordMap[firstWord];
+        }
+        return 1;
+    };
 
-  // Rate field key listener (Enter adds the item)
-  const handleAmountKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleAddItem();
-    }
-  };
+    // Add Item to the list
+    const handleAddItem = () => {
+        const trimmedDesc = newDescription.trim();
+        const trimmedQty = newQty.trim();
+        const parsedQty = parseQuantityValue(trimmedQty);
+        const parsedRate = parseFloat(newRate);
 
-  // Calculate Subtotal / Total
-  const totalAmount = items.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0);
+        if (!trimmedDesc) {
+            alert("Please enter a description.");
+            return;
+        }
+        if (!trimmedQty) {
+            alert("Please enter a quantity.");
+            return;
+        }
+        if (isNaN(parsedQty) || parsedQty <= 0) {
+            alert("Please enter a valid quantity (greater than 0).");
+            return;
+        }
+        if (isNaN(parsedRate) || parsedRate < 0) {
+            alert("Please enter a valid rate.");
+            return;
+        }
 
-  // Generate PDF and Download
-  const handleDownloadPDF = async () => {
-    const originalElement = document.getElementById('invoice-paper-element');
-    if (!originalElement) return;
+        const newItem = {
+            id: Date.now(),
+            description: trimmedDesc,
+            qty: trimmedQty, // Save raw input string (e.g. "1 m")
+            rate: parsedRate,
+            amount: parsedQty * parsedRate,
+        };
 
-    setIsGenerating(true);
+        setItems([...items, newItem]);
 
-    try {
-      // Create a temporary unscaled container offscreen for rendering PDF high-fidelity image
-      const tempContainer = document.createElement('div');
-      tempContainer.style.position = 'absolute';
-      tempContainer.style.left = '-9999px';
-      tempContainer.style.top = '0';
-      tempContainer.style.width = '794px'; // Fixed target width for A4 ratio
-      tempContainer.style.height = 'auto';
-      tempContainer.style.backgroundColor = '#ffffff';
+        // Clear inputs and refocus description field
+        setNewDescription("");
+        setNewQty("1");
+        setNewRate("");
+        if (descriptionRef.current) {
+            descriptionRef.current.focus();
+        }
+    };
 
-      // Clone original element
-      const clonedElement = originalElement.cloneNode(true);
-      
-      // Clear scale transform, box-shadows, and round borders in the clone for standard PDF layout
-      clonedElement.style.transform = 'none';
-      clonedElement.style.width = '794px';
-      clonedElement.style.minHeight = '1123px';
-      clonedElement.style.margin = '0';
-      clonedElement.style.boxShadow = 'none';
-      clonedElement.style.borderRadius = '0';
+    // Remove Item from list
+    const handleRemoveItem = (id) => {
+        setItems(items.filter((item) => item.id !== id));
+    };
 
-      tempContainer.appendChild(clonedElement);
-      document.body.appendChild(tempContainer);
+    // Rate field key listener (Enter adds the item)
+    const handleAmountKeyDown = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            handleAddItem();
+        }
+    };
 
-      // Wait briefly for images and layout to render fully
-      await new Promise((resolve) => setTimeout(resolve, 300));
+    // Calculate Subtotal / Total
+    const totalAmount = items.reduce(
+        (sum, item) => sum + parseFloat(item.amount || 0),
+        0,
+    );
 
-      const canvas = await html2canvas(clonedElement, {
-        scale: 2, // High resolution crisp display
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        logging: false,
-      });
+    // Generate PDF and Download
+    const handleDownloadPDF = async () => {
+        const originalElement = document.getElementById(
+            "invoice-paper-element",
+        );
+        if (!originalElement) return;
 
-      // Clean up temp container from DOM
-      document.body.removeChild(tempContainer);
+        setIsGenerating(true);
 
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = 210; // A4 width
-      const pdfHeight = 297; // A4 height
-      const imgWidth = pdfWidth;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        try {
+            // Create a temporary unscaled container offscreen for rendering PDF high-fidelity image
+            const tempContainer = document.createElement("div");
+            tempContainer.style.position = "absolute";
+            tempContainer.style.left = "-9999px";
+            tempContainer.style.top = "0";
+            tempContainer.style.width = "794px"; // Fixed target width for A4 ratio
+            tempContainer.style.height = "auto";
+            tempContainer.style.backgroundColor = "#ffffff";
 
-      let heightLeft = imgHeight;
-      let position = 0;
+            // Clone original element
+            const clonedElement = originalElement.cloneNode(true);
 
-      // Add first page
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pdfHeight;
+            // Clear scale transform, box-shadows, and round borders in the clone for standard PDF layout
+            clonedElement.style.transform = "none";
+            clonedElement.style.width = "794px";
+            clonedElement.style.minHeight = "1123px";
+            clonedElement.style.margin = "0";
+            clonedElement.style.boxShadow = "none";
+            clonedElement.style.borderRadius = "0";
 
-      // Add subsequent pages if the content height exceeds A4 height
-      while (heightLeft > 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pdfHeight;
-      }
+            tempContainer.appendChild(clonedElement);
+            document.body.appendChild(tempContainer);
 
-      // Generate document filename based on document type
-      const firstLineName = customerName.split('\n')[0].trim();
-      const cleanCustomerName = firstLineName.replace(/[^a-zA-Z0-9]/g, '_') || 'Customer';
-      const filePrefix = docType.toLowerCase();
-      pdf.save(`${filePrefix}_${cleanCustomerName}_${date}.pdf`);
-    } catch (err) {
-      console.error('Error generating PDF:', err);
-      alert('An error occurred while generating the PDF. Please try again.');
-    } finally {
-      setIsGenerating(false);
-    }
-  };
+            // Wait briefly for images and layout to render fully
+            await new Promise((resolve) => setTimeout(resolve, 300));
 
-  // Helper to split description into Title & Bullet points
-  const renderDescriptionCell = (desc) => {
-    if (!desc) return null;
-    const lines = desc.split('\n').map(line => line.trim()).filter(line => line !== '');
-    if (lines.length === 0) return null;
+            const canvas = await html2canvas(clonedElement, {
+                scale: 2, // High resolution crisp display
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: "#ffffff",
+                logging: false,
+            });
 
-    const title = lines[0];
-    const details = lines.slice(1);
+            // Clean up temp container from DOM
+            document.body.removeChild(tempContainer);
+
+            const imgData = canvas.toDataURL("image/png");
+            const pdf = new jsPDF("p", "mm", "a4");
+            const pdfWidth = 210; // A4 width
+            const pdfHeight = 297; // A4 height
+            const imgWidth = pdfWidth;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+            let heightLeft = imgHeight;
+            let position = 0;
+
+            // Add first page
+            pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+            heightLeft -= pdfHeight;
+
+            // Add subsequent pages if the content height exceeds A4 height
+            while (heightLeft > 0) {
+                position = heightLeft - imgHeight;
+                pdf.addPage();
+                pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+                heightLeft -= pdfHeight;
+            }
+
+            // Generate document filename based on document type
+            const firstLineName = customerName.split("\n")[0].trim();
+            const cleanCustomerName =
+                firstLineName.replace(/[^a-zA-Z0-9]/g, "_") || "Customer";
+            const filePrefix = docType.toLowerCase();
+            pdf.save(`${filePrefix}_${cleanCustomerName}_${date}.pdf`);
+        } catch (err) {
+            console.error("Error generating PDF:", err);
+            alert(
+                "An error occurred while generating the PDF. Please try again.",
+            );
+        } finally {
+            setIsGenerating(false);
+        }
+    };
+
+    // Helper to split description into Title & Bullet points
+    const renderDescriptionCell = (desc) => {
+        if (!desc) return null;
+        const lines = desc
+            .split("\n")
+            .map((line) => line.trim())
+            .filter((line) => line !== "");
+        if (lines.length === 0) return null;
+
+        const title = lines[0];
+        const details = lines.slice(1);
+
+        return (
+            <div className="invoice-cell-desc-container">
+                <div className="invoice-cell-desc-title">{title}</div>
+                {details.length > 0 && (
+                    <ul className="invoice-bullet-list">
+                        {details.map((point, idx) => {
+                            // Strip out pre-existing bullet symbols if they exist
+                            const cleanPoint = point.replace(/^[-*•]\s*/, "");
+                            return <li key={idx}>{cleanPoint}</li>;
+                        })}
+                    </ul>
+                )}
+            </div>
+        );
+    };
 
     return (
-      <div className="invoice-cell-desc-container">
-        <div className="invoice-cell-desc-title">{title}</div>
-        {details.length > 0 && (
-          <ul className="invoice-bullet-list">
-            {details.map((point, idx) => {
-              // Strip out pre-existing bullet symbols if they exist
-              const cleanPoint = point.replace(/^[-*•]\s*/, '');
-              return <li key={idx}>{cleanPoint}</li>;
-            })}
-          </ul>
-        )}
-      </div>
+        <div className="billing-portal-container">
+            {/* LEFT SIDE: Billing Input Controls */}
+            <div className="billing-editor-panel">
+                <h2 className="billing-editor-title">Billing Workspace</h2>
+                <p className="billing-editor-subtitle">
+                    Generate professional{" "}
+                    {docType === "Invoice" ? "service invoices" : "quotations"}{" "}
+                    for Quick Fix customers
+                </p>
+
+                {/* Document Type Selector (Invoice / Quotation) */}
+                <div className="billing-form-group">
+                    <label>Document Type</label>
+                    <div className="billing-doc-type-toggle">
+                        <button
+                            type="button"
+                            className={`billing-type-btn ${docType === "Invoice" ? "active" : ""}`}
+                            onClick={() => setDocType("Invoice")}
+                        >
+                            <FaFileInvoice className="billing-type-icon" />
+                            <span>Invoice</span>
+                        </button>
+                        <button
+                            type="button"
+                            className={`billing-type-btn ${docType === "Quotation" ? "active" : ""}`}
+                            onClick={() => setDocType("Quotation")}
+                        >
+                            <FaClipboardList className="billing-type-icon" />
+                            <span>Quotation</span>
+                        </button>
+                    </div>
+                </div>
+
+                {/* Billed To / Quotation For */}
+                <div className="billing-form-group">
+                    <label htmlFor="customerName">
+                        Customer Details (
+                        {docType === "Invoice" ? "Billed To" : "Quotation For"})
+                    </label>
+                    <textarea
+                        id="customerName"
+                        className="billing-textarea customer-details-textarea"
+                        placeholder="Enter customer name, address, and phone number"
+                        rows="3"
+                        value={customerName}
+                        onChange={(e) => setCustomerName(e.target.value)}
+                    />
+                </div>
+
+                {/* Date Selector */}
+                <div className="billing-form-group">
+                    <label htmlFor="docDate">{docType} Date</label>
+                    <input
+                        id="docDate"
+                        type="date"
+                        className="billing-input"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                    />
+                </div>
+
+                {/* Item Creator Form */}
+                <div className="billing-form-group">
+                    <label>Add Item Details</label>
+                    <div className="billing-item-form-row">
+                        <div className="billing-item-desc-col">
+                            <textarea
+                                ref={descriptionRef}
+                                className="billing-textarea"
+                                placeholder="Description (First line is Title. Press Enter for bullet details)"
+                                value={newDescription}
+                                onChange={(e) =>
+                                    setNewDescription(e.target.value)
+                                }
+                            />
+                            <span className="keyboard-tip">
+                                Tip: Press Shift + Enter for bullet details.
+                            </span>
+                        </div>
+                        <div className="billing-item-qty-col">
+                            <input
+                                type="text"
+                                className="billing-input"
+                                placeholder="Qty"
+                                value={newQty}
+                                onChange={(e) => setNewQty(e.target.value)}
+                            />
+                        </div>
+                        <div className="billing-item-rate-col">
+                            <input
+                                type="number"
+                                className="billing-input"
+                                placeholder="Rate (₹)"
+                                value={newRate}
+                                onChange={(e) => setNewRate(e.target.value)}
+                                onKeyDown={handleAmountKeyDown}
+                            />
+                        </div>
+                        <button
+                            type="button"
+                            className="billing-btn-add"
+                            onClick={handleAddItem}
+                            title="Add Item (Or press Enter in Rate field)"
+                        >
+                            <FaPlus />
+                        </button>
+                    </div>
+                </div>
+
+                {/* Added Items List (Editor Grid) */}
+                <div className="billing-items-list-container">
+                    <div className="billing-items-list-header">
+                        <span>Items Checklist</span>
+                        <span className="billing-items-list-count">
+                            {items.length}{" "}
+                            {items.length === 1 ? "item" : "items"}
+                        </span>
+                    </div>
+
+                    {items.length === 0 ? (
+                        <div className="editor-items-empty">
+                            No items added to {docType.toLowerCase()} yet. Add
+                            an item above to get started.
+                        </div>
+                    ) : (
+                        <table className="editor-items-table">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th
+                                        style={{
+                                            width: "50px",
+                                            textAlign: "center",
+                                        }}
+                                    >
+                                        Qty
+                                    </th>
+                                    <th>Rate</th>
+                                    <th>Total</th>
+                                    <th style={{ width: "40px" }}></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {items.map((item) => (
+                                    <tr key={item.id}>
+                                        <td>
+                                            <div className="editor-item-desc">
+                                                {item.description}
+                                            </div>
+                                        </td>
+                                        <td style={{ textAlign: "center" }}>
+                                            <span className="editor-item-qty">
+                                                {item.qty || 1}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span className="editor-item-rate">
+                                                ₹{" "}
+                                                {formatAmount(
+                                                    item.rate || item.amount,
+                                                )}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span className="editor-item-amount">
+                                                ₹ {formatAmount(item.amount)}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button
+                                                type="button"
+                                                className="editor-item-delete-btn"
+                                                onClick={() =>
+                                                    handleRemoveItem(item.id)
+                                                }
+                                                title="Delete Item"
+                                            >
+                                                <FaTrashAlt size={12} />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+                </div>
+
+                {/* Generate Action Button */}
+                <div className="billing-editor-actions">
+                    <button
+                        type="button"
+                        className="billing-btn-submit"
+                        onClick={handleDownloadPDF}
+                        disabled={isGenerating || items.length === 0}
+                    >
+                        <FaFileDownload />
+                        {isGenerating
+                            ? "Rendering PDF..."
+                            : `Download ${docType} PDF`}
+                    </button>
+                    <a
+                        href="/#"
+                        className="policy-btn"
+                        style={{
+                            alignSelf: "center",
+                            marginTop: "10px",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
+                        }}
+                    >
+                        <FaArrowLeft size={12} /> Return to Main Site
+                    </a>
+                </div>
+            </div>
+
+            {/* RIGHT SIDE: Real-time Live Document Preview Canvas */}
+            <div className="billing-preview-pane">
+                <div className="billing-preview-title">
+                    <span>Live {docType} Preview</span>
+                    <span>A4 Aspect Ratio</span>
+                </div>
+
+                <div className="preview-scale-wrapper">
+                    {/* Main print container */}
+                    <div className="invoice-paper" id="invoice-paper-element">
+                        {/* Header: Logo, Company Name, Document Title & Date */}
+                        <div className="invoice-header-row">
+                            <div className="invoice-header-left">
+                                <img
+                                    src={logo}
+                                    alt="Quick Fix Services Logo"
+                                    className="invoice-logo-img"
+                                />
+                                <div className="invoice-header-divider"></div>
+                                <div className="invoice-company-details">
+                                    <div className="invoice-company-title">
+                                        QUICK FIX
+                                    </div>
+                                    <div className="invoice-company-subtitle">
+                                        SERVICES
+                                    </div>
+                                    <div className="invoice-phone-row">
+                                        <FaPhoneAlt className="invoice-phone-icon" />
+                                        <span>8095867649</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="invoice-header-right">
+                                <div className="invoice-title-text">
+                                    {docType.toUpperCase()}
+                                </div>
+                                <div className="invoice-date-container">
+                                    <FaCalendarAlt className="invoice-date-icon" />
+                                    <span>Date: {formatDate(date)}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Billed To / Quotation For Box */}
+                        <div className="invoice-billed-card">
+                            <div className="invoice-billed-label">
+                                {docType === "Invoice"
+                                    ? "Billed To"
+                                    : "Quotation For"}
+                            </div>
+                            <div className="invoice-billed-name">
+                                {customerName || "—"}
+                            </div>
+                        </div>
+
+                        {/* Items Table */}
+                        <div className="invoice-table-wrapper">
+                            <table className="invoice-table">
+                                <thead>
+                                    <tr>
+                                        <th className="invoice-th-desc">
+                                            Description
+                                        </th>
+                                        <th
+                                            className="invoice-th-qty"
+                                            style={{
+                                                width: "60px",
+                                                textAlign: "center",
+                                            }}
+                                        >
+                                            Qty
+                                        </th>
+                                        <th
+                                            className="invoice-th-rate"
+                                            style={{
+                                                width: "120px",
+                                                textAlign: "right",
+                                            }}
+                                        >
+                                            Rate (₹)
+                                        </th>
+                                        <th
+                                            className="invoice-th-amount"
+                                            style={{
+                                                width: "140px",
+                                                textAlign: "right",
+                                            }}
+                                        >
+                                            Amount (₹)
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {items.map((item) => (
+                                        <tr key={item.id}>
+                                            <td className="invoice-cell-desc">
+                                                {renderDescriptionCell(
+                                                    item.description,
+                                                )}
+                                            </td>
+                                            <td
+                                                className="invoice-cell-qty"
+                                                style={{ textAlign: "center" }}
+                                            >
+                                                {item.qty || 1}
+                                            </td>
+                                            <td
+                                                className="invoice-cell-rate"
+                                                style={{ textAlign: "right" }}
+                                            >
+                                                {formatAmount(
+                                                    item.rate || item.amount,
+                                                )}
+                                            </td>
+                                            <td
+                                                className="invoice-cell-amount"
+                                                style={{ textAlign: "right" }}
+                                            >
+                                                {formatAmount(item.amount)}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    {items.length === 0 && (
+                                        <tr>
+                                            <td
+                                                colSpan="4"
+                                                style={{
+                                                    textAlign: "center",
+                                                    color: "#64748b",
+                                                    fontStyle: "italic",
+                                                    padding: "30px",
+                                                }}
+                                            >
+                                                No items added to{" "}
+                                                {docType.toLowerCase()} preview
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {/* Total Row */}
+                        <div className="invoice-total-container">
+                            <div className="invoice-total-box">
+                                <div className="invoice-total-label">Total</div>
+                                <div className="invoice-total-value">
+                                    ₹ {formatAmount(totalAmount)}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 3-Month Workmanship Guarantee */}
+                        <div className="invoice-guarantee-box">
+                            <div className="invoice-guarantee-badge">
+                                <FaShieldAlt className="invoice-guarantee-badge-icon" />
+                            </div>
+                            <div className="invoice-guarantee-content">
+                                <div className="invoice-guarantee-title">
+                                    3-Month Workmanship Guarantee
+                                </div>
+                                <div className="invoice-guarantee-text">
+                                    We provide a 3-Month Workmanship Guarantee
+                                    on the services performed. If any issue
+                                    arises due to our workmanship within{" "}
+                                    <strong>3 months</strong> from the{" "}
+                                    {docType === "Invoice"
+                                        ? "invoice date"
+                                        : "service completion date"}
+                                    , Quick Fix Services will rectify the
+                                    workmanship <strong>free of charge</strong>.
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Thank You section */}
+                        <div className="invoice-thanks-block">
+                            <div className="invoice-thanks-title-row">
+                                <div className="invoice-thanks-line"></div>
+                                <span className="invoice-thanks-title">
+                                    Thank You!
+                                </span>
+                                <div className="invoice-thanks-line"></div>
+                            </div>
+                            <div className="invoice-thanks-subtitle">
+                                Thank you for choosing{" "}
+                                <strong>Quick Fix Services</strong>.
+                            </div>
+                        </div>
+
+                        {/* Footer Bar */}
+                        <div className="invoice-footer-bar">
+                            <div className="invoice-footer-title">
+                                Quick Fix Services
+                            </div>
+                            <div className="invoice-footer-phone-row">
+                                <FaPhoneAlt className="invoice-footer-phone-icon" />
+                                <span>8095867649</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
-  };
-
-  return (
-    <div className="billing-portal-container">
-      {/* LEFT SIDE: Billing Input Controls */}
-      <div className="billing-editor-panel">
-        <h2 className="billing-editor-title">
-          Billing Workspace
-        </h2>
-        <p className="billing-editor-subtitle">
-          Generate professional {docType === 'Invoice' ? 'service invoices' : 'quotations'} for Quick Fix customers
-        </p>
-
-        {/* Document Type Selector (Invoice / Quotation) */}
-        <div className="billing-form-group">
-          <label>Document Type</label>
-          <div className="billing-doc-type-toggle">
-            <button
-              type="button"
-              className={`billing-type-btn ${docType === 'Invoice' ? 'active' : ''}`}
-              onClick={() => setDocType('Invoice')}
-            >
-              <FaFileInvoice className="billing-type-icon" />
-              <span>Invoice</span>
-            </button>
-            <button
-              type="button"
-              className={`billing-type-btn ${docType === 'Quotation' ? 'active' : ''}`}
-              onClick={() => setDocType('Quotation')}
-            >
-              <FaClipboardList className="billing-type-icon" />
-              <span>Quotation</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Billed To / Quotation For */}
-        <div className="billing-form-group">
-          <label htmlFor="customerName">
-            Customer Details ({docType === 'Invoice' ? 'Billed To' : 'Quotation For'})
-          </label>
-          <textarea
-            id="customerName"
-            className="billing-textarea customer-details-textarea"
-            placeholder="Enter customer name, address, and phone number"
-            rows="3"
-            value={customerName}
-            onChange={(e) => setCustomerName(e.target.value)}
-          />
-        </div>
-
-        {/* Date Selector */}
-        <div className="billing-form-group">
-          <label htmlFor="docDate">{docType} Date</label>
-          <input
-            id="docDate"
-            type="date"
-            className="billing-input"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
-        </div>
-
-        {/* Item Creator Form */}
-        <div className="billing-form-group">
-          <label>Add Item Details</label>
-          <div className="billing-item-form-row">
-            <div className="billing-item-desc-col">
-              <textarea
-                ref={descriptionRef}
-                className="billing-textarea"
-                placeholder="Description (First line is Title. Press Enter for bullet details)"
-                value={newDescription}
-                onChange={(e) => setNewDescription(e.target.value)}
-              />
-              <span className="keyboard-tip">Tip: Press Shift + Enter for bullet details.</span>
-            </div>
-            <div className="billing-item-qty-col">
-              <input
-                type="text"
-                className="billing-input"
-                placeholder="Qty"
-                value={newQty}
-                onChange={(e) => setNewQty(e.target.value)}
-              />
-            </div>
-            <div className="billing-item-rate-col">
-              <input
-                type="number"
-                className="billing-input"
-                placeholder="Rate (₹)"
-                value={newRate}
-                onChange={(e) => setNewRate(e.target.value)}
-                onKeyDown={handleAmountKeyDown}
-              />
-            </div>
-            <button 
-              type="button" 
-              className="billing-btn-add" 
-              onClick={handleAddItem}
-              title="Add Item (Or press Enter in Rate field)"
-            >
-              <FaPlus />
-            </button>
-          </div>
-        </div>
-
-        {/* Added Items List (Editor Grid) */}
-        <div className="billing-items-list-container">
-          <div className="billing-items-list-header">
-            <span>Items Checklist</span>
-            <span className="billing-items-list-count">{items.length} {items.length === 1 ? 'item' : 'items'}</span>
-          </div>
-
-          {items.length === 0 ? (
-            <div className="editor-items-empty">
-              No items added to {docType.toLowerCase()} yet. Add an item above to get started.
-            </div>
-          ) : (
-            <table className="editor-items-table">
-              <thead>
-                <tr>
-                  <th>Description</th>
-                  <th style={{ width: '50px', textAlign: 'center' }}>Qty</th>
-                  <th>Rate</th>
-                  <th>Total</th>
-                  <th style={{ width: '40px' }}></th>
-                </tr>
-              </thead>
-              <tbody>
-                {items.map((item) => (
-                  <tr key={item.id}>
-                    <td>
-                      <div className="editor-item-desc">{item.description}</div>
-                    </td>
-                    <td style={{ textAlign: 'center' }}>
-                      <span className="editor-item-qty">{item.qty || 1}</span>
-                    </td>
-                    <td>
-                      <span className="editor-item-rate">₹ {formatAmount(item.rate || item.amount)}</span>
-                    </td>
-                    <td>
-                      <span className="editor-item-amount">₹ {formatAmount(item.amount)}</span>
-                    </td>
-                    <td>
-                      <button 
-                        type="button" 
-                        className="editor-item-delete-btn"
-                        onClick={() => handleRemoveItem(item.id)}
-                        title="Delete Item"
-                      >
-                        <FaTrashAlt size={12} />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
-
-        {/* Generate Action Button */}
-        <div className="billing-editor-actions">
-          <button 
-            type="button" 
-            className="billing-btn-submit" 
-            onClick={handleDownloadPDF}
-            disabled={isGenerating || items.length === 0}
-          >
-            <FaFileDownload />
-            {isGenerating ? 'Rendering PDF...' : `Download ${docType} PDF`}
-          </button>
-          <a href="/#" className="policy-btn" style={{ alignSelf: 'center', marginTop: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <FaArrowLeft size={12} /> Return to Main Site
-          </a>
-        </div>
-      </div>
-
-      {/* RIGHT SIDE: Real-time Live Document Preview Canvas */}
-      <div className="billing-preview-pane">
-        <div className="billing-preview-title">
-          <span>Live {docType} Preview</span>
-          <span>A4 Aspect Ratio</span>
-        </div>
-
-        <div className="preview-scale-wrapper">
-          {/* Main print container */}
-          <div className="invoice-paper" id="invoice-paper-element">
-            {/* Header: Logo, Company Name, Document Title & Date */}
-            <div className="invoice-header-row">
-              <div className="invoice-header-left">
-                <img src={logo} alt="Quick Fix Services Logo" className="invoice-logo-img" />
-                <div className="invoice-header-divider"></div>
-                <div className="invoice-company-details">
-                  <div className="invoice-company-title">QUICK FIX</div>
-                  <div className="invoice-company-subtitle">SERVICES</div>
-                  <div className="invoice-phone-row">
-                    <FaPhoneAlt className="invoice-phone-icon" />
-                    <span>8095867649</span>
-                  </div>
-                </div>
-              </div>
-              <div className="invoice-header-right">
-                <div className="invoice-title-text">{docType.toUpperCase()}</div>
-                <div className="invoice-date-container">
-                  <FaCalendarAlt className="invoice-date-icon" />
-                  <span>Date: {formatDate(date)}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Billed To / Quotation For Box */}
-            <div className="invoice-billed-card">
-              <div className="invoice-billed-label">
-                {docType === 'Invoice' ? 'Billed To' : 'Quotation For'}
-              </div>
-              <div className="invoice-billed-name">{customerName || '—'}</div>
-            </div>
-
-            {/* Items Table */}
-            <div className="invoice-table-wrapper">
-              <table className="invoice-table">
-                <thead>
-                  <tr>
-                    <th className="invoice-th-desc">Description</th>
-                    <th className="invoice-th-qty" style={{ width: '60px', textAlign: 'center' }}>Qty</th>
-                    <th className="invoice-th-rate" style={{ width: '120px', textAlign: 'right' }}>Rate (₹)</th>
-                    <th className="invoice-th-amount" style={{ width: '140px', textAlign: 'right' }}>Amount (₹)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {items.map((item) => (
-                    <tr key={item.id}>
-                      <td className="invoice-cell-desc">
-                        {renderDescriptionCell(item.description)}
-                      </td>
-                      <td className="invoice-cell-qty" style={{ textAlign: 'center' }}>
-                        {item.qty || 1}
-                      </td>
-                      <td className="invoice-cell-rate" style={{ textAlign: 'right' }}>
-                        {formatAmount(item.rate || item.amount)}
-                      </td>
-                      <td className="invoice-cell-amount" style={{ textAlign: 'right' }}>
-                        {formatAmount(item.amount)}
-                      </td>
-                    </tr>
-                  ))}
-                  {items.length === 0 && (
-                    <tr>
-                      <td colSpan="4" style={{ textAlign: 'center', color: '#64748b', fontStyle: 'italic', padding: '30px' }}>
-                        No items added to {docType.toLowerCase()} preview
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Total Row */}
-            <div className="invoice-total-container">
-              <div className="invoice-total-box">
-                <div className="invoice-total-label">Total</div>
-                <div className="invoice-total-value">₹ {formatAmount(totalAmount)}</div>
-              </div>
-            </div>
-
-            {/* 3-Month Workmanship Guarantee */}
-            <div className="invoice-guarantee-box">
-              <div className="invoice-guarantee-badge">
-                <FaShieldAlt className="invoice-guarantee-badge-icon" />
-              </div>
-              <div className="invoice-guarantee-content">
-                <div className="invoice-guarantee-title">3-Month Workmanship Guarantee</div>
-                <div className="invoice-guarantee-text">
-                  We provide a 3-Month Workmanship Guarantee on the services performed.
-                  If any issue arises due to our workmanship within <strong>3 months</strong> from the {docType === 'Invoice' ? 'invoice date' : 'service completion date'},
-                  Quick Fix Services will rectify the workmanship <strong>free of charge</strong>.
-                </div>
-              </div>
-            </div>
-
-            {/* Thank You section */}
-            <div className="invoice-thanks-block">
-              <div className="invoice-thanks-title-row">
-                <div className="invoice-thanks-line"></div>
-                <span className="invoice-thanks-title">Thank You!</span>
-                <div className="invoice-thanks-line"></div>
-              </div>
-              <div className="invoice-thanks-subtitle">
-                Thank you for choosing <strong>Quick Fix Services</strong>.
-              </div>
-            </div>
-
-            {/* Footer Bar */}
-            <div className="invoice-footer-bar">
-              <div className="invoice-footer-title">Quick Fix Services</div>
-              <div className="invoice-footer-phone-row">
-                <FaPhoneAlt className="invoice-footer-phone-icon" />
-                <span>8095867649</span>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  );
 }
