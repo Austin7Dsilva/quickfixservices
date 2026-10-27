@@ -296,26 +296,20 @@ export default function Billing() {
             document.body.removeChild(tempContainer);
 
             const imgData = canvas.toDataURL("image/png");
-            const pdf = new jsPDF("p", "mm", "a4");
             const pdfWidth = 210; // A4 width
             const pdfHeight = 297; // A4 height
             const imgWidth = pdfWidth;
             const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-            let heightLeft = imgHeight;
-            let position = 0;
+            const isSingleLongPage = imgHeight > pdfHeight;
+            const pdf = isSingleLongPage
+                ? new jsPDF("p", "mm", [
+                      pdfWidth,
+                      Math.max(pdfHeight, imgHeight + 12),
+                  ])
+                : new jsPDF("p", "mm", "a4");
 
-            // Add first page
-            pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-            heightLeft -= pdfHeight;
-
-            // Add subsequent pages if the content height exceeds A4 height
-            while (heightLeft > 0) {
-                position = heightLeft - imgHeight;
-                pdf.addPage();
-                pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-                heightLeft -= pdfHeight;
-            }
+            pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
 
             // Generate document filename based on document type
             const firstLineName = customerName.split("\n")[0].trim();
