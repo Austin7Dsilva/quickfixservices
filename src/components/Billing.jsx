@@ -22,7 +22,7 @@ export default function Billing() {
     const [docType, setDocType] = useState("Invoice");
 
     // Pre-fill fields with sample data matching the template image
-    const [customerName, setCustomerName] = useState("Heaven Leaf");
+    const [customerName, setCustomerName] = useState("");
     const [date, setDate] = useState(() => {
         const today = new Date();
         // Default to YYYY-MM-DD
