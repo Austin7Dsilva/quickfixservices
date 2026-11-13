@@ -59,7 +59,7 @@ export default function Hero() {
 
                     {/* Subheading */}
                     <p className="hero-subtitle">
-                        Get same-day service from our skilled local technicians in Shivamogga. From electrical, plumbing, and geyser/RO service to painting, aluminium work, fabrication, and carpentry, we handle all your home maintenance needs efficiently.
+                        Get same-day service from our skilled local technicians in Shivamogga. From electrical, plumbing, and CCTV installation to painting, aluminium work, fabrication, and carpentry, we handle all your home maintenance needs efficiently.
                     </p>
 
                     {/* Call to Actions */}

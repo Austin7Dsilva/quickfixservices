@@ -189,17 +189,7 @@ export default function Footer({ isBillingView }) {
                                         handleScrollClick(e, "services")
                                     }
                                 >
-                                    Geyser Service & Repair
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="#services"
-                                    onClick={(e) =>
-                                        handleScrollClick(e, "services")
-                                    }
-                                >
-                                    Aqua / RO Service
+                                    CCTV Installation
                                 </a>
                             </li>
                             <li>

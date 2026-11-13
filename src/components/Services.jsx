@@ -8,7 +8,6 @@ import {
     FaFan,
     FaLightbulb,
     FaToggleOn,
-    FaHotTub,
     FaBath,
     FaSlidersH,
     FaWrench,
@@ -17,16 +16,16 @@ import {
     FaArrowRight,
     FaWhatsapp,
     FaPaintRoller,
-    FaWater,
     FaIndustry,
     FaBorderAll,
+    FaVideo,
 } from "react-icons/fa";
 
 const categories = [
     { id: "all", label: "All Services" },
     { id: "electrical", label: "Electrical" },
     { id: "plumbing", label: "Plumbing" },
-    { id: "appliances", label: "Geyser & RO" },
+    { id: "security", label: "CCTV Installation" },
     { id: "carpentry", label: "Carpentry & Assembly" },
     { id: "painting", label: "Painting" },
     { id: "fabrication", label: "Fabrication & Aluminium" },
@@ -55,24 +54,14 @@ const services = [
             "Hi, I want to book General Plumbing Services / Plumber in Shivamogga.",
     },
     {
-        id: "aqua-service",
-        title: "Aqua / RO Water Purifier Service",
-        category: "appliances",
-        icon: FaWater,
+        id: "cctv-installation",
+        title: "CCTV Installation",
+        category: "security",
+        icon: FaVideo,
         description:
-            "Complete RO water purifier servicing, filter cartridge replacement, membrane cleaning, TDS balancing, and leak fixes in Shivamogga.",
+            "Professional CCTV camera installation for homes and businesses in Shivamogga, with careful camera placement and setup.",
         message:
-            "Hi, I want to book Aqua / RO Water Purifier Service in Shivamogga.",
-    },
-    {
-        id: "geyser-service",
-        title: "Geyser Service & Repair",
-        category: "appliances",
-        icon: FaHotTub,
-        description:
-            "Water heater & geyser repair, heating element replacement, thermostat diagnostics, tank descaling, and new unit installations in Shivamogga.",
-        message:
-            "Hi, I want to book Geyser Service & Repair in Shivamogga.",
+            "Hi, I want to book CCTV Installation in Shivamogga.",
     },
     {
         id: "painting-services",
