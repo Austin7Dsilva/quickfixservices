@@ -12,11 +12,11 @@ and the frontend with `npm run dev`. Vite proxies `/api` requests to
 `http://localhost:5001`. The backend requires `MONGO_URI` and `JWT_SECRET` in
 `backend/.env`.
 
-When the frontend and backend are hosted on separate origins, set
-`VITE_AUTH_API_URL` to the backend auth endpoint (for example,
-`https://api.example.com/api/auth`) and set `CORS_ORIGINS` in the backend
-environment to the frontend origin. Multiple allowed origins can be
-comma-separated.
+When the frontend is opened on localhost, authentication uses the local Vite
+proxy. On other hosts, it uses
+`https://quickfixservices.onrender.com/api/auth`. If the frontend is deployed
+on a separate origin, set `CORS_ORIGINS` in the backend environment to that
+frontend origin. Multiple allowed origins can be comma-separated.
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 

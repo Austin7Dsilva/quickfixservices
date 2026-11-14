@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { FaTimes, FaUser } from "react-icons/fa";
 import "./AuthModal.css";
 
-const authApiUrl = import.meta.env.VITE_AUTH_API_URL || "/api/auth";
+const authApiUrl =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+        ? "/api/auth"
+        : "https://quickfixservices.onrender.com/api/auth";
 
 export default function AuthModal({ isOpen, user, onClose, onAuthSuccess, onSignOut }) {
     const [mode, setMode] = useState("signin");
@@ -72,6 +76,7 @@ export default function AuthModal({ isOpen, user, onClose, onAuthSuccess, onSign
             }
 
             onAuthSuccess(result.user, result.token);
+            onClose();
         } catch (requestError) {
             setError(
                 requestError instanceof TypeError
