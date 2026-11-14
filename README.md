@@ -1,5 +1,23 @@
 # React + Vite
 
+## Authentication
+
+The frontend provides customer registration and sign-in using the backend routes
+`POST /api/auth/register` and `POST /api/auth/login`. Registration accepts first
+and last name, mobile number, email, and password. Sign-in accepts an email or
+mobile number and password.
+
+For local development, start the backend with `npm run dev --prefix backend`
+and the frontend with `npm run dev`. Vite proxies `/api` requests to
+`http://localhost:5001`. The backend requires `MONGO_URI` and `JWT_SECRET` in
+`backend/.env`.
+
+When the frontend and backend are hosted on separate origins, set
+`VITE_AUTH_API_URL` to the backend auth endpoint (for example,
+`https://api.example.com/api/auth`) and set `CORS_ORIGINS` in the backend
+environment to the frontend origin. Multiple allowed origins can be
+comma-separated.
+
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
 Currently, two official plugins are available:

@@ -13,7 +13,7 @@ const navItems = [
     { label: "Contact", id: "contact" },
 ];
 
-export default function Navbar({ activeSection, isBillingView }) {
+export default function Navbar({ activeSection, isBillingView, authUser, onAuthClick }) {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -141,6 +141,13 @@ export default function Navbar({ activeSection, isBillingView }) {
                             <FaPhoneAlt size={14} className="navbar-call-icon" />
                             <span>Call</span>
                         </a>
+                        <button
+                            type="button"
+                            className="navbar-auth-link"
+                            onClick={onAuthClick}
+                        >
+                            {authUser ? authUser.firstName : "Sign up / in"}
+                        </button>
                         <a
                             href={whatsappLink}
                             target="_blank"
@@ -241,6 +248,16 @@ export default function Navbar({ activeSection, isBillingView }) {
                                 <FaPhoneAlt size={14} />
                                 <span>Call Now</span>
                             </a>
+                            <button
+                                type="button"
+                                className="navbar-mobile-auth-btn"
+                                onClick={() => {
+                                    setIsMobileMenuOpen(false);
+                                    onAuthClick();
+                                }}
+                            >
+                                {authUser ? `Hi, ${authUser.firstName}` : "Sign up / in"}
+                            </button>
                             <a
                                 href={whatsappLink}
                                 target="_blank"

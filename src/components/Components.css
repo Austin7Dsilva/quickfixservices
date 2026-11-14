@@ -233,6 +233,26 @@
     color: var(--primary-gold);
 }
 
+.navbar-auth-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 16px;
+    border: 1px solid var(--primary-gold);
+    border-radius: 9999px;
+    background: transparent;
+    color: var(--primary-gold);
+    cursor: pointer;
+    font: 600 14px var(--font-heading);
+    white-space: nowrap;
+    transition: var(--transition-fast);
+}
+
+.navbar-auth-link:hover {
+    background: var(--primary-gold);
+    color: #080b12;
+}
+
 /* Scrolled state for Call button */
 .navbar-scrolled .navbar-call-link {
     color: #1e293b;
@@ -305,6 +325,26 @@
 .navbar-mobile-call-btn:hover {
     border-color: var(--primary-gold);
     color: var(--primary-gold);
+}
+
+.navbar-mobile-auth-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    border: 1px solid var(--primary-gold);
+    border-radius: 9999px;
+    background: transparent;
+    color: var(--primary-gold);
+    cursor: pointer;
+    font: 600 15px var(--font-heading);
+    transition: var(--transition-normal);
+}
+
+.navbar-mobile-auth-btn:hover {
+    background: var(--primary-gold);
+    color: #080b12;
 }
 
 .navbar-mobile-whatsapp-btn {

@@ -21,6 +21,7 @@ import Contact from './components/Contact';
 import FloatingCTA from './components/FloatingCTA';
 import Footer from './components/Footer';
 import Billing from './components/Billing';
+import AuthModal from './components/AuthModal';
 
 const sectionIds = [
   'home',
@@ -38,6 +39,19 @@ export default function App() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [view, setView] = useState('landing'); // 'landing' or 'billing'
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [authUser, setAuthUser] = useState(() => {
+    const savedUser = localStorage.getItem('quickfix_user');
+    if (!savedUser) return null;
+
+    try {
+      return JSON.parse(savedUser);
+    } catch {
+      localStorage.removeItem('quickfix_user');
+      localStorage.removeItem('quickfix_token');
+      return null;
+    }
+  });
 
   // Trigger scroll-reveal animations
   useScrollReveal();
@@ -90,6 +104,18 @@ export default function App() {
 
   const isBillingView = view === 'billing';
 
+  const handleAuthSuccess = (user, token) => {
+    localStorage.setItem('quickfix_user', JSON.stringify(user));
+    localStorage.setItem('quickfix_token', token);
+    setAuthUser(user);
+  };
+
+  const handleSignOut = () => {
+    localStorage.removeItem('quickfix_user');
+    localStorage.removeItem('quickfix_token');
+    setAuthUser(null);
+  };
+
   return (
     <>
       {/* Scroll Progress Bar */}
@@ -114,7 +140,22 @@ export default function App() {
       )}
 
       {/* Sticky Navigation */}
-      <Navbar activeSection={activeSection} isBillingView={isBillingView} />
+      <Navbar
+        activeSection={activeSection}
+        isBillingView={isBillingView}
+        authUser={authUser}
+        onAuthClick={() => setIsAuthOpen(true)}
+      />
+
+      {!isBillingView && (
+        <AuthModal
+          isOpen={isAuthOpen}
+          user={authUser}
+          onClose={() => setIsAuthOpen(false)}
+          onAuthSuccess={handleAuthSuccess}
+          onSignOut={handleSignOut}
+        />
+      )}
 
       {/* Main Content Layout */}
       <main id="main-content" role="main">
