@@ -6,10 +6,13 @@ const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
-const allowedOrigins = (
-    process.env.CORS_ORIGINS || "http://localhost:5173,http://localhost:4173"
-)
-    .split(",")
+const allowedOrigins = [
+    "http://localhost:5173",
+    "http://localhost:4173",
+    "https://quickfixservices.co.in",
+    "https://www.quickfixservices.co.in",
+    ...(process.env.CORS_ORIGINS || "").split(","),
+]
     .map((origin) => origin.trim())
     .filter(Boolean);
 

@@ -14,9 +14,12 @@ and the frontend with `npm run dev`. Vite proxies `/api` requests to
 
 When the frontend is opened on localhost, authentication uses the local Vite
 proxy. On other hosts, it uses
-`https://quickfixservices.onrender.com/api/auth`. If the frontend is deployed
-on a separate origin, set `CORS_ORIGINS` in the backend environment to that
-frontend origin. Multiple allowed origins can be comma-separated.
+`https://quickfixservices.onrender.com/api/auth`. The backend allows both
+`https://quickfixservices.co.in` and `https://www.quickfixservices.co.in` by
+default, along with the local Vite origins. Add any other deployed frontend
+origins to `CORS_ORIGINS` in the backend environment as a comma-separated list
+(for example, a preview deployment URL). Redeploy the backend after changing
+its CORS configuration.
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
