@@ -45,44 +45,58 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: clamp(16px, 2vw, 30px);
     width: 100%;
 }
 
+.navbar-logo-link {
+    display: flex;
+    flex: 0 0 150px;
+    align-items: center;
+    justify-content: center;
+}
+
 .navbar-logo {
-    height: 300px;
-    width: 300px;
-    position: relative;
-    top: 50px;
-    object-fit: contain;
+    display: block;
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+    object-position: center 45%;
+    transform: translateY(25px);
     transition:
         height var(--transition-normal),
         width var(--transition-normal),
-        top var(--transition-normal);
+        transform var(--transition-normal);
 }
 
 .navbar-scrolled .navbar-logo {
-    height: 150px;
-    width: 150px;
-    top: 20px;
+    height: 125px;
+    width: 125px;
 }
 
 .navbar-desktop-nav {
     display: block;
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 .navbar-nav-list {
     display: flex;
+    align-items: center;
+    justify-content: center;
     list-style: none;
-    gap: 28px;
+    gap: clamp(12px, 1.45vw, 20px);
 }
 
 .navbar-nav-link {
+    display: inline-block;
     font-family: var(--font-heading);
     font-weight: 500;
-    font-size: 15px;
+    font-size: clamp(12px, 0.95vw, 14px);
     color: var(--text-body);
     position: relative;
     padding: 8px 0;
+    white-space: nowrap;
 }
 
 .navbar-nav-link:hover {
@@ -197,7 +211,8 @@
 .navbar-ctas-desktop {
     display: flex;
     align-items: center;
-    gap: 20px;
+    flex: 0 0 auto;
+    gap: clamp(8px, 1vw, 14px);
 }
 
 .navbar-call-link {
@@ -208,7 +223,7 @@
     font-family: var(--font-heading);
     font-weight: 600;
     font-size: 14px;
-    padding: 8px 18px;
+    padding: 8px 14px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 9999px;
     background-color: rgba(255, 255, 255, 0.05);
@@ -332,7 +347,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 20px;
+    padding: 10px 15px;
     background-color: var(--primary-gold);
     color: #000000;
     font-family: var(--font-heading);
@@ -474,24 +489,62 @@
     .navbar-logo {
         height: 140px !important;
         width: 140px !important;
-        top: 25px !important;
-        position: relative !important;
-        margin-top: -20px !important;
-        object-fit: contain !important;
+        object-fit: cover !important;
     }
 
     .navbar-scrolled .navbar-logo {
         height: 120px !important;
         width: 120px !important;
-        top: 20px !important;
-        margin-top: -15px !important;
     }
 
     .navbar-mobile-drawer-header .navbar-logo {
         height: 120px !important;
         width: 120px !important;
-        top: 20px !important;
-        margin-top: -15px !important;
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1200px) {
+    .navbar-container {
+        gap: 14px;
+        padding-right: 18px;
+        padding-left: 18px;
+    }
+
+    .navbar-logo-link {
+        flex-basis: 118px;
+    }
+
+    .navbar-logo {
+        width: 118px;
+        height: 118px;
+    }
+
+    .navbar-scrolled .navbar-logo {
+        width: 108px;
+        height: 108px;
+    }
+
+    .navbar-nav-list {
+        gap: 10px;
+    }
+
+    .navbar-nav-link {
+        font-size: 12px;
+    }
+
+    .navbar-call-link {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .navbar-auth-link {
+        padding-right: 11px;
+        padding-left: 11px;
+    }
+
+    .btn-whatsapp-nav {
+        padding-right: 11px;
+        padding-left: 11px;
     }
 }
 
