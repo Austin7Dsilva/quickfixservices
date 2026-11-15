@@ -15,6 +15,7 @@ import {
     FaRegComment,
     FaArrowRight,
     FaWhatsapp,
+    FaCalendarAlt,
     FaPaintRoller,
     FaIndustry,
     FaBorderAll,
@@ -60,8 +61,7 @@ const services = [
         icon: FaVideo,
         description:
             "Professional CCTV camera installation for homes and businesses in Shivamogga, with careful camera placement and setup.",
-        message:
-            "Hi, I want to book CCTV Installation in Shivamogga.",
+        message: "Hi, I want to book CCTV Installation in Shivamogga.",
     },
     {
         id: "painting-services",
@@ -90,8 +90,7 @@ const services = [
         icon: FaIndustry,
         description:
             "Structural steel fabrication, safety grills, iron main gates, balcony railings, shed fabrication, and on-site welding repairs in Shivamogga.",
-        message:
-            "Hi, I want to book Fabrication & Welding Work in Shivamogga.",
+        message: "Hi, I want to book Fabrication & Welding Work in Shivamogga.",
     },
     {
         id: "carp-gen",
@@ -201,14 +200,24 @@ const services = [
     },
 ];
 
-export default function Services() {
+export default function Services({ authUser }) {
     const [activeCategory, setActiveCategory] = useState("all");
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isBooking, setIsBooking] = useState(false);
     const [selectedService, setSelectedService] = useState("");
     const [customerName, setCustomerName] = useState("");
     const [customerMobile, setCustomerMobile] = useState("");
     const [serviceDetails, setServiceDetails] = useState("");
     const [customerLocation, setCustomerLocation] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [bookingError, setBookingError] = useState("");
+    const [createdOrderId, setCreatedOrderId] = useState("");
+
+    const orderApiUrl =
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
+            ? "/api/orders"
+            : "https://quickfixservices.onrender.com/api/orders";
 
     const filteredServices =
         activeCategory === "all"
@@ -217,14 +226,71 @@ export default function Services() {
 
     const handleEnquiryClick = (e, serviceTitle) => {
         e.preventDefault();
+        setIsBooking(false);
+        setBookingError("");
+        setCreatedOrderId("");
         setSelectedService(serviceTitle);
         setServiceDetails(serviceTitle);
         setIsModalOpen(true);
     };
 
-    const handleFormSubmit = (e) => {
+    const handleBookClick = (serviceTitle) => {
+        setIsBooking(true);
+        setBookingError("");
+        setCreatedOrderId("");
+        setSelectedService(serviceTitle);
+        setServiceDetails(serviceTitle);
+        setCustomerName(
+            [authUser.firstName, authUser.lastName].filter(Boolean).join(" "),
+        );
+        setCustomerMobile(authUser.phone || "");
+        setIsModalOpen(true);
+    };
+
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
-        const messageText = `*New Service Enquiry*
+
+        if (isBooking) {
+            setBookingError("");
+            setIsSubmitting(true);
+
+            try {
+                const response = await fetch(orderApiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("quickfix_token") || ""}`,
+                    },
+                    body: JSON.stringify({
+                        service: serviceDetails || selectedService,
+                        customerName,
+                        customerPhone: customerMobile,
+                        location: customerLocation,
+                    }),
+                });
+                const result = await response.json();
+
+                if (!response.ok || !result.success || !result.order?.id) {
+                    throw new Error(
+                        result.message || "Unable to place your booking. Please try again.",
+                    );
+                }
+
+                setCreatedOrderId(result.order.id);
+            } catch (error) {
+                setBookingError(
+                    error instanceof TypeError
+                        ? "Unable to connect to the server. Please try again."
+                        : error.message,
+                );
+            } finally {
+                setIsSubmitting(false);
+            }
+
+            return;
+        }
+
+        const messageText = `*New Service ${isBooking ? "Booking" : "Enquiry"}*
 • *Customer Name:* ${customerName || "Not specified"}
 • *Mobile Number:* ${customerMobile || "Not specified"}
 • *Service Needed:* ${serviceDetails || selectedService}
@@ -302,15 +368,29 @@ export default function Services() {
                                 {/* Footer Action Link */}
                                 <div className="service-card-footer">
                                     <button
-                                        onClick={(e) => handleEnquiryClick(e, service.title)}
+                                        onClick={(e) =>
+                                            handleEnquiryClick(e, service.title)
+                                        }
                                         className="service-card-action-link"
-                                        style={{ background: "transparent", border: "none", width: "100%", cursor: "pointer", padding: 0 }}
                                         aria-label={`Enquire about ${service.title} in Shivamogga`}
                                     >
                                         <FaRegComment className="action-chat-icon" />
                                         <span>Enquire on WhatsApp</span>
                                         <FaArrowRight className="action-arrow-icon" />
                                     </button>
+                                    {authUser && (
+                                        <button
+                                            type="button"
+                                            className="service-card-book-button"
+                                            onClick={() =>
+                                                handleBookClick(service.title)
+                                            }
+                                            aria-label={`Book ${service.title} in Shivamogga`}
+                                        >
+                                            <FaCalendarAlt />
+                                            <span>Book Services</span>
+                                        </button>
+                                    )}
                                 </div>
                             </article>
                         );
@@ -320,9 +400,15 @@ export default function Services() {
 
             {/* Enquiry Form Modal */}
             {isModalOpen && (
-                <div className="enquiry-modal-overlay" onClick={() => setIsModalOpen(false)}>
-                    <div className="enquiry-modal-content glass-panel" onClick={(e) => e.stopPropagation()}>
-                        <button 
+                <div
+                    className="enquiry-modal-overlay"
+                    onClick={() => setIsModalOpen(false)}
+                >
+                    <div
+                        className="enquiry-modal-content glass-panel"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button
                             className="enquiry-modal-close"
                             onClick={() => setIsModalOpen(false)}
                             aria-label="Close modal"
@@ -330,66 +416,128 @@ export default function Services() {
                             &times;
                         </button>
                         <div className="enquiry-modal-header">
-                            <h3 className="enquiry-modal-title">Service Enquiry</h3>
-                            <p className="enquiry-modal-subtitle">Quick Fix Services Customer Care</p>
+                            <h3 className="enquiry-modal-title">
+                                {isBooking
+                                    ? "Book a Service"
+                                    : "Service Enquiry"}
+                            </h3>
+                            <p className="enquiry-modal-subtitle">
+                                Quick Fix Services Customer Care
+                            </p>
                         </div>
-                        
-                        <form onSubmit={handleFormSubmit} className="enquiry-modal-form">
-                            <div className="form-group">
-                                <label htmlFor="customer-name">Your Name</label>
-                                <input
-                                    type="text"
-                                    id="customer-name"
-                                    value={customerName}
-                                    onChange={(e) => setCustomerName(e.target.value)}
-                                    placeholder="Enter your name"
-                                    required
-                                />
-                            </div>
 
-                            <div className="form-group">
-                                <label htmlFor="customer-mobile">Mobile Number</label>
-                                <input
-                                    type="tel"
-                                    id="customer-mobile"
-                                    value={customerMobile}
-                                    onChange={(e) => setCustomerMobile(e.target.value)}
-                                    placeholder="Enter 10-digit mobile number"
-                                    pattern="[0-9]{10}"
-                                    title="Please enter a valid 10-digit mobile number"
-                                    required
-                                />
+                        {createdOrderId ? (
+                            <div className="booking-confirmation" role="status">
+                                <h4>Booking placed successfully</h4>
+                                <p>
+                                    Your booking reference is{" "}
+                                    <strong>{createdOrderId}</strong>. We will
+                                    contact you to confirm the service.
+                                </p>
+                                <button
+                                    type="button"
+                                    className="enquiry-submit-btn"
+                                    onClick={() => setIsModalOpen(false)}
+                                >
+                                    Close
+                                </button>
                             </div>
+                        ) : (
+                            <form
+                                onSubmit={handleFormSubmit}
+                                className="enquiry-modal-form"
+                            >
+                                {bookingError && (
+                                    <p className="booking-error" role="alert">
+                                        {bookingError}
+                                    </p>
+                                )}
+                                <div className="form-group">
+                                    <label htmlFor="customer-name">
+                                        Your Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="customer-name"
+                                        value={customerName}
+                                        onChange={(e) =>
+                                            setCustomerName(e.target.value)
+                                        }
+                                        placeholder="Enter your name"
+                                        required
+                                    />
+                                </div>
 
-                            <div className="form-group">
-                                <label htmlFor="service-needed">Service Needed</label>
-                                <input
-                                    type="text"
-                                    id="service-needed"
-                                    value={serviceDetails}
-                                    onChange={(e) => setServiceDetails(e.target.value)}
-                                    placeholder="What service are you looking for?"
-                                    required
-                                />
-                            </div>
+                                <div className="form-group">
+                                    <label htmlFor="customer-mobile">
+                                        Mobile Number
+                                    </label>
+                                    <input
+                                        type="tel"
+                                        id="customer-mobile"
+                                        value={customerMobile}
+                                        onChange={(e) =>
+                                            setCustomerMobile(e.target.value)
+                                        }
+                                        placeholder="Enter 10-digit mobile number"
+                                        pattern="[0-9]{10}"
+                                        title="Please enter a valid 10-digit mobile number"
+                                        required
+                                    />
+                                </div>
 
-                            <div className="form-group">
-                                <label htmlFor="customer-location">Your Location / Address</label>
-                                <input
-                                    type="text"
-                                    id="customer-location"
-                                    value={customerLocation}
-                                    onChange={(e) => setCustomerLocation(e.target.value)}
-                                    placeholder="Enter your area in Shivamogga"
-                                    required
-                                />
-                            </div>
+                                <div className="form-group">
+                                    <label htmlFor="service-needed">
+                                        Service Needed
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="service-needed"
+                                        value={serviceDetails}
+                                        onChange={(e) =>
+                                            setServiceDetails(e.target.value)
+                                        }
+                                        placeholder="What service are you looking for?"
+                                        required
+                                    />
+                                </div>
 
-                            <button type="submit" className="enquiry-submit-btn">
-                                <FaWhatsapp size={18} />
-                                <span>Send Enquiry via WhatsApp</span>
-                            </button>
-                        </form>
+                                <div className="form-group">
+                                    <label htmlFor="customer-location">
+                                        Your Location / Address
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="customer-location"
+                                        value={customerLocation}
+                                        onChange={(e) =>
+                                            setCustomerLocation(e.target.value)
+                                        }
+                                        placeholder="Enter your area in Shivamogga"
+                                        required
+                                    />
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    className="enquiry-submit-btn"
+                                    disabled={isSubmitting}
+                                >
+                                    {isBooking ? (
+                                        <FaCalendarAlt size={18} />
+                                    ) : (
+                                        <FaWhatsapp size={18} />
+                                    )}
+                                    <span>
+                                        {isBooking
+                                            ? isSubmitting
+                                                ? "Placing booking..."
+                                                : "Book service"
+                                            : "Send Enquiry via WhatsApp"}
+                                    </span>
+                                </button>
+                            </form>
+                        )}
                     </div>
                 </div>
             )}

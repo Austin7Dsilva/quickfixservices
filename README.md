@@ -12,6 +12,14 @@ and the frontend with `npm run dev`. Vite proxies `/api` requests to
 `http://localhost:5001`. The backend requires `MONGO_URI` and `JWT_SECRET` in
 `backend/.env`.
 
+The `/admin` order-management page requires an `ADMIN_PASSWORD` environment
+variable on the backend, in addition to `JWT_SECRET`. Set it in the local
+`backend/.env` or the production backend's environment settings; keep the
+password out of source control. The admin sign-in issues an eight-hour admin
+token, which is required to list all orders or change an order's status.
+Set `ADMIN_PASSWORD` to the password selected for the admin page in both local
+and production backend environments, then restart or redeploy the backend.
+
 When the frontend is opened on localhost, authentication uses the local Vite
 proxy. On other hosts, it uses
 `https://quickfixservices.onrender.com/api/auth`. The backend allows both

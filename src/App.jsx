@@ -22,6 +22,8 @@ import FloatingCTA from './components/FloatingCTA';
 import Footer from './components/Footer';
 import Billing from './components/Billing';
 import AuthModal from './components/AuthModal';
+import OrdersModal from './components/OrdersModal';
+import Admin from './components/Admin';
 
 const sectionIds = [
   'home',
@@ -38,8 +40,12 @@ export default function App() {
   const activeSection = useScrollSpy(sectionIds, 120);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [view, setView] = useState('landing'); // 'landing' or 'billing'
+  const [view, setView] = useState(() => {
+    if (window.location.pathname.replace(/\/+$/, '') === '/admin') return 'admin';
+    return window.location.hash === '#billing' ? 'billing' : 'landing';
+  });
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isOrdersOpen, setIsOrdersOpen] = useState(false);
   const [authUser, setAuthUser] = useState(() => {
     const savedUser = localStorage.getItem('quickfix_user');
     if (!savedUser) return null;
@@ -58,7 +64,9 @@ export default function App() {
 
   useEffect(() => {
     const handleHashChange = () => {
-      if (window.location.hash === '#billing') {
+      if (window.location.pathname.replace(/\/+$/, '') === '/admin') {
+        setView('admin');
+      } else if (window.location.hash === '#billing') {
         setView('billing');
       } else {
         setView('landing');
@@ -69,7 +77,11 @@ export default function App() {
     handleHashChange();
 
     window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('popstate', handleHashChange);
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('popstate', handleHashChange);
+    };
   }, []);
 
   useEffect(() => {
@@ -103,6 +115,8 @@ export default function App() {
   };
 
   const isBillingView = view === 'billing';
+  const isAdminView = view === 'admin';
+  const isPortalView = isBillingView || isAdminView;
 
   const handleAuthSuccess = (user, token) => {
     localStorage.setItem('quickfix_user', JSON.stringify(user));
@@ -119,7 +133,7 @@ export default function App() {
   return (
     <>
       {/* Scroll Progress Bar */}
-      {!isBillingView && (
+      {!isPortalView && (
         <div 
           className="scroll-progress-indicator"
           style={{
@@ -140,14 +154,18 @@ export default function App() {
       )}
 
       {/* Sticky Navigation */}
-      <Navbar
-        activeSection={activeSection}
-        isBillingView={isBillingView}
-        authUser={authUser}
-        onAuthClick={() => setIsAuthOpen(true)}
-      />
+      {!isAdminView && (
+        <Navbar
+          activeSection={activeSection}
+          isBillingView={isBillingView}
+          authUser={authUser}
+          onAuthClick={() => setIsAuthOpen(true)}
+          onOrdersClick={() => setIsOrdersOpen(true)}
+          onSignOut={handleSignOut}
+        />
+      )}
 
-      {!isBillingView && (
+      {!isPortalView && (
         <AuthModal
           isOpen={isAuthOpen}
           user={authUser}
@@ -157,14 +175,25 @@ export default function App() {
         />
       )}
 
+      {!isPortalView && isOrdersOpen && (
+        <OrdersModal onClose={() => setIsOrdersOpen(false)} />
+      )}
+
       {/* Main Content Layout */}
       <main id="main-content" role="main">
-        {isBillingView ? (
+        {isAdminView ? (
+          <Admin
+            onExit={() => {
+              window.history.pushState({}, '', '/');
+              setView('landing');
+            }}
+          />
+        ) : isBillingView ? (
           <Billing />
         ) : (
           <>
             <Hero />
-            <Services />
+            <Services authUser={authUser} />
             <WhyChooseUs />
             <HowItWorks />
             <Gallery />
@@ -176,13 +205,13 @@ export default function App() {
       </main>
 
       {/* Persistent Floating Quick CTAs */}
-      {!isBillingView && <FloatingCTA />}
+      {!isPortalView && <FloatingCTA />}
 
       {/* Sticky Footer */}
-      <Footer isBillingView={isBillingView} />
+      {!isAdminView && <Footer isBillingView={isBillingView} />}
 
       {/* Scroll To Top Action Button */}
-      {!isBillingView && (
+      {!isPortalView && (
         <button
           className={`scroll-to-top ${showScrollTop ? 'visible' : ''}`}
           onClick={scrollToTop}

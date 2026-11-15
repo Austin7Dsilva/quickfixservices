@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { FaBars, FaTimes, FaWhatsapp, FaPhoneAlt, FaArrowLeft } from "react-icons/fa";
+import {
+    FaBars,
+    FaTimes,
+    FaWhatsapp,
+    FaPhoneAlt,
+    FaArrowLeft,
+    FaChevronDown,
+    FaClipboardList,
+    FaSignOutAlt,
+} from "react-icons/fa";
 import logo from "../assets/logo.png";
 
 const navItems = [
@@ -13,7 +22,76 @@ const navItems = [
     { label: "Contact", id: "contact" },
 ];
 
-export default function Navbar({ activeSection, isBillingView, authUser, onAuthClick }) {
+function AccountMenu({ authUser, onAuthClick, onOrdersClick, onSignOut, mobile }) {
+    const [isOpen, setIsOpen] = useState(false);
+
+    if (!authUser) {
+        return (
+            <button
+                type="button"
+                className={mobile ? "navbar-mobile-auth-btn" : "navbar-auth-link"}
+                onClick={onAuthClick}
+            >
+                Sign up / in
+            </button>
+        );
+    }
+
+    const closeMenu = () => setIsOpen(false);
+
+    return (
+        <div className={`navbar-account-menu ${mobile ? "mobile" : ""}`}>
+            <button
+                type="button"
+                className={mobile ? "navbar-mobile-auth-btn" : "navbar-auth-link"}
+                onClick={() => setIsOpen((open) => !open)}
+                aria-expanded={isOpen}
+                aria-haspopup="menu"
+            >
+                <span>{authUser.firstName}</span>
+                <FaChevronDown size={11} />
+            </button>
+            {isOpen && (
+                <div className="navbar-account-dropdown" role="menu">
+                    <div className="navbar-account-welcome">
+                        Welcome {authUser.firstName}
+                    </div>
+                    <button
+                        type="button"
+                        role="menuitem"
+                        onClick={() => {
+                            closeMenu();
+                            onOrdersClick();
+                        }}
+                    >
+                        <FaClipboardList />
+                        <span>Orders</span>
+                    </button>
+                    <button
+                        type="button"
+                        role="menuitem"
+                        onClick={() => {
+                            closeMenu();
+                            onSignOut();
+                        }}
+                    >
+                        <FaSignOutAlt />
+                        <span>Sign out</span>
+                    </button>
+                </div>
+            )}
+        </div>
+    );
+}
+
+export default function Navbar({
+    activeSection,
+    isBillingView,
+    authUser,
+    onAuthClick,
+    onOrdersClick,
+    onSignOut,
+}) {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -141,13 +219,12 @@ export default function Navbar({ activeSection, isBillingView, authUser, onAuthC
                             <FaPhoneAlt size={14} className="navbar-call-icon" />
                             <span>Call</span>
                         </a>
-                        <button
-                            type="button"
-                            className="navbar-auth-link"
-                            onClick={onAuthClick}
-                        >
-                            {authUser ? authUser.firstName : "Sign up / in"}
-                        </button>
+                        <AccountMenu
+                            authUser={authUser}
+                            onAuthClick={onAuthClick}
+                            onOrdersClick={onOrdersClick}
+                            onSignOut={onSignOut}
+                        />
                         <a
                             href={whatsappLink}
                             target="_blank"
@@ -248,16 +325,22 @@ export default function Navbar({ activeSection, isBillingView, authUser, onAuthC
                                 <FaPhoneAlt size={14} />
                                 <span>Call Now</span>
                             </a>
-                            <button
-                                type="button"
-                                className="navbar-mobile-auth-btn"
-                                onClick={() => {
+                            <AccountMenu
+                                authUser={authUser}
+                                onAuthClick={() => {
                                     setIsMobileMenuOpen(false);
                                     onAuthClick();
                                 }}
-                            >
-                                {authUser ? `Hi, ${authUser.firstName}` : "Sign up / in"}
-                            </button>
+                                onOrdersClick={() => {
+                                    setIsMobileMenuOpen(false);
+                                    onOrdersClick();
+                                }}
+                                onSignOut={() => {
+                                    setIsMobileMenuOpen(false);
+                                    onSignOut();
+                                }}
+                                mobile
+                            />
                             <a
                                 href={whatsappLink}
                                 target="_blank"

@@ -1,0 +1,363 @@
+.admin-page {
+    min-height: 100vh;
+    padding: 28px clamp(20px, 5vw, 72px) 60px;
+    background: #f4f6fa;
+    color: #0f172a;
+    font-family: var(--font-body);
+}
+
+.admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #dfe4ec;
+}
+
+.admin-brand,
+.admin-back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-brand {
+    color: #0f172a;
+    font-family: var(--font-heading);
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.admin-brand small {
+    margin-left: 6px;
+    color: #b45309;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+}
+
+.admin-brand-mark,
+.admin-login-icon {
+    display: grid;
+    place-items: center;
+    color: #d97706;
+}
+
+.admin-brand-mark {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: #fff3d4;
+}
+
+.admin-back-button,
+.admin-signout-button {
+    border: 1px solid #d7dce5;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #334155;
+    font: 600 13px var(--font-heading);
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.admin-back-button {
+    padding: 10px 15px;
+}
+
+.admin-back-button:hover,
+.admin-signout-button:hover {
+    border-color: #d97706;
+    background: #fffaf0;
+}
+
+.admin-login-card {
+    width: min(100%, 430px);
+    margin: clamp(70px, 13vh, 140px) auto 0;
+    padding: 36px;
+    border: 1px solid #e1e6ee;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+}
+
+.admin-login-icon {
+    width: 52px;
+    height: 52px;
+    margin-bottom: 22px;
+    border-radius: 16px;
+    background: #fff3d4;
+    font-size: 20px;
+}
+
+.admin-eyebrow {
+    margin: 0 0 8px;
+    color: #b45309;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+}
+
+.admin-login-card h1,
+.admin-orders-heading h1 {
+    margin: 0;
+    color: #0f172a;
+    font-family: var(--font-heading);
+    font-size: clamp(26px, 4vw, 34px);
+    letter-spacing: -0.03em;
+}
+
+.admin-login-description,
+.admin-orders-heading > div > p:last-child {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.admin-login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 26px;
+}
+
+.admin-login-form label {
+    color: #334155;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.admin-login-form input {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #0f172a;
+    font: inherit;
+}
+
+.admin-login-form input:focus {
+    outline: 3px solid rgba(217, 119, 6, 0.18);
+    border-color: #d97706;
+}
+
+.admin-primary-button {
+    margin-top: 10px;
+    padding: 13px;
+    border: 0;
+    border-radius: 10px;
+    background: #ffb800;
+    color: #111827;
+    font: 700 14px var(--font-heading);
+    cursor: pointer;
+}
+
+.admin-primary-button:hover {
+    background: #ffc72c;
+}
+
+.admin-orders {
+    max-width: 1440px;
+    margin: 48px auto 0;
+}
+
+.admin-orders-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 26px;
+}
+
+.admin-orders-heading > div > p:last-child {
+    margin: 8px 0 0;
+}
+
+.admin-signout-button {
+    padding: 10px 18px;
+}
+
+.admin-notice {
+    margin: 0 0 16px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.admin-error {
+    color: #b91c1c;
+}
+
+.admin-login-form .admin-error {
+    margin: 4px 0;
+}
+
+.admin-notice.admin-error {
+    border: 1px solid #fecaca;
+    background: #fef2f2;
+}
+
+.admin-success {
+    color: #166534;
+}
+
+.admin-notice.admin-success {
+    border: 1px solid #bbf7d0;
+    background: #f0fdf4;
+}
+
+.admin-empty {
+    padding: 48px 20px;
+    border: 1px solid #e1e6ee;
+    border-radius: 16px;
+    background: #ffffff;
+    color: #64748b;
+    text-align: center;
+}
+
+.admin-table-wrap {
+    overflow-x: auto;
+    border: 1px solid #e1e6ee;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04);
+}
+
+.admin-orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.admin-orders-table th {
+    padding: 14px 16px;
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.admin-orders-table td {
+    padding: 16px;
+    border-top: 1px solid #eef1f5;
+    color: #475569;
+    font-size: 13px;
+    vertical-align: top;
+}
+
+.admin-orders-table td strong,
+.admin-orders-table td > span:not(.admin-order-id) {
+    display: block;
+}
+
+.admin-orders-table td strong {
+    margin-bottom: 4px;
+    color: #1e293b;
+    font-size: 13px;
+}
+
+.admin-orders-table td > span:not(.admin-order-id) {
+    margin-top: 3px;
+    color: #64748b;
+}
+
+.admin-order-id {
+    color: #475569;
+    font-family: monospace;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.admin-status-select {
+    min-width: 122px;
+    padding: 8px 26px 8px 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 999px;
+    font: 700 12px var(--font-heading);
+    text-transform: capitalize;
+    cursor: pointer;
+}
+
+.admin-status-select:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
+@media (max-width: 700px) {
+    .admin-page {
+        padding: 20px 14px 40px;
+    }
+
+    .admin-orders {
+        margin-top: 32px;
+    }
+
+    .admin-orders-heading {
+        align-items: flex-start;
+    }
+
+    .admin-orders-table,
+    .admin-orders-table tbody,
+    .admin-orders-table tr,
+    .admin-orders-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .admin-orders-table thead {
+        display: none;
+    }
+
+    .admin-orders-table tr {
+        padding: 8px 14px;
+        border-top: 1px solid #eef1f5;
+    }
+
+    .admin-orders-table td {
+        display: grid;
+        grid-template-columns: 105px minmax(0, 1fr);
+        gap: 10px;
+        padding: 9px 0;
+        border: 0;
+    }
+
+    .admin-orders-table td::before {
+        color: #64748b;
+        content: attr(data-label);
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    .admin-orders-table td:nth-child(1)::before { content: "Order"; }
+    .admin-orders-table td:nth-child(1)::before { content: "Order"; }
+    .admin-orders-table td:nth-child(2)::before { content: "Customer"; }
+    .admin-orders-table td:nth-child(3)::before { content: "Service"; }
+    .admin-orders-table td:nth-child(4)::before { content: "Placed"; }
+    .admin-orders-table td:nth-child(5)::before { content: "Status"; }
+}
+
+@media (max-width: 420px) {
+    .admin-back-button span {
+        display: none;
+    }
+
+    .admin-login-card {
+        padding: 26px 20px;
+    }
+
+    .admin-orders-heading {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-signout-button {
+        align-self: flex-start;
+    }
+}
