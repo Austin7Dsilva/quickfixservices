@@ -7,6 +7,7 @@ import {
     FaArrowLeft,
     FaChevronDown,
     FaClipboardList,
+    FaKey,
     FaSignOutAlt,
 } from "react-icons/fa";
 import logo from "../assets/logo.png";
@@ -22,7 +23,14 @@ const navItems = [
     { label: "Contact", id: "contact" },
 ];
 
-function AccountMenu({ authUser, onAuthClick, onOrdersClick, onSignOut, mobile }) {
+function AccountMenu({
+    authUser,
+    onAuthClick,
+    onOrdersClick,
+    onChangePassword,
+    onSignOut,
+    mobile,
+}) {
     const [isOpen, setIsOpen] = useState(false);
 
     if (!authUser) {
@@ -72,6 +80,17 @@ function AccountMenu({ authUser, onAuthClick, onOrdersClick, onSignOut, mobile }
                         role="menuitem"
                         onClick={() => {
                             closeMenu();
+                            onChangePassword();
+                        }}
+                    >
+                        <FaKey />
+                        <span>Change password</span>
+                    </button>
+                    <button
+                        type="button"
+                        role="menuitem"
+                        onClick={() => {
+                            closeMenu();
                             onSignOut();
                         }}
                     >
@@ -90,6 +109,7 @@ export default function Navbar({
     authUser,
     onAuthClick,
     onOrdersClick,
+    onChangePassword,
     onSignOut,
 }) {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -223,6 +243,7 @@ export default function Navbar({
                             authUser={authUser}
                             onAuthClick={onAuthClick}
                             onOrdersClick={onOrdersClick}
+                            onChangePassword={onChangePassword}
                             onSignOut={onSignOut}
                         />
                         <a
@@ -334,6 +355,10 @@ export default function Navbar({
                                 onOrdersClick={() => {
                                     setIsMobileMenuOpen(false);
                                     onOrdersClick();
+                                }}
+                                onChangePassword={() => {
+                                    setIsMobileMenuOpen(false);
+                                    onChangePassword();
                                 }}
                                 onSignOut={() => {
                                     setIsMobileMenuOpen(false);

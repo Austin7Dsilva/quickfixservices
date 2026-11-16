@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const Order = require("../models/Order");
+const User = require("../models/User");
 
 const orderStatuses = ["pending", "confirmed", "completed", "cancelled"];
 
@@ -122,4 +123,124 @@ const updateOrderStatus = async (req, res) => {
     }
 };
 
-module.exports = { loginAdmin, getAllOrders, updateOrderStatus };
+const getAllCustomers = async (req, res) => {
+    try {
+        const customers = await User.find({ role: "customer" })
+            .select("firstName lastName email phone createdAt")
+            .sort({ createdAt: -1 })
+            .lean();
+        const customerIds = customers.map((customer) => customer._id);
+        const orders = customerIds.length
+            ? await Order.find({ user: { $in: customerIds } })
+                  .select("user service location status createdAt")
+                  .sort({ createdAt: -1 })
+                  .lean()
+            : [];
+        const ordersByCustomer = new Map();
+        const now = Date.now();
+
+        for (const order of orders) {
+            const customerId = order.user.toString();
+            const customerOrders = ordersByCustomer.get(customerId) || [];
+            customerOrders.push({
+                id: order._id,
+                service: order.service,
+                location: order.location,
+                status: order.status,
+                createdAt: order.createdAt,
+                pendingDays:
+                    order.status === "pending"
+                        ? Math.floor(
+                              Math.max(0, now - new Date(order.createdAt).getTime()) /
+                                  (24 * 60 * 60 * 1000),
+                          )
+                        : null,
+            });
+            ordersByCustomer.set(customerId, customerOrders);
+        }
+
+        return res.status(200).json({
+            success: true,
+            customers: customers.map((customer) => {
+                const customerOrders =
+                    ordersByCustomer.get(customer._id.toString()) || [];
+
+                return {
+                    id: customer._id,
+                    firstName: customer.firstName,
+                    lastName: customer.lastName,
+                    email: customer.email,
+                    phone: customer.phone,
+                    createdAt: customer.createdAt,
+                    orderCount: customerOrders.length,
+                    orders: customerOrders,
+                };
+            }),
+        });
+    } catch (error) {
+        console.error("Admin customer retrieval error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Unable to load customers. Please try again.",
+        });
+    }
+};
+
+const updateCustomerPassword = async (req, res) => {
+    const { newPassword } = req.body || {};
+
+    if (
+        typeof newPassword !== "string" ||
+        !newPassword.trim() ||
+        newPassword.length < 8 ||
+        newPassword.length > 128
+    ) {
+        return res.status(400).json({
+            success: false,
+            message: "Password must contain between 8 and 128 characters.",
+        });
+    }
+
+    if (!/^[a-f\d]{24}$/i.test(req.params.customerId)) {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid customer ID.",
+        });
+    }
+
+    try {
+        const customer = await User.findOne({
+            _id: req.params.customerId,
+            role: "customer",
+        });
+
+        if (!customer) {
+            return res.status(404).json({
+                success: false,
+                message: "Customer not found.",
+            });
+        }
+
+        customer.password = newPassword;
+        await customer.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Customer password updated successfully.",
+        });
+    } catch (error) {
+        console.error("Admin customer password update error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Unable to update the customer password. Please try again.",
+        });
+    }
+};
+
+module.exports = {
+    loginAdmin,
+    getAllOrders,
+    updateOrderStatus,
+    getAllCustomers,
+    updateCustomerPassword,
+};

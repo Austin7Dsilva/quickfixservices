@@ -22,6 +22,7 @@ import FloatingCTA from './components/FloatingCTA';
 import Footer from './components/Footer';
 import Billing from './components/Billing';
 import AuthModal from './components/AuthModal';
+import ChangePasswordModal from './components/ChangePasswordModal';
 import OrdersModal from './components/OrdersModal';
 import Admin from './components/Admin';
 
@@ -46,6 +47,7 @@ export default function App() {
   });
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isOrdersOpen, setIsOrdersOpen] = useState(false);
+  const [isPasswordChangeOpen, setIsPasswordChangeOpen] = useState(false);
   const [authUser, setAuthUser] = useState(() => {
     const savedUser = localStorage.getItem('quickfix_user');
     if (!savedUser) return null;
@@ -161,6 +163,7 @@ export default function App() {
           authUser={authUser}
           onAuthClick={() => setIsAuthOpen(true)}
           onOrdersClick={() => setIsOrdersOpen(true)}
+          onChangePassword={() => setIsPasswordChangeOpen(true)}
           onSignOut={handleSignOut}
         />
       )}
@@ -172,6 +175,13 @@ export default function App() {
           onClose={() => setIsAuthOpen(false)}
           onAuthSuccess={handleAuthSuccess}
           onSignOut={handleSignOut}
+        />
+      )}
+
+      {!isPortalView && (
+        <ChangePasswordModal
+          isOpen={isPasswordChangeOpen}
+          onClose={() => setIsPasswordChangeOpen(false)}
         />
       )}
 

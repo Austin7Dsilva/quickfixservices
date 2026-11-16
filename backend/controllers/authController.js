@@ -138,7 +138,69 @@ const loginUser = async (req, res) => {
     }
 };
 
+const changePassword = async (req, res) => {
+    const { currentPassword, newPassword } = req.body || {};
+
+    if (
+        typeof currentPassword !== "string" ||
+        !currentPassword ||
+        typeof newPassword !== "string" ||
+        !newPassword.trim()
+    ) {
+        return res.status(400).json({
+            success: false,
+            message: "Current and new passwords are required.",
+        });
+    }
+
+    if (newPassword.length < 8 || newPassword.length > 128) {
+        return res.status(400).json({
+            success: false,
+            message: "New password must contain between 8 and 128 characters.",
+        });
+    }
+
+    if (currentPassword === newPassword) {
+        return res.status(400).json({
+            success: false,
+            message: "New password must be different from your current password.",
+        });
+    }
+
+    try {
+        const user = await User.findById(req.user.id).select("+password");
+        if (!user || user.role !== "customer") {
+            return res.status(404).json({
+                success: false,
+                message: "Customer account not found.",
+            });
+        }
+
+        if (!(await user.comparePassword(currentPassword))) {
+            return res.status(401).json({
+                success: false,
+                message: "Current password is incorrect.",
+            });
+        }
+
+        user.password = newPassword;
+        await user.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Password updated successfully.",
+        });
+    } catch (error) {
+        console.error("Password update error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Unable to update your password. Please try again.",
+        });
+    }
+};
+
 module.exports = {
     registerUser,
     loginUser,
+    changePassword,
 };

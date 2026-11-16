@@ -157,6 +157,11 @@
     font-size: 13px;
 }
 
+.auth-success {
+    color: #86efac;
+    font-size: 13px;
+}
+
 .auth-account-view .auth-submit-btn {
     margin-top: 10px;
 }

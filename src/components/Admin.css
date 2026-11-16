@@ -177,6 +177,258 @@
     margin: 8px 0 0;
 }
 
+.admin-section-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding: 5px;
+    border: 1px solid #e1e6ee;
+    border-radius: 12px;
+    background: #ffffff;
+    width: fit-content;
+}
+
+.admin-section-tabs button {
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #64748b;
+    font: 700 13px var(--font-heading);
+    cursor: pointer;
+}
+
+.admin-section-tabs button.active {
+    background: #fff3d4;
+    color: #92400e;
+}
+
+.admin-customers-list {
+    display: grid;
+    gap: 16px;
+}
+
+.admin-customer-card {
+    padding: 22px;
+    border: 1px solid #e1e6ee;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04);
+}
+
+.admin-customer-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.admin-customer-heading h2 {
+    margin: 0 0 8px;
+    color: #1e293b;
+    font: 700 18px var(--font-heading);
+}
+
+.admin-customer-heading p {
+    margin: 3px 0 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.admin-customer-password-button,
+.admin-password-cancel {
+    padding: 10px 14px;
+    border: 1px solid #d7dce5;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #334155;
+    font: 700 12px var(--font-heading);
+    cursor: pointer;
+}
+
+.admin-customer-password-button:hover,
+.admin-password-cancel:hover {
+    border-color: #d97706;
+    background: #fffaf0;
+}
+
+.admin-customer-summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 13px;
+}
+
+.admin-customer-summary strong {
+    color: #1e293b;
+}
+
+.admin-customer-order-history {
+    margin-top: 18px;
+}
+
+.admin-customer-order-history h3 {
+    margin: 0 0 10px;
+    color: #334155;
+    font: 700 13px var(--font-heading);
+}
+
+.admin-customer-order-history ul {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.admin-customer-order-history li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 14px;
+    padding: 10px 12px;
+    border: 1px solid #eef1f5;
+    border-radius: 10px;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.admin-customer-order-history li > strong {
+    flex: 1 1 180px;
+    color: #1e293b;
+    font-size: 13px;
+}
+
+.admin-customer-order-location {
+    flex: 1 1 140px;
+}
+
+.admin-customer-status {
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.admin-customer-status.order-status-pending {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+.admin-customer-status.order-status-confirmed {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.admin-customer-status.order-status-completed {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.admin-customer-status.order-status-cancelled {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.admin-pending-age {
+    color: #b45309;
+    font-weight: 700;
+}
+
+.admin-customer-no-orders {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.admin-password-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
+}
+
+.admin-password-dialog {
+    width: min(100%, 430px);
+    padding: 28px;
+    border: 1px solid #e1e6ee;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.2);
+}
+
+.admin-password-dialog h2 {
+    margin: 0;
+    color: #0f172a;
+    font: 700 22px var(--font-heading);
+}
+
+.admin-password-dialog > p {
+    margin: 8px 0 20px;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.admin-password-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.admin-password-form label {
+    color: #334155;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.admin-password-form input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    color: #0f172a;
+    font: inherit;
+}
+
+.admin-password-form input:focus {
+    outline: 3px solid rgba(217, 119, 6, 0.18);
+    border-color: #d97706;
+}
+
+.admin-password-form .admin-error {
+    margin: 0;
+    font-size: 13px;
+}
+
+.admin-password-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.admin-password-actions .admin-primary-button {
+    margin-top: 0;
+    padding: 10px 16px;
+}
+
+.admin-password-actions button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
 .admin-signout-button {
     padding: 10px 18px;
 }
@@ -303,6 +555,19 @@
         align-items: flex-start;
     }
 
+    .admin-customer-card {
+        padding: 16px;
+    }
+
+    .admin-customer-heading {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-customer-password-button {
+        align-self: flex-start;
+    }
+
     .admin-orders-table,
     .admin-orders-table tbody,
     .admin-orders-table tr,
@@ -378,7 +643,21 @@
         align-items: stretch;
     }
 
+    .admin-section-tabs {
+        width: 100%;
+    }
+
+    .admin-section-tabs button {
+        flex: 1;
+        padding-right: 8px;
+        padding-left: 8px;
+    }
+
     .admin-signout-button {
         align-self: flex-start;
+    }
+
+    .admin-password-dialog {
+        padding: 22px 18px;
     }
 }
