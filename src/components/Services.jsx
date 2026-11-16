@@ -211,7 +211,7 @@ const services = [
     },
 ];
 
-export default function Services({ authUser }) {
+export default function Services({ authUser, onAuthClick }) {
     const [activeCategory, setActiveCategory] = useState("all");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isBooking, setIsBooking] = useState(false);
@@ -393,6 +393,18 @@ export default function Services({ authUser }) {
                                         <span>Enquire on WhatsApp</span>
                                         <FaArrowRight className="action-arrow-icon" />
                                     </button>
+                                    {!authUser && (
+                                        <p className="service-card-signin-prompt">
+                                            Or{" "}
+                                            <button
+                                                type="button"
+                                                onClick={onAuthClick}
+                                            >
+                                                sign in
+                                            </button>{" "}
+                                            to place an order in the application.
+                                        </p>
+                                    )}
                                     {authUser && (
                                         <button
                                             type="button"

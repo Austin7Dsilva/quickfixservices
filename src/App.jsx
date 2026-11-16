@@ -203,7 +203,10 @@ export default function App() {
         ) : (
           <>
             <Hero />
-            <Services authUser={authUser} />
+            <Services
+              authUser={authUser}
+              onAuthClick={() => setIsAuthOpen(true)}
+            />
             <WhyChooseUs />
             <HowItWorks />
             <Gallery />
