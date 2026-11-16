@@ -357,14 +357,16 @@
     }
 }
 
+@media (max-width: 800px) {
+    .admin-orders-table td {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
 @media (max-width: 420px) {
     .admin-back-button span {
         display: none;
-    }
-
-    .admin-orders-table td {
-        display: flex;
-        flex-direction: column;
     }
 
     .admin-login-card {
