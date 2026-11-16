@@ -31,6 +31,7 @@ const categories = [
     { id: "painting", label: "Painting" },
     { id: "fabrication", label: "Fabrication & Aluminium" },
     { id: "mounting", label: "Mounting & Drilling" },
+    { id: "custom-services", label: "Custom Services" },
 ];
 
 const services = [
@@ -198,6 +199,16 @@ const services = [
         message:
             "Hi, I want to book Home Maintenance / Handyman Services in Shivamogga.",
     },
+    {
+        id: "custom-services",
+        title: "Custom Services",
+        category: "custom-services",
+        icon: FaTools,
+        description:
+            "Need something not listed? Tell us what service you need and place a custom booking.",
+        message:
+            "Hi, I need a custom service in Shivamogga. Please let me describe what I need.",
+    },
 ];
 
 export default function Services({ authUser }) {
@@ -224,22 +235,22 @@ export default function Services({ authUser }) {
             ? services
             : services.filter((service) => service.category === activeCategory);
 
-    const handleEnquiryClick = (e, serviceTitle) => {
+    const handleEnquiryClick = (e, serviceTitle, isCustomService = false) => {
         e.preventDefault();
         setIsBooking(false);
         setBookingError("");
         setCreatedOrderId("");
         setSelectedService(serviceTitle);
-        setServiceDetails(serviceTitle);
+        setServiceDetails(isCustomService ? "" : serviceTitle);
         setIsModalOpen(true);
     };
 
-    const handleBookClick = (serviceTitle) => {
+    const handleBookClick = (serviceTitle, isCustomService = false) => {
         setIsBooking(true);
         setBookingError("");
         setCreatedOrderId("");
         setSelectedService(serviceTitle);
-        setServiceDetails(serviceTitle);
+        setServiceDetails(isCustomService ? "" : serviceTitle);
         setCustomerName(
             [authUser.firstName, authUser.lastName].filter(Boolean).join(" "),
         );
@@ -369,7 +380,11 @@ export default function Services({ authUser }) {
                                 <div className="service-card-footer">
                                     <button
                                         onClick={(e) =>
-                                            handleEnquiryClick(e, service.title)
+                                            handleEnquiryClick(
+                                                e,
+                                                service.title,
+                                                service.id === "custom-services",
+                                            )
                                         }
                                         className="service-card-action-link"
                                         aria-label={`Enquire about ${service.title} in Shivamogga`}
@@ -383,7 +398,10 @@ export default function Services({ authUser }) {
                                             type="button"
                                             className="service-card-book-button"
                                             onClick={() =>
-                                                handleBookClick(service.title)
+                                                handleBookClick(
+                                                    service.title,
+                                                    service.id === "custom-services",
+                                                )
                                             }
                                             aria-label={`Book ${service.title} in Shivamogga`}
                                         >
@@ -498,6 +516,7 @@ export default function Services({ authUser }) {
                                             setServiceDetails(e.target.value)
                                         }
                                         placeholder="What service are you looking for?"
+                                        maxLength={120}
                                         required
                                     />
                                 </div>
