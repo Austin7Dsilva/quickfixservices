@@ -2941,6 +2941,10 @@
     letter-spacing: 0.15em;
 }
 
+.enquiry-modal-body {
+    transition: height 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 .enquiry-modal-form {
     display: flex;
     flex-direction: column;
@@ -3051,6 +3055,12 @@
 
 .enquiry-submit-btn svg {
     font-size: 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .enquiry-modal-body {
+        transition: none;
+    }
 }
 
 .orders-modal-backdrop {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import {
     FaBolt,
     FaTint,
@@ -223,6 +223,41 @@ export default function Services({ authUser, onAuthClick }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [bookingError, setBookingError] = useState("");
     const [createdOrderId, setCreatedOrderId] = useState("");
+    const bookingContentRef = useRef(null);
+
+    useLayoutEffect(() => {
+        const content = bookingContentRef.current;
+        if (!createdOrderId || !content) return undefined;
+
+        let timeoutId;
+        const finishTransition = () => {
+            content.style.height = "auto";
+            content.style.overflow = "";
+        };
+        const handleTransitionEnd = (event) => {
+            if (event.target === content && event.propertyName === "height") {
+                window.clearTimeout(timeoutId);
+                content.removeEventListener("transitionend", handleTransitionEnd);
+                finishTransition();
+            }
+        };
+        content.addEventListener("transitionend", handleTransitionEnd);
+        timeoutId = window.setTimeout(() => {
+            content.removeEventListener("transitionend", handleTransitionEnd);
+            finishTransition();
+        }, 850);
+
+        const frameId = window.requestAnimationFrame(() => {
+            const nextHeight = content.firstElementChild?.getBoundingClientRect().height;
+            content.style.height = `${nextHeight ?? content.scrollHeight}px`;
+        });
+
+        return () => {
+            window.cancelAnimationFrame(frameId);
+            window.clearTimeout(timeoutId);
+            content.removeEventListener("transitionend", handleTransitionEnd);
+        };
+    }, [createdOrderId]);
 
     const orderApiUrl =
         window.location.hostname === "localhost" ||
@@ -287,6 +322,12 @@ export default function Services({ authUser, onAuthClick }) {
                     );
                 }
 
+                if (bookingContentRef.current) {
+                    const content = bookingContentRef.current;
+                    content.style.height = `${content.getBoundingClientRect().height}px`;
+                    content.style.overflow = "hidden";
+                    content.getBoundingClientRect();
+                }
                 setCreatedOrderId(result.order.id);
             } catch (error) {
                 setBookingError(
@@ -456,119 +497,130 @@ export default function Services({ authUser, onAuthClick }) {
                             </p>
                         </div>
 
-                        {createdOrderId ? (
-                            <div className="booking-confirmation" role="status">
-                                <h4>Booking placed successfully</h4>
-                                <p>
-                                    Your booking reference is{" "}
-                                    <strong>{createdOrderId}</strong>. We will
-                                    contact you to confirm the service.
-                                </p>
-                                <button
-                                    type="button"
-                                    className="enquiry-submit-btn"
-                                    onClick={() => setIsModalOpen(false)}
+                        <div
+                            ref={bookingContentRef}
+                            className="enquiry-modal-body"
+                        >
+                            {createdOrderId ? (
+                                <div
+                                    className="booking-confirmation"
+                                    role="status"
                                 >
-                                    Close
-                                </button>
-                            </div>
-                        ) : (
-                            <form
-                                onSubmit={handleFormSubmit}
-                                className="enquiry-modal-form"
-                            >
-                                {bookingError && (
-                                    <p className="booking-error" role="alert">
-                                        {bookingError}
+                                    <h4>Booking placed successfully</h4>
+                                    <p>
+                                        Your booking reference is{" "}
+                                        <strong>{createdOrderId}</strong>. We will
+                                        contact you to confirm the service.
                                     </p>
-                                )}
-                                <div className="form-group">
-                                    <label htmlFor="customer-name">
-                                        Your Name
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="customer-name"
-                                        value={customerName}
-                                        onChange={(e) =>
-                                            setCustomerName(e.target.value)
-                                        }
-                                        placeholder="Enter your name"
-                                        required
-                                    />
+                                    <button
+                                        type="button"
+                                        className="enquiry-submit-btn"
+                                        onClick={() => setIsModalOpen(false)}
+                                    >
+                                        Close
+                                    </button>
                                 </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="customer-mobile">
-                                        Mobile Number
-                                    </label>
-                                    <input
-                                        type="tel"
-                                        id="customer-mobile"
-                                        value={customerMobile}
-                                        onChange={(e) =>
-                                            setCustomerMobile(e.target.value)
-                                        }
-                                        placeholder="Enter 10-digit mobile number"
-                                        pattern="[0-9]{10}"
-                                        title="Please enter a valid 10-digit mobile number"
-                                        required
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="service-needed">
-                                        Service Needed
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="service-needed"
-                                        value={serviceDetails}
-                                        onChange={(e) =>
-                                            setServiceDetails(e.target.value)
-                                        }
-                                        placeholder="What service are you looking for?"
-                                        maxLength={120}
-                                        required
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="customer-location">
-                                        Your Location / Address
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="customer-location"
-                                        value={customerLocation}
-                                        onChange={(e) =>
-                                            setCustomerLocation(e.target.value)
-                                        }
-                                        placeholder="Enter your area in Shivamogga"
-                                        required
-                                    />
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    className="enquiry-submit-btn"
-                                    disabled={isSubmitting}
+                            ) : (
+                                <form
+                                    onSubmit={handleFormSubmit}
+                                    className="enquiry-modal-form"
                                 >
-                                    {isBooking ? (
-                                        <FaCalendarAlt size={18} />
-                                    ) : (
-                                        <FaWhatsapp size={18} />
+                                    {bookingError && (
+                                        <p
+                                            className="booking-error"
+                                            role="alert"
+                                        >
+                                            {bookingError}
+                                        </p>
                                     )}
-                                    <span>
-                                        {isBooking
-                                            ? isSubmitting
-                                                ? "Placing booking..."
-                                                : "Book service"
-                                            : "Send Enquiry via WhatsApp"}
-                                    </span>
-                                </button>
-                            </form>
-                        )}
+                                    <div className="form-group">
+                                        <label htmlFor="customer-name">
+                                            Your Name
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="customer-name"
+                                            value={customerName}
+                                            onChange={(e) =>
+                                                setCustomerName(e.target.value)
+                                            }
+                                            placeholder="Enter your name"
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="customer-mobile">
+                                            Mobile Number
+                                        </label>
+                                        <input
+                                            type="tel"
+                                            id="customer-mobile"
+                                            value={customerMobile}
+                                            onChange={(e) =>
+                                                setCustomerMobile(e.target.value)
+                                            }
+                                            placeholder="Enter 10-digit mobile number"
+                                            pattern="[0-9]{10}"
+                                            title="Please enter a valid 10-digit mobile number"
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="service-needed">
+                                            Service Needed
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="service-needed"
+                                            value={serviceDetails}
+                                            onChange={(e) =>
+                                                setServiceDetails(e.target.value)
+                                            }
+                                            placeholder="What service are you looking for?"
+                                            maxLength={120}
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="customer-location">
+                                            Your Location / Address
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="customer-location"
+                                            value={customerLocation}
+                                            onChange={(e) =>
+                                                setCustomerLocation(e.target.value)
+                                            }
+                                            placeholder="Enter your area in Shivamogga"
+                                            required
+                                        />
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        className="enquiry-submit-btn"
+                                        disabled={isSubmitting}
+                                    >
+                                        {isBooking ? (
+                                            <FaCalendarAlt size={18} />
+                                        ) : (
+                                            <FaWhatsapp size={18} />
+                                        )}
+                                        <span>
+                                            {isBooking
+                                                ? isSubmitting
+                                                    ? "Placing booking..."
+                                                    : "Book service"
+                                                : "Send Enquiry via WhatsApp"}
+                                        </span>
+                                    </button>
+                                </form>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}
