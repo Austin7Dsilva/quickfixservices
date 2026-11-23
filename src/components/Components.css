@@ -2874,6 +2874,7 @@
     max-width: 480px;
     padding: 40px;
     position: relative;
+    overflow: hidden;
     box-shadow: 
         0 20px 40px rgba(15, 23, 42, 0.15),
         0 4px 12px rgba(15, 23, 42, 0.05);
@@ -2889,8 +2890,6 @@
     right: 0;
     height: 4px;
     background: var(--primary-gradient);
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
 }
 
 .enquiry-modal-close {
